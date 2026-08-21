@@ -71,12 +71,14 @@
         <!-- Items Grid -->
         <div class="grid grid-cols-2 gap-3">
             <template x-for="item in filteredItems" :key="item.id">
-                <div class="pos-card p-2.5 flex flex-col justify-between rounded-2xl bg-white border shadow-xs">
+                <div class="pos-card p-2.5 flex flex-col justify-between rounded-2xl bg-white border shadow-xs h-full"
+                     style="min-height: 200px;">
                     <div>
-                        <!-- Food Image (Square 1:1) -->
-                        <div class="relative w-full aspect-square rounded-xl overflow-hidden mb-1.5 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0">
+                        <!-- Food Image (Strict Uniform Height) -->
+                        <div class="relative w-full rounded-xl overflow-hidden mb-1.5 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0"
+                             style="height: 115px;">
                             <template x-if="item.image">
-                                <img :src="item.image" :alt="item.name" class="w-full h-full object-cover">
+                                <img :src="item.image" :alt="item.name" style="width:100%; height:115px; object-fit:cover;" class="block">
                             </template>
                             <template x-if="!item.image">
                                 <i data-lucide="utensils" class="w-6 h-6 opacity-35" style="color:#8B1A2C;"></i>

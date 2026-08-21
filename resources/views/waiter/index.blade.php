@@ -63,25 +63,28 @@
             <div class="flex-1 p-3 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 pb-24">
                 <template x-for="item in filteredItems" :key="item.id">
                     <button @click="addToCart(item)"
-                            class="pos-card p-2.5 rounded-2xl bg-white border text-left flex flex-col justify-between active:scale-95 shadow-xs transition-all hover:shadow-md"
-                            style="border-color:#E8DDD9;">
-                        <!-- Food Image (Square 1:1) -->
-                        <div class="relative w-full aspect-square rounded-xl overflow-hidden mb-1.5 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0">
+                            class="pos-card p-2 rounded-2xl bg-white border text-left flex flex-col justify-between active:scale-95 shadow-xs transition-all hover:shadow-md h-full"
+                            style="border-color:#E8DDD9; min-height: 190px;">
+                        <!-- Food Image (Strict Uniform Height) -->
+                        <div class="relative w-full rounded-xl overflow-hidden mb-1.5 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0"
+                             style="height: 105px;">
                             <template x-if="item.image">
-                                <img :src="item.image" :alt="item.name" class="w-full h-full object-cover">
+                                <img :src="item.image" :alt="item.name" style="width:100%; height:105px; object-fit:cover;" class="block">
                             </template>
                             <template x-if="!item.image">
                                 <i data-lucide="utensils" class="w-5 h-5 opacity-35" style="color:#8B1A2C;"></i>
                             </template>
                         </div>
-                        <div>
-                            <h4 class="text-xs font-bold line-clamp-1" style="color:#1A0A0C;" x-text="item.name"></h4>
-                            <p class="text-[10px] line-clamp-1" style="color:#9B7A7E;" x-text="item.bangla_name"></p>
-                        </div>
-                        <div class="mt-2 pt-1.5 border-t flex items-center justify-between" style="border-color:#F0E8E5;">
-                            <span class="text-xs font-black pos-nums price-maroon">৳<span x-text="formatNumber(item.selling_price)"></span></span>
-                            <div class="w-6 h-6 rounded-lg flex items-center justify-center" style="background:#8B1A2C; color:#fff;">
-                                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                        <div class="flex-1 flex flex-col justify-between w-full">
+                            <div class="mb-1">
+                                <h4 class="text-xs font-bold line-clamp-1" style="color:#1A0A0C;" x-text="item.name"></h4>
+                                <p class="text-[10px] line-clamp-1" style="color:#9B7A7E;" x-text="item.bangla_name"></p>
+                            </div>
+                            <div class="mt-auto pt-1.5 border-t flex items-center justify-between" style="border-color:#F0E8E5;">
+                                <span class="text-xs font-black pos-nums price-maroon">৳<span x-text="formatNumber(item.selling_price)"></span></span>
+                                <div class="w-6 h-6 rounded-lg flex items-center justify-center" style="background:#8B1A2C; color:#fff;">
+                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                </div>
                             </div>
                         </div>
                     </button>

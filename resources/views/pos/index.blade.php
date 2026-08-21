@@ -71,18 +71,21 @@
         </div>
 
         <!-- Items Grid -->
-        <div class="flex-1 p-2.5 sm:p-3 overflow-y-auto min-h-0 pb-20 md:pb-3">
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2 sm:gap-2.5">
+        <div class="flex-1 p-3 sm:p-4 overflow-y-auto min-h-0 pb-24 md:pb-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3">
                 <template x-for="item in filteredItems" :key="item.id">
                     <button @click="handleItemClick(item)"
-                            class="pos-card group relative flex flex-col justify-between p-2 text-left active:scale-[0.98] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md">
+                            class="pos-card group relative flex flex-col justify-between p-2.5 text-left active:scale-[0.97] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md h-full select-none"
+                            style="min-height: 220px;">
                         
-                        <!-- Square Food Image Container (1:1 Ratio) -->
-                        <div class="relative w-full aspect-square rounded-xl overflow-hidden mb-1.5 bg-[#F3ECE8] flex items-center justify-center border border-black/5 shrink-0">
+                        <!-- Fixed Height Square Food Image Container -->
+                        <div class="relative w-full rounded-xl overflow-hidden mb-2 bg-[#F3ECE8] flex items-center justify-center shrink-0 border border-black/5"
+                             style="height: 120px;">
                             <!-- Image if exists -->
                             <template x-if="item.image">
                                 <img :src="item.image" :alt="item.name"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 block">
+                                     style="width: 100%; height: 120px; object-fit: cover; object-position: center;"
+                                     class="block group-hover:scale-105 transition-transform duration-300">
                             </template>
                             <!-- Fallback Icon if no image -->
                             <template x-if="!item.image">
@@ -95,30 +98,32 @@
                             </template>
 
                             <!-- Badges Floating on Image -->
-                            <div class="absolute top-1.5 left-1.5 z-10">
-                                <span class="text-[9px] font-black px-1.5 py-0.5 rounded-md pos-nums shadow-sm bg-black/80 text-white tracking-wider" x-text="item.sku || 'ITEM'"></span>
+                            <div class="absolute top-1.5 left-1.5 z-10 pointer-events-none">
+                                <span class="text-[9px] font-black px-1.5 py-0.5 rounded-md pos-nums shadow-xs bg-black/80 text-white tracking-wider" x-text="item.sku || 'ITEM'"></span>
                             </div>
-                            <div class="absolute top-1.5 right-1.5 z-10" x-show="item.has_variants">
-                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-sm bg-[#8B1A2C] text-white">
+                            <div class="absolute top-1.5 right-1.5 z-10 pointer-events-none" x-show="item.has_variants">
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs bg-[#8B1A2C] text-white">
                                     ভ্যারিয়েন্ট
                                 </span>
                             </div>
                         </div>
 
-                        <!-- Name & Bengali Name -->
-                        <div class="px-0.5 mb-1">
-                            <h3 class="text-xs sm:text-[13px] font-extrabold line-clamp-1 leading-tight text-[#1A0A0C]" x-text="item.name"></h3>
-                            <p class="text-[10px] sm:text-[11px] font-semibold line-clamp-1 mt-0.5 text-[#825E64]" x-text="item.bangla_name || ''"></p>
-                        </div>
-
-                        <!-- Price & Add Button -->
-                        <div class="flex items-center justify-between mt-auto pt-1.5 px-0.5 border-t border-[#F0E8E5]">
-                            <div>
-                                <span class="text-[9px] font-medium block text-[#9B7A7E]">মূল্য:</span>
-                                <span class="text-xs sm:text-sm font-black text-[#8B1A2C] pos-nums">৳<span x-text="formatNumber(item.selling_price)"></span></span>
+                        <!-- Card Content (Uniform layout) -->
+                        <div class="flex-1 flex flex-col justify-between w-full">
+                            <div class="mb-2">
+                                <h3 class="text-xs sm:text-[13px] font-extrabold line-clamp-1 leading-tight text-[#1A0A0C]" x-text="item.name"></h3>
+                                <p class="text-[10px] sm:text-[11px] font-medium line-clamp-1 mt-0.5 text-[#825E64]" x-text="item.bangla_name || ''"></p>
                             </div>
-                            <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-xl flex items-center justify-center transition-all bg-[#8B1A2C] text-white shadow-xs group-hover:scale-105 group-hover:bg-[#680C1B]">
-                                <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[3]"></i>
+
+                            <!-- Price & Plus Button -->
+                            <div class="flex items-center justify-between pt-2 border-t border-[#F0E8E5] mt-auto">
+                                <div>
+                                    <span class="text-[9px] font-medium block text-[#9B7A7E] leading-none mb-0.5">মূল্য:</span>
+                                    <span class="text-xs sm:text-sm font-black text-[#8B1A2C] pos-nums">৳<span x-text="formatNumber(item.selling_price)"></span></span>
+                                </div>
+                                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center transition-all bg-[#8B1A2C] text-white shadow-xs group-hover:scale-105 group-hover:bg-[#680C1B] shrink-0">
+                                    <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[3]"></i>
+                                </div>
                             </div>
                         </div>
                     </button>
