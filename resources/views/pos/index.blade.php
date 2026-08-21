@@ -50,20 +50,20 @@
             </div>
 
             <!-- Category Chips (Horizontal Scroll) -->
-            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
                 <button @click="selectedCategory = null"
-                        class="cat-chip px-3 py-1.5 text-xs flex items-center gap-1.5 shrink-0"
-                        :class="selectedCategory === null ? 'active' : ''">
+                        class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shrink-0 transition-all border shadow-xs"
+                        :style="selectedCategory === null ? 'background:#8B1A2C; color:#ffffff; border-color:#8B1A2C;' : 'background:#FFFFFF; color:#4A2E33; border-color:#E2D8D4;'">
                     <i data-lucide="layers" class="w-3.5 h-3.5"></i>
                     <span>সকল মেনু (<span x-text="allItems.length"></span>)</span>
                 </button>
                 <template x-for="cat in categories" :key="cat.id">
                     <button @click="selectedCategory = cat.id"
-                            class="cat-chip px-3 py-1.5 text-xs flex items-center gap-1.5 shrink-0"
-                            :class="selectedCategory === cat.id ? 'active' : ''">
+                            class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shrink-0 transition-all border shadow-xs"
+                            :style="selectedCategory === cat.id ? 'background:#8B1A2C; color:#ffffff; border-color:#8B1A2C;' : 'background:#FFFFFF; color:#4A2E33; border-color:#E2D8D4;'">
                         <span x-text="cat.bangla_name || cat.name"></span>
                         <span class="text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold"
-                              :style="selectedCategory === cat.id ? 'background:rgba(255,255,255,0.2); color:#fff;' : 'background:#F0E8E5; color:#9B7A7E;'"
+                              :style="selectedCategory === cat.id ? 'background:rgba(255,255,255,0.25); color:#fff;' : 'background:#F0E8E5; color:#5C3840;'"
                               x-text="cat.items.length"></span>
                     </button>
                 </template>
@@ -72,57 +72,53 @@
 
         <!-- Items Grid -->
         <div class="flex-1 p-2.5 sm:p-3 overflow-y-auto min-h-0 pb-20 md:pb-3">
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-2.5">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 sm:gap-3">
                 <template x-for="item in filteredItems" :key="item.id">
                     <button @click="handleItemClick(item)"
-                            class="pos-card group relative flex flex-col justify-between p-2 text-left active:scale-[0.98] transition-all rounded-2xl bg-white border hover:shadow-md"
-                            style="border-color:#E8DDD9;">
+                            class="pos-card group relative flex flex-col justify-between p-2.5 text-left active:scale-[0.98] transition-all duration-200 rounded-2xl bg-white border border-[#E2D8D4] hover:border-[#8B1A2C] shadow-xs hover:shadow-md">
                         
                         <!-- Food Image on Top of Card -->
-                        <div class="relative w-full h-24 sm:h-28 rounded-xl overflow-hidden mb-2 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0">
+                        <div class="relative w-full h-28 sm:h-32 rounded-xl overflow-hidden mb-2 bg-[#F3ECE8] flex items-center justify-center border border-black/5 shrink-0">
                             <!-- Image if exists -->
                             <template x-if="item.image">
                                 <img :src="item.image" :alt="item.name"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                     loading="lazy"
-                                     x-on:error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='flex'">
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 block">
                             </template>
-                            <!-- Fallback Icon -->
-                            <div class="w-full h-full flex flex-col items-center justify-center text-center p-2"
-                                 :style="item.image ? 'display:none; background:linear-gradient(135deg, #FBF1F3, #F5E6E8);' : 'background:linear-gradient(135deg, #FBF1F3, #F5E6E8);'">
-                                <i data-lucide="utensils" class="w-6 h-6 stroke-[1.5]" style="color:#8B1A2C; opacity:0.4;"></i>
-                            </div>
+                            <!-- Fallback Icon if no image -->
+                            <template x-if="!item.image">
+                                <div class="w-full h-full flex flex-col items-center justify-center text-center p-2 bg-gradient-to-br from-[#8B1A2C]/10 to-[#B8922A]/10">
+                                    <div class="w-10 h-10 rounded-full bg-white/90 shadow-xs flex items-center justify-center mb-1">
+                                        <i data-lucide="utensils" class="w-5 h-5 text-[#8B1A2C]"></i>
+                                    </div>
+                                    <span class="text-[9px] font-bold text-[#8B1A2C] line-clamp-1" x-text="item.name"></span>
+                                </div>
+                            </template>
 
                             <!-- Badges Floating on Image -->
-                            <div class="absolute top-1.5 left-1.5 z-10">
-                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md pos-nums shadow-xs backdrop-blur-md"
-                                      style="background:rgba(255,255,255,0.92); color:#5C3840;" x-text="item.sku || 'ITEM'"></span>
+                            <div class="absolute top-2 left-2 z-10">
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded-lg pos-nums shadow-sm bg-black/75 text-white backdrop-blur-xs tracking-wider" x-text="item.sku || 'ITEM'"></span>
                             </div>
-                            <div class="absolute top-1.5 right-1.5 z-10 flex flex-col gap-1 items-end">
-                                <span x-show="item.has_variants"
-                                      class="text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs"
-                                      style="background:rgba(139,26,44,0.9); color:#ffffff;">
+                            <div class="absolute top-2 right-2 z-10" x-show="item.has_variants">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-lg shadow-sm bg-[#8B1A2C] text-white">
                                     ভ্যারিয়েন্ট
                                 </span>
                             </div>
                         </div>
 
                         <!-- Name & Bengali Name -->
-                        <div class="px-1 mb-1.5">
-                            <h3 class="text-xs sm:text-[13px] font-bold line-clamp-1 leading-tight"
-                                style="color:#1A0A0C;" x-text="item.name"></h3>
-                            <p class="text-[10px] sm:text-[11px] font-medium line-clamp-1 mt-0.5" style="color:#9B7A7E;" x-text="item.bangla_name || ''"></p>
+                        <div class="px-0.5 mb-1.5">
+                            <h3 class="text-xs sm:text-[13px] font-extrabold line-clamp-1 leading-tight text-[#1A0A0C]" x-text="item.name"></h3>
+                            <p class="text-[11px] font-semibold line-clamp-1 mt-0.5 text-[#825E64]" x-text="item.bangla_name || ''"></p>
                         </div>
 
                         <!-- Price & Add Button -->
-                        <div class="flex items-center justify-between mt-auto pt-1.5 px-1 border-t" style="border-color:#F0E8E5;">
+                        <div class="flex items-center justify-between mt-auto pt-2 px-0.5 border-t border-[#F0E8E5]">
                             <div>
-                                <span class="text-[9px] sm:text-[10px] block" style="color:#9B7A7E;">মূল্য:</span>
-                                <span class="text-xs sm:text-sm font-black price-maroon pos-nums">৳<span x-text="formatNumber(item.selling_price)"></span></span>
+                                <span class="text-[10px] font-medium block text-[#9B7A7E]">মূল্য:</span>
+                                <span class="text-xs sm:text-sm font-black text-[#8B1A2C] pos-nums">৳<span x-text="formatNumber(item.selling_price)"></span></span>
                             </div>
-                            <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-xl flex items-center justify-center transition-all group-hover:bg-[#8B1A2C] group-hover:text-white"
-                                 style="background:#F0E8E5; color:#8B1A2C;">
-                                <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center transition-all bg-[#8B1A2C] text-white shadow-xs group-hover:scale-105 group-hover:bg-[#680C1B]">
+                                <i data-lucide="plus" class="w-4 h-4 stroke-[3]"></i>
                             </div>
                         </div>
                     </button>

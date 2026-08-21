@@ -128,7 +128,7 @@ class RestaurantSeeder extends Seeder
             'bangla_name' => 'মাটন কাচ্চি বিরিয়ানি',
             'sku' => 'KAC-001',
             'barcode' => '8940001001',
-            'image' => 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=80',
+            'image' => '/images/food/kacchi.jpg',
             'description' => 'Aromatic basmati rice cooked with tender mutton chunks and traditional spices.',
             'cost_price' => 280.00,
             'selling_price' => 450.00,
@@ -148,7 +148,7 @@ class RestaurantSeeder extends Seeder
             'bangla_name' => 'পুরান ঢাকার বিফ তেহারী',
             'sku' => 'TEH-002',
             'barcode' => '8940001002',
-            'image' => 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&auto=format&fit=crop&q=80',
+            'image' => '/images/food/tehari.jpg',
             'description' => 'Authentic mustard oil cooked chinigura rice with spicy mustard beef cubes.',
             'cost_price' => 160.00,
             'selling_price' => 290.00,
@@ -168,7 +168,7 @@ class RestaurantSeeder extends Seeder
             'bangla_name' => 'মোরগ পোলাও ও বিয়ে বাড়ির রোস্ট',
             'sku' => 'POL-003',
             'barcode' => '8940001003',
-            'image' => 'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=500&auto=format&fit=crop&q=80',
+            'image' => '/images/food/morog_polao.jpg',
             'description' => 'Fragrant polao rice served with rich chicken roast and egg.',
             'cost_price' => 180.00,
             'selling_price' => 320.00,
@@ -185,7 +185,7 @@ class RestaurantSeeder extends Seeder
             'bangla_name' => 'চিকেন রেশমি কাবাব',
             'sku' => 'KEB-001',
             'barcode' => '8940002001',
-            'image' => 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=500&auto=format&fit=crop&q=80',
+            'image' => '/images/food/reshmi_kebab.jpg',
             'description' => 'Melt-in-mouth creamy chicken skewers grilled over charcoal.',
             'cost_price' => 190.00,
             'selling_price' => 350.00,
@@ -203,7 +203,7 @@ class RestaurantSeeder extends Seeder
             'bangla_name' => 'চট্টগ্রামের ঐতিহ্যবাহী বিফ কালা ভুনা',
             'sku' => 'CUR-001',
             'barcode' => '8940003001',
-            'image' => 'https://images.unsplash.com/photo-1545247181-516773cae754?w=500&auto=format&fit=crop&q=80',
+            'image' => '/images/food/kala_bhuna.jpg',
             'description' => 'Slow-cooked deep caramelized beef loaded with authentic Chittagong spices.',
             'cost_price' => 300.00,
             'selling_price' => 490.00,
@@ -219,7 +219,7 @@ class RestaurantSeeder extends Seeder
             'name' => 'Butter Naan',
             'bangla_name' => 'বাটার নান',
             'sku' => 'NAN-001',
-            'image' => 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&auto=format&fit=crop&q=80',
+            'image' => '/images/food/butter_naan.jpg',
             'cost_price' => 25.00,
             'selling_price' => 65.00,
             'vat_percent' => 5.00,
@@ -233,7 +233,7 @@ class RestaurantSeeder extends Seeder
             'name' => 'Garlic Naan',
             'bangla_name' => 'গার্লিক নান',
             'sku' => 'NAN-002',
-            'image' => 'https://images.unsplash.com/photo-1626074353765-517a681e40be?w=500&auto=format&fit=crop&q=80',
+            'image' => '/images/food/garlic_naan.jpg',
             'cost_price' => 30.00,
             'selling_price' => 85.00,
             'vat_percent' => 5.00,
@@ -247,7 +247,7 @@ class RestaurantSeeder extends Seeder
             'name' => 'Special Shahi Borhani (250ml)',
             'bangla_name' => 'স্পেশাল শাহী বোরহানি',
             'sku' => 'DRK-001',
-            'image' => 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=80',
+            'image' => '/images/food/borhani.jpg',
             'cost_price' => 40.00,
             'selling_price' => 90.00,
             'vat_percent' => 5.00,
@@ -262,7 +262,7 @@ class RestaurantSeeder extends Seeder
             'name' => 'Zafrani Shahi Firni (Matka)',
             'bangla_name' => 'জাফরানি শাহী ফিরনি',
             'sku' => 'DES-001',
-            'image' => 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?w=500&auto=format&fit=crop&q=80',
+            'image' => '/images/food/firni.jpg',
             'cost_price' => 35.00,
             'selling_price' => 80.00,
             'vat_percent' => 5.00,
@@ -271,14 +271,14 @@ class RestaurantSeeder extends Seeder
         ]);
 
         // 5. Raw Ingredients (কাঁচামাল)
-        $ingRice = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Basmati Rice (বাসমতি চাল)', 'unit' => 'kg', 'image' => 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80', 'current_stock' => 85.500, 'alert_stock' => 15.000, 'cost_per_unit' => 140.00]);
-        $ingMutton = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Fresh Mutton (খাসির মাংস)', 'unit' => 'kg', 'image' => 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=80', 'current_stock' => 42.000, 'alert_stock' => 10.000, 'cost_per_unit' => 1100.00]);
-        $ingChicken = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Broiler Chicken (মুরগির মাংস)', 'unit' => 'kg', 'image' => 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=500&auto=format&fit=crop&q=80', 'current_stock' => 55.000, 'alert_stock' => 15.000, 'cost_per_unit' => 220.00]);
-        $ingBeef = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Boneless Beef (গরুর মাংস)', 'unit' => 'kg', 'image' => 'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=500&auto=format&fit=crop&q=80', 'current_stock' => 38.000, 'alert_stock' => 10.000, 'cost_per_unit' => 800.00]);
-        $ingGhee = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Pure Ghee (গাওয়া ঘি)', 'unit' => 'kg', 'image' => 'https://images.unsplash.com/photo-1631451095765-2c91616fc9e6?w=500&auto=format&fit=crop&q=80', 'current_stock' => 18.200, 'alert_stock' => 5.000, 'cost_per_unit' => 1200.00]);
-        $ingMustardOil = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Mustard Oil (সরিষার তেল)', 'unit' => 'litre', 'image' => 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=80', 'current_stock' => 25.000, 'alert_stock' => 5.000, 'cost_per_unit' => 280.00]);
-        $ingYogurt = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Sour Curd / Yogurt (টক দই)', 'unit' => 'kg', 'image' => 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&auto=format&fit=crop&q=80', 'current_stock' => 30.000, 'alert_stock' => 8.000, 'cost_per_unit' => 180.00]);
-        $ingFlour = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Maida Flour (ময়দা)', 'unit' => 'kg', 'image' => 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80', 'current_stock' => 60.000, 'alert_stock' => 15.000, 'cost_per_unit' => 65.00]);
+        $ingRice = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Basmati Rice (বাসমতি চাল)', 'unit' => 'kg', 'image' => '/images/ingredients/rice.jpg', 'current_stock' => 85.500, 'alert_stock' => 15.000, 'cost_per_unit' => 140.00]);
+        $ingMutton = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Fresh Mutton (খাসির মাংস)', 'unit' => 'kg', 'image' => '/images/ingredients/mutton.jpg', 'current_stock' => 42.000, 'alert_stock' => 10.000, 'cost_per_unit' => 1100.00]);
+        $ingChicken = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Broiler Chicken (মুরগির মাংস)', 'unit' => 'kg', 'image' => '/images/ingredients/chicken.jpg', 'current_stock' => 55.000, 'alert_stock' => 15.000, 'cost_per_unit' => 220.00]);
+        $ingBeef = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Boneless Beef (গরুর মাংস)', 'unit' => 'kg', 'image' => '/images/ingredients/beef.jpg', 'current_stock' => 38.000, 'alert_stock' => 10.000, 'cost_per_unit' => 800.00]);
+        $ingGhee = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Pure Ghee (গাওয়া ঘি)', 'unit' => 'kg', 'image' => '/images/ingredients/ghee.jpg', 'current_stock' => 18.200, 'alert_stock' => 5.000, 'cost_per_unit' => 1200.00]);
+        $ingMustardOil = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Mustard Oil (সরিষার তেল)', 'unit' => 'litre', 'image' => '/images/ingredients/mustard_oil.jpg', 'current_stock' => 25.000, 'alert_stock' => 5.000, 'cost_per_unit' => 280.00]);
+        $ingYogurt = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Sour Curd / Yogurt (টক দই)', 'unit' => 'kg', 'image' => '/images/ingredients/yogurt.jpg', 'current_stock' => 30.000, 'alert_stock' => 8.000, 'cost_per_unit' => 180.00]);
+        $ingFlour = Ingredient::create(['branch_id' => $branch->id, 'name' => 'Maida Flour (ময়দা)', 'unit' => 'kg', 'image' => '/images/ingredients/flour.jpg', 'current_stock' => 60.000, 'alert_stock' => 15.000, 'cost_per_unit' => 65.00]);
 
         // 6. Recipe BOM
         ItemRecipe::create(['item_id' => $itemKacchi->id, 'variant_id' => $varKacchiFull->id, 'ingredient_id' => $ingRice->id, 'quantity_required' => 0.250]);
