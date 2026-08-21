@@ -39,4 +39,22 @@ class Ingredient extends Model
     {
         return $this->current_stock <= $this->alert_stock;
     }
+
+    public function getImageAttribute($value)
+    {
+        if (!empty($value)) {
+            return $value;
+        }
+        $name = strtolower(($this->name ?? '') . ' ' . ($this->bangla_name ?? ''));
+        if (str_contains($name, 'rice') || str_contains($name, 'চাল')) return '/images/ingredients/rice.jpg';
+        if (str_contains($name, 'mutton') || str_contains($name, 'খাসি')) return '/images/ingredients/mutton.jpg';
+        if (str_contains($name, 'chicken') || str_contains($name, 'মুরগি')) return '/images/ingredients/chicken.jpg';
+        if (str_contains($name, 'beef') || str_contains($name, 'গরু')) return '/images/ingredients/beef.jpg';
+        if (str_contains($name, 'ghee') || str_contains($name, 'ঘি')) return '/images/ingredients/ghee.jpg';
+        if (str_contains($name, 'oil') || str_contains($name, 'তেল')) return '/images/ingredients/mustard_oil.jpg';
+        if (str_contains($name, 'yogurt') || str_contains($name, 'দই')) return '/images/ingredients/yogurt.jpg';
+        if (str_contains($name, 'flour') || str_contains($name, 'ময়দা')) return '/images/ingredients/flour.jpg';
+        
+        return '/images/ingredients/rice.jpg';
+    }
 }
