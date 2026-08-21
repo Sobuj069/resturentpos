@@ -69,7 +69,25 @@ class InventoryController extends Controller
             'current_stock' => 'required|numeric|min:0',
             'alert_stock' => 'required|numeric|min:0',
             'cost_per_unit' => 'required|numeric|min:0',
+            'image' => 'nullable|string',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:5120',
         ]);
+
+        $existingIng = !empty($validated['id']) ? Ingredient::find($validated['id']) : null;
+        $imagePath = $existingIng?->image;
+
+        if ($request->hasFile('image_file')) {
+            $file = $request->file('image_file');
+            $filename = 'ingredient_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('uploads/ingredients');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+            $file->move($destinationPath, $filename);
+            $imagePath = '/uploads/ingredients/' . $filename;
+        } elseif ($request->has('image')) {
+            $imagePath = $request->input('image');
+        }
 
         $ingredient = Ingredient::updateOrCreate(
             ['id' => $validated['id'] ?? null],
@@ -78,6 +96,7 @@ class InventoryController extends Controller
                 'name' => $validated['name'],
                 'bangla_name' => $validated['bangla_name'] ?? null,
                 'unit' => $validated['unit'],
+                'image' => $imagePath,
                 'current_stock' => $validated['current_stock'],
                 'alert_stock' => $validated['alert_stock'],
                 'cost_per_unit' => $validated['cost_per_unit'],

@@ -81,6 +81,7 @@
             <table class="w-full text-left text-xs">
                 <thead style="background:#F8F5F2; border-bottom: 1px solid #E8DDD9;">
                     <tr>
+                        <th class="px-3 py-3 font-bold uppercase tracking-wider text-[10px]" style="color:#9B7A7E;">ছবি</th>
                         <th class="px-4 py-3 font-bold uppercase tracking-wider text-[10px]" style="color:#9B7A7E;">উপাদান নাম</th>
                         <th class="px-4 py-3 font-bold uppercase tracking-wider text-[10px]" style="color:#9B7A7E;">একক</th>
                         <th class="px-4 py-3 font-bold uppercase tracking-wider text-[10px]" style="color:#9B7A7E;">বর্তমান স্টক</th>
@@ -94,6 +95,15 @@
                 <tbody>
                     @foreach($ingredients as $ing)
                     <tr class="data-row border-b" style="border-color:#F0E8E5;">
+                        <td class="px-3 py-3.5">
+                            <div class="w-11 h-11 rounded-xl overflow-hidden bg-[#F8F5F2] border border-black/5 flex items-center justify-center shrink-0 shadow-2xs">
+                                @if($ing->image)
+                                    <img src="{{ $ing->image }}" alt="{{ $ing->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <i data-lucide="package" class="w-4 h-4 opacity-35" style="color:#8B1A2C;"></i>
+                                @endif
+                            </div>
+                        </td>
                         <td class="px-4 py-3.5">
                             <p class="font-bold" style="color:#1A0A0C;">{{ $ing->name }}</p>
                             @if($ing->bangla_name)
@@ -151,12 +161,21 @@
         @foreach($items as $item)
         <div class="pos-card p-4 flex flex-col justify-between">
             <div>
-                <div class="flex items-start justify-between mb-3">
-                    <div>
-                        <h4 class="font-bold text-sm" style="color:#1A0A0C;">{{ $item->name }}</h4>
-                        <p class="text-[11px]" style="color:#9B7A7E;">{{ $item->bangla_name }}</p>
+                <div class="flex items-start gap-3 mb-3">
+                    <div class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 shrink-0 border border-black/5 flex items-center justify-center">
+                        @if($item->image)
+                            <img src="{{ $item->image }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                        @else
+                            <i data-lucide="utensils" class="w-5 h-5 opacity-35" style="color:#8B1A2C;"></i>
+                        @endif
                     </div>
-                    <span class="pos-nums font-black text-sm price-maroon">৳{{ number_format($item->selling_price, 2) }}</span>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-start justify-between">
+                            <h4 class="font-bold text-sm truncate" style="color:#1A0A0C;">{{ $item->name }}</h4>
+                            <span class="pos-nums font-black text-sm price-maroon shrink-0 ml-1">৳{{ number_format($item->selling_price, 2) }}</span>
+                        </div>
+                        <p class="text-[11px] truncate" style="color:#9B7A7E;">{{ $item->bangla_name }}</p>
+                    </div>
                 </div>
 
                 <div class="border-t pt-3 space-y-1.5" style="border-color:#F0E8E5;">
@@ -167,8 +186,17 @@
                         </button>
                     </div>
                     @forelse($item->recipes as $rec)
-                    <div class="flex justify-between text-xs py-0.5">
-                        <span style="color:#5C3840;">• {{ $rec->ingredient->name ?? '—' }}</span>
+                    <div class="flex items-center justify-between text-xs py-1">
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-5 h-5 rounded-md overflow-hidden bg-gray-100 shrink-0 border border-black/5 flex items-center justify-center">
+                                @if($rec->ingredient && $rec->ingredient->image)
+                                    <img src="{{ $rec->ingredient->image }}" alt="{{ $rec->ingredient->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <i data-lucide="package" class="w-3 h-3 opacity-40 text-[#8B1A2C]"></i>
+                                @endif
+                            </div>
+                            <span style="color:#5C3840;">{{ $rec->ingredient->name ?? '—' }}</span>
+                        </div>
                         <span class="pos-nums font-bold" style="color:#2E7D52;">{{ $rec->quantity_required }} {{ $rec->ingredient->unit ?? '' }}</span>
                     </div>
                     @empty
@@ -302,6 +330,45 @@
                     <div>
                         <label class="section-heading">সতর্কতা লেভেল (Low Alert) *</label>
                         <input type="number" step="0.01" x-model.number="ingredientForm.alert_stock" placeholder="20" class="pos-input w-full px-3 py-2 text-xs pos-nums rounded-xl">
+                    </div>
+                </div>
+
+                <!-- Ingredient Image Upload & URL -->
+                <div class="p-3.5 rounded-2xl border bg-[#FBF8F5]" style="border-color:#E8DDD9;">
+                    <label class="section-heading mb-2">কাঁচামালের ছবি (Ingredient Image)</label>
+                    <div class="flex items-start gap-3.5">
+                        <!-- Preview Box -->
+                        <div class="relative w-20 h-20 rounded-2xl overflow-hidden bg-white border border-[#E8DDD9] flex items-center justify-center shrink-0 shadow-2xs">
+                            <template x-if="ingredientForm.image_preview || ingredientForm.image">
+                                <img :src="ingredientForm.image_preview || ingredientForm.image" class="w-full h-full object-cover">
+                            </template>
+                            <template x-if="!ingredientForm.image_preview && !ingredientForm.image">
+                                <div class="flex flex-col items-center justify-center text-center p-2">
+                                    <i data-lucide="package" class="w-6 h-6 text-[#8B1A2C] opacity-40 mb-1"></i>
+                                    <span class="text-[9px] text-[#9B7A7E]">ছবি নেই</span>
+                                </div>
+                            </template>
+                            <button x-show="ingredientForm.image_preview || ingredientForm.image"
+                                    type="button"
+                                    @click="ingredientForm.image=''; ingredientForm.image_preview=''; ingredientForm.image_file=null; if($refs.ingFileInput) $refs.ingFileInput.value='';"
+                                    class="absolute top-1 right-1 w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-md text-xs hover:bg-rose-700">
+                                <i data-lucide="x" class="w-3 h-3"></i>
+                            </button>
+                        </div>
+
+                        <!-- Upload & URL Inputs -->
+                        <div class="flex-1 space-y-2">
+                            <div>
+                                <label class="text-[10px] font-bold block mb-1" style="color:#5C3840;">কম্পিউটার বা ডিভাইস থেকে ছবি আপলোড</label>
+                                <input type="file" x-ref="ingFileInput" @change="handleIngImageUpload($event)" accept="image/*"
+                                       class="block w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-xl file:border-0 file:text-[11px] file:font-semibold file:bg-[#8B1A2C]/10 file:text-[#8B1A2C] hover:file:bg-[#8B1A2C]/20 cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold block mb-1" style="color:#5C3840;">অথবা সরাসরি ছবির লিংক (Image URL)</label>
+                                <input type="text" x-model="ingredientForm.image" @input="ingredientForm.image_preview = ingredientForm.image" placeholder="https://example.com/raw-material.jpg"
+                                       class="pos-input w-full px-3 py-1.5 text-xs rounded-xl">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -468,19 +535,44 @@ function inventoryManager() {
         openRecipeModal: false,
         openWastageModal: false,
 
-        ingredientForm: { id: null, name: '', bangla_name: '', unit: 'kg', cost_per_unit: 0, current_stock: 0, alert_stock: 10 },
+        ingredientForm: { id: null, name: '', bangla_name: '', unit: 'kg', image: '', image_preview: '', image_file: null, cost_per_unit: 0, current_stock: 0, alert_stock: 10 },
         purchaseIngredientId: '', purchaseQty: 0, purchaseCost: 0,
         activeRecipeItem: null, recipeRows: [],
         wastageForm: { ingredient_id: '', quantity: 0, unit: 'kg', cost_impact: 0, reason: 'নষ্ট / পচে গেছে', notes: '' },
 
         init() { this.$nextTick(() => window.initLucideIcons()); },
 
+        handleIngImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.ingredientForm.image_file = file;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.ingredientForm.image_preview = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+
         resetIngredientForm() {
-            this.ingredientForm = { id: null, name: '', bangla_name: '', unit: 'kg', cost_per_unit: 0, current_stock: 0, alert_stock: 10 };
+            this.ingredientForm = { id: null, name: '', bangla_name: '', unit: 'kg', image: '', image_preview: '', image_file: null, cost_per_unit: 0, current_stock: 0, alert_stock: 10 };
+            if (this.$refs.ingFileInput) this.$refs.ingFileInput.value = '';
         },
 
         editIngredient(ing) {
-            this.ingredientForm = { id: ing.id, name: ing.name, bangla_name: ing.bangla_name || '', unit: ing.unit, cost_per_unit: parseFloat(ing.cost_per_unit), current_stock: parseFloat(ing.current_stock), alert_stock: parseFloat(ing.alert_stock) };
+            this.ingredientForm = {
+                id: ing.id,
+                name: ing.name,
+                bangla_name: ing.bangla_name || '',
+                unit: ing.unit,
+                image: ing.image || '',
+                image_preview: ing.image || '',
+                image_file: null,
+                cost_per_unit: parseFloat(ing.cost_per_unit),
+                current_stock: parseFloat(ing.current_stock),
+                alert_stock: parseFloat(ing.alert_stock)
+            };
+            if (this.$refs.ingFileInput) this.$refs.ingFileInput.value = '';
             this.openIngredientModal = true;
             this.$nextTick(() => window.initLucideIcons());
         },
@@ -490,10 +582,25 @@ function inventoryManager() {
                 alert('অনুগ্রহ করে উপাদান নাম এবং একক ক্রয়মূল্য দিন!'); return;
             }
             try {
+                const formData = new FormData();
+                if (this.ingredientForm.id) formData.append('id', this.ingredientForm.id);
+                formData.append('name', this.ingredientForm.name);
+                formData.append('bangla_name', this.ingredientForm.bangla_name || '');
+                formData.append('unit', this.ingredientForm.unit);
+                formData.append('cost_per_unit', this.ingredientForm.cost_per_unit || 0);
+                formData.append('current_stock', this.ingredientForm.current_stock || 0);
+                formData.append('alert_stock', this.ingredientForm.alert_stock || 0);
+
+                if (this.ingredientForm.image_file) {
+                    formData.append('image_file', this.ingredientForm.image_file);
+                } else if (this.ingredientForm.image) {
+                    formData.append('image', this.ingredientForm.image);
+                }
+
                 const res = await fetch('{{ route('inventory.ingredient.store') }}', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                    body: JSON.stringify(this.ingredientForm)
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    body: formData
                 });
                 const data = await res.json();
                 if (data.success) { alert(data.message); location.reload(); }

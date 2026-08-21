@@ -63,10 +63,20 @@
             <div class="flex-1 p-3 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 pb-24">
                 <template x-for="item in filteredItems" :key="item.id">
                     <button @click="addToCart(item)"
-                            class="pos-card p-3 rounded-2xl bg-white border text-left flex flex-col justify-between active:scale-95 shadow-xs">
+                            class="pos-card p-2.5 rounded-2xl bg-white border text-left flex flex-col justify-between active:scale-95 shadow-xs transition-all hover:shadow-md"
+                            style="border-color:#E8DDD9;">
+                        <!-- Food Image -->
+                        <div class="relative w-full h-20 sm:h-24 rounded-xl overflow-hidden mb-2 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0">
+                            <template x-if="item.image">
+                                <img :src="item.image" :alt="item.name" class="w-full h-full object-cover">
+                            </template>
+                            <template x-if="!item.image">
+                                <i data-lucide="utensils" class="w-5 h-5 opacity-35" style="color:#8B1A2C;"></i>
+                            </template>
+                        </div>
                         <div>
-                            <h4 class="text-xs font-bold" style="color:#1A0A0C;" x-text="item.name"></h4>
-                            <p class="text-[10px]" style="color:#9B7A7E;" x-text="item.bangla_name"></p>
+                            <h4 class="text-xs font-bold line-clamp-1" style="color:#1A0A0C;" x-text="item.name"></h4>
+                            <p class="text-[10px] line-clamp-1" style="color:#9B7A7E;" x-text="item.bangla_name"></p>
                         </div>
                         <div class="mt-2 pt-1.5 border-t flex items-center justify-between" style="border-color:#F0E8E5;">
                             <span class="text-xs font-black pos-nums price-maroon">৳<span x-text="formatNumber(item.selling_price)"></span></span>

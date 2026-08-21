@@ -75,29 +75,52 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-2.5">
                 <template x-for="item in filteredItems" :key="item.id">
                     <button @click="handleItemClick(item)"
-                            class="pos-card group relative flex flex-col justify-between p-2.5 sm:p-3 text-left active:scale-[0.98]">
-                        <!-- SKU & Variant -->
-                        <div class="flex items-start justify-between gap-1 w-full mb-1">
-                            <span class="text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded pos-nums"
-                                  style="background:#F0E8E5; color:#9B7A7E;" x-text="item.sku || 'ITEM'"></span>
-                            <span x-show="item.has_variants" class="text-[9px] font-bold px-1.5 py-0.5 rounded"
-                                  style="background:rgba(139,26,44,0.08); color:#8B1A2C; border:1px solid rgba(139,26,44,0.2);">
-                                ভ্যারিয়েন্ট
-                            </span>
+                            class="pos-card group relative flex flex-col justify-between p-2 text-left active:scale-[0.98] transition-all rounded-2xl bg-white border hover:shadow-md"
+                            style="border-color:#E8DDD9;">
+                        
+                        <!-- Food Image on Top of Card -->
+                        <div class="relative w-full h-24 sm:h-28 rounded-xl overflow-hidden mb-2 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0">
+                            <!-- Image if exists -->
+                            <template x-if="item.image">
+                                <img :src="item.image" :alt="item.name"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                     loading="lazy"
+                                     x-on:error="$event.target.style.display='none'; $event.target.nextElementSibling.style.display='flex'">
+                            </template>
+                            <!-- Fallback Icon -->
+                            <div class="w-full h-full flex flex-col items-center justify-center text-center p-2"
+                                 :style="item.image ? 'display:none; background:linear-gradient(135deg, #FBF1F3, #F5E6E8);' : 'background:linear-gradient(135deg, #FBF1F3, #F5E6E8);'">
+                                <i data-lucide="utensils" class="w-6 h-6 stroke-[1.5]" style="color:#8B1A2C; opacity:0.4;"></i>
+                            </div>
+
+                            <!-- Badges Floating on Image -->
+                            <div class="absolute top-1.5 left-1.5 z-10">
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md pos-nums shadow-xs backdrop-blur-md"
+                                      style="background:rgba(255,255,255,0.92); color:#5C3840;" x-text="item.sku || 'ITEM'"></span>
+                            </div>
+                            <div class="absolute top-1.5 right-1.5 z-10 flex flex-col gap-1 items-end">
+                                <span x-show="item.has_variants"
+                                      class="text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs"
+                                      style="background:rgba(139,26,44,0.9); color:#ffffff;">
+                                    ভ্যারিয়েন্ট
+                                </span>
+                            </div>
                         </div>
-                        <!-- Name -->
-                        <div class="mb-1.5">
-                            <h3 class="text-xs sm:text-sm font-bold line-clamp-1"
+
+                        <!-- Name & Bengali Name -->
+                        <div class="px-1 mb-1.5">
+                            <h3 class="text-xs sm:text-[13px] font-bold line-clamp-1 leading-tight"
                                 style="color:#1A0A0C;" x-text="item.name"></h3>
-                            <p class="text-[10px] sm:text-[11px] font-medium line-clamp-1" style="color:#9B7A7E;" x-text="item.bangla_name || ''"></p>
+                            <p class="text-[10px] sm:text-[11px] font-medium line-clamp-1 mt-0.5" style="color:#9B7A7E;" x-text="item.bangla_name || ''"></p>
                         </div>
-                        <!-- Price & Add -->
-                        <div class="flex items-center justify-between mt-auto pt-1.5 border-t" style="border-color:#F0E8E5;">
+
+                        <!-- Price & Add Button -->
+                        <div class="flex items-center justify-between mt-auto pt-1.5 px-1 border-t" style="border-color:#F0E8E5;">
                             <div>
                                 <span class="text-[9px] sm:text-[10px] block" style="color:#9B7A7E;">মূল্য:</span>
                                 <span class="text-xs sm:text-sm font-black price-maroon pos-nums">৳<span x-text="formatNumber(item.selling_price)"></span></span>
                             </div>
-                            <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-xl flex items-center justify-center transition-all"
+                            <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-xl flex items-center justify-center transition-all group-hover:bg-[#8B1A2C] group-hover:text-white"
                                  style="background:#F0E8E5; color:#8B1A2C;">
                                 <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
                             </div>
@@ -406,9 +429,19 @@
              class="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border bg-white max-h-[90vh] flex flex-col"
              style="border-color:#E0D4CF;">
             <div class="p-4 border-b flex items-center justify-between" style="background:#FBF8F5; border-color:#E0D4CF;">
-                <div>
-                    <h3 class="text-sm font-bold" style="color:#1A0A0C;" x-text="activeItem?.name"></h3>
-                    <p class="text-xs font-medium" style="color:#B8922A;" x-text="activeItem?.bangla_name"></p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 shrink-0 border border-black/5 flex items-center justify-center">
+                        <template x-if="activeItem?.image">
+                            <img :src="activeItem.image" :alt="activeItem.name" class="w-full h-full object-cover">
+                        </template>
+                        <template x-if="!activeItem?.image">
+                            <i data-lucide="utensils" class="w-5 h-5 opacity-40" style="color:#8B1A2C;"></i>
+                        </template>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold" style="color:#1A0A0C;" x-text="activeItem?.name"></h3>
+                        <p class="text-xs font-medium" style="color:#B8922A;" x-text="activeItem?.bangla_name"></p>
+                    </div>
                 </div>
                 <button @click="openModifierModal = false" style="color:#9B7A7E;">
                     <i data-lucide="x" class="w-5 h-5"></i>

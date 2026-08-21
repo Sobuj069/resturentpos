@@ -71,20 +71,29 @@
         <!-- Items Grid -->
         <div class="grid grid-cols-2 gap-3">
             <template x-for="item in filteredItems" :key="item.id">
-                <div class="pos-card p-3 flex flex-col justify-between rounded-2xl bg-white border shadow-xs">
+                <div class="pos-card p-2.5 flex flex-col justify-between rounded-2xl bg-white border shadow-xs">
                     <div>
-                        <div class="flex items-start justify-between gap-1 mb-1">
-                            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded" style="background:#F0E8E5; color:#9B7A7E;" x-text="item.sku || 'ITEM'"></span>
-                            <span x-show="item.has_variants" class="text-[8px] font-bold px-1.5 py-0.5 rounded" style="background:rgba(139,26,44,0.08); color:#8B1A2C;">ভ্যারিয়েন্ট</span>
+                        <!-- Food Image -->
+                        <div class="relative w-full h-24 sm:h-28 rounded-xl overflow-hidden mb-2 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0">
+                            <template x-if="item.image">
+                                <img :src="item.image" :alt="item.name" class="w-full h-full object-cover">
+                            </template>
+                            <template x-if="!item.image">
+                                <i data-lucide="utensils" class="w-6 h-6 opacity-35" style="color:#8B1A2C;"></i>
+                            </template>
+                            <div class="absolute top-1.5 right-1.5 z-10" x-show="item.has_variants">
+                                <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-md shadow-xs bg-[#8B1A2C] text-white">ভ্যারিয়েন্ট</span>
+                            </div>
                         </div>
-                        <h3 class="text-xs font-bold leading-tight" style="color:#1A0A0C;" x-text="item.name"></h3>
+
+                        <h3 class="text-xs font-bold leading-tight line-clamp-1" style="color:#1A0A0C;" x-text="item.name"></h3>
                         <p class="text-[10px] line-clamp-1 mt-0.5" style="color:#9B7A7E;" x-text="item.bangla_name || ''"></p>
                     </div>
 
                     <div class="mt-2 pt-2 border-t flex items-center justify-between" style="border-color:#F0E8E5;">
                         <span class="text-xs font-black pos-nums price-maroon">৳<span x-text="formatNumber(item.selling_price)"></span></span>
                         <button @click="handleItemClick(item)"
-                                class="w-7 h-7 rounded-xl flex items-center justify-center transition-all"
+                                class="w-7 h-7 rounded-xl flex items-center justify-center transition-all shadow-xs"
                                 style="background:#8B1A2C; color:#fff;">
                             <i data-lucide="plus" class="w-4 h-4 stroke-[2.5]"></i>
                         </button>

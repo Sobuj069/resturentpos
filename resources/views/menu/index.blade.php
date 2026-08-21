@@ -92,6 +92,7 @@
                 <table class="w-full text-left text-xs">
                     <thead style="background:#F8F5F2; border-bottom: 1px solid #E8DDD9;">
                         <tr>
+                            <th class="px-3 py-2.5 font-bold uppercase tracking-wider text-[10px]" style="color:#9B7A7E;">ছবি</th>
                             <th class="px-4 py-2.5 font-bold uppercase tracking-wider text-[10px]" style="color:#9B7A7E;">SKU</th>
                             <th class="px-4 py-2.5 font-bold uppercase tracking-wider text-[10px]" style="color:#9B7A7E;">আইটেম নাম</th>
                             <th class="px-4 py-2.5 font-bold uppercase tracking-wider text-[10px]" style="color:#9B7A7E;">কিচেন স্টেশন</th>
@@ -104,6 +105,15 @@
                     <tbody>
                         @forelse($category->items as $item)
                         <tr class="data-row border-b" style="border-color:#F0E8E5;">
+                            <td class="px-3 py-2.5">
+                                <div class="w-11 h-11 rounded-xl overflow-hidden bg-[#F8F5F2] border border-black/5 flex items-center justify-center shrink-0 shadow-2xs">
+                                    @if($item->image)
+                                        <img src="{{ $item->image }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                                    @else
+                                        <i data-lucide="utensils" class="w-4 h-4 opacity-35" style="color:#8B1A2C;"></i>
+                                    @endif
+                                </div>
+                            </td>
                             <td class="px-4 py-3 pos-nums font-bold" style="color:#9B7A7E;">{{ $item->sku ?? '—' }}</td>
                             <td class="px-4 py-3">
                                 <p class="font-bold" style="color:#1A0A0C;">{{ $item->name }}</p>
@@ -329,6 +339,45 @@
                     </div>
                 </div>
 
+                <!-- Food Image Upload & URL -->
+                <div class="p-3.5 rounded-2xl border bg-[#FBF8F5]" style="border-color:#E8DDD9;">
+                    <label class="section-heading mb-2">খাবারের ছবি (Food Image)</label>
+                    <div class="flex items-start gap-3.5">
+                        <!-- Image Preview -->
+                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-white border border-[#E8DDD9] flex items-center justify-center shrink-0 shadow-2xs">
+                            <template x-if="itemForm.image_preview || itemForm.image">
+                                <img :src="itemForm.image_preview || itemForm.image" class="w-full h-full object-cover">
+                            </template>
+                            <template x-if="!itemForm.image_preview && !itemForm.image">
+                                <div class="flex flex-col items-center justify-center text-center p-2">
+                                    <i data-lucide="image" class="w-6 h-6 text-[#8B1A2C] opacity-40 mb-1"></i>
+                                    <span class="text-[9px] text-[#9B7A7E]">ছবি নেই</span>
+                                </div>
+                            </template>
+                            <button x-show="itemForm.image_preview || itemForm.image"
+                                    type="button"
+                                    @click="itemForm.image=''; itemForm.image_preview=''; itemForm.image_file=null; if($refs.itemFileInput) $refs.itemFileInput.value='';"
+                                    class="absolute top-1 right-1 w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-md text-xs hover:bg-rose-700">
+                                <i data-lucide="x" class="w-3 h-3"></i>
+                            </button>
+                        </div>
+
+                        <!-- Upload & URL inputs -->
+                        <div class="flex-1 space-y-2">
+                            <div>
+                                <label class="text-[10px] font-bold block mb-1" style="color:#5C3840;">কম্পিউটার বা ডিভাইস থেকে আপলোড</label>
+                                <input type="file" x-ref="itemFileInput" @change="handleItemImageUpload($event)" accept="image/*"
+                                       class="block w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-xl file:border-0 file:text-[11px] file:font-semibold file:bg-[#8B1A2C]/10 file:text-[#8B1A2C] hover:file:bg-[#8B1A2C]/20 cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold block mb-1" style="color:#5C3840;">অথবা সরাসরি ইমেজ লিংক (Image URL)</label>
+                                <input type="text" x-model="itemForm.image" @input="itemForm.image_preview = itemForm.image" placeholder="https://example.com/image.jpg"
+                                       class="pos-input w-full px-3 py-1.5 text-xs rounded-xl">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Variants Toggle -->
                 <div class="p-3 rounded-2xl border" style="background:#FBF8F5; border-color:#E8DDD9;">
                     <div class="flex items-center justify-between mb-2">
@@ -460,14 +509,27 @@ function menuManager() {
         openCategoryModal: false,
         openModifierModal: false,
 
-        itemForm: { id: null, category_id: '', name: '', bangla_name: '', sku: '', barcode: '', selling_price: 0, cost_price: 0, vat_percent: 5, kitchen_station: 'main_kitchen', has_variants: false, variants: [], modifier_ids: [] },
+        itemForm: { id: null, category_id: '', name: '', bangla_name: '', sku: '', barcode: '', image: '', image_preview: '', image_file: null, selling_price: 0, cost_price: 0, vat_percent: 5, kitchen_station: 'main_kitchen', has_variants: false, variants: [], modifier_ids: [] },
         categoryForm: { id: null, name: '', bangla_name: '', icon: 'utensils', sort_order: 0 },
         modifierForm: { id: null, name: '', bangla_name: '', price: 0 },
 
         init() { this.$nextTick(() => window.initLucideIcons()); },
 
+        handleItemImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.itemForm.image_file = file;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.itemForm.image_preview = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+
         resetItemForm() {
-            this.itemForm = { id: null, category_id: '', name: '', bangla_name: '', sku: '', barcode: '', selling_price: 0, cost_price: 0, vat_percent: 5, kitchen_station: 'main_kitchen', has_variants: false, variants: [{name: 'Half', price: 0}, {name: 'Full', price: 0}], modifier_ids: [] };
+            this.itemForm = { id: null, category_id: '', name: '', bangla_name: '', sku: '', barcode: '', image: '', image_preview: '', image_file: null, selling_price: 0, cost_price: 0, vat_percent: 5, kitchen_station: 'main_kitchen', has_variants: false, variants: [{name: 'Half', price: 0}, {name: 'Full', price: 0}], modifier_ids: [] };
+            if (this.$refs.itemFileInput) this.$refs.itemFileInput.value = '';
         },
 
         editItem(item) {
@@ -478,6 +540,9 @@ function menuManager() {
                 bangla_name: item.bangla_name || '',
                 sku: item.sku || '',
                 barcode: item.barcode || '',
+                image: item.image || '',
+                image_preview: item.image || '',
+                image_file: null,
                 selling_price: parseFloat(item.selling_price) || 0,
                 cost_price: parseFloat(item.cost_price) || 0,
                 vat_percent: parseFloat(item.vat_percent) || 5,
@@ -486,6 +551,7 @@ function menuManager() {
                 variants: item.variants ? item.variants.map(v => ({ id: v.id, name: v.name, price: parseFloat(v.price), cost_price: parseFloat(v.cost_price || 0) })) : [],
                 modifier_ids: item.modifiers ? item.modifiers.map(m => m.id) : []
             };
+            if (this.$refs.itemFileInput) this.$refs.itemFileInput.value = '';
             this.openItemModal = true;
             this.$nextTick(() => window.initLucideIcons());
         },
@@ -495,10 +561,44 @@ function menuManager() {
                 alert('অনুগ্রহ করে আইটেমের নাম, ক্যাটাগরি এবং মূল্য দিন!'); return;
             }
             try {
+                const formData = new FormData();
+                if (this.itemForm.id) formData.append('id', this.itemForm.id);
+                formData.append('category_id', this.itemForm.category_id);
+                formData.append('name', this.itemForm.name);
+                formData.append('bangla_name', this.itemForm.bangla_name || '');
+                formData.append('sku', this.itemForm.sku || '');
+                formData.append('barcode', this.itemForm.barcode || '');
+                formData.append('selling_price', this.itemForm.selling_price || 0);
+                formData.append('cost_price', this.itemForm.cost_price || 0);
+                formData.append('vat_percent', this.itemForm.vat_percent || 5);
+                formData.append('kitchen_station', this.itemForm.kitchen_station || 'main_kitchen');
+                formData.append('has_variants', this.itemForm.has_variants ? 1 : 0);
+                formData.append('is_available', 1);
+
+                if (this.itemForm.image_file) {
+                    formData.append('image_file', this.itemForm.image_file);
+                } else if (this.itemForm.image) {
+                    formData.append('image', this.itemForm.image);
+                }
+
+                if (this.itemForm.variants && this.itemForm.variants.length > 0) {
+                    this.itemForm.variants.forEach((v, idx) => {
+                        formData.append(`variants[${idx}][name]`, v.name);
+                        formData.append(`variants[${idx}][price]`, v.price);
+                        if (v.cost_price) formData.append(`variants[${idx}][cost_price]`, v.cost_price);
+                    });
+                }
+
+                if (this.itemForm.modifier_ids && this.itemForm.modifier_ids.length > 0) {
+                    this.itemForm.modifier_ids.forEach((id, idx) => {
+                        formData.append(`modifier_ids[${idx}]`, id);
+                    });
+                }
+
                 const res = await fetch('{{ route('menu.item.store') }}', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                    body: JSON.stringify(this.itemForm)
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    body: formData
                 });
                 const data = await res.json();
                 if (data.success) { alert(data.message); location.reload(); }

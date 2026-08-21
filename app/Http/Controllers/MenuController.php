@@ -90,6 +90,8 @@ class MenuController extends Controller
             'selling_price' => 'required|numeric|min:0',
             'vat_percent' => 'nullable|numeric|min:0|max:100',
             'kitchen_station' => 'required|string|in:main_kitchen,grill,drinks_bar,dessert',
+            'image' => 'nullable|string',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:5120',
             'is_available' => 'boolean',
             'has_variants' => 'boolean',
             'variants' => 'nullable|array',
@@ -103,18 +105,35 @@ class MenuController extends Controller
         return DB::transaction(function () use ($validated, $request) {
             $hasVariants = $request->boolean('has_variants', false);
 
+            $existingItem = !empty($validated['id']) ? Item::find($validated['id']) : null;
+            $imagePath = $existingItem?->image;
+
+            if ($request->hasFile('image_file')) {
+                $file = $request->file('image_file');
+                $filename = 'item_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $destinationPath = public_path('uploads/items');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+                $file->move($destinationPath, $filename);
+                $imagePath = '/uploads/items/' . $filename;
+            } elseif ($request->has('image')) {
+                $imagePath = $request->input('image');
+            }
+
             $item = Item::updateOrCreate(
                 ['id' => $validated['id'] ?? null],
                 [
                     'category_id' => $validated['category_id'],
                     'name' => $validated['name'],
                     'bangla_name' => $validated['bangla_name'] ?? null,
-                    'sku' => $validated['sku'] ?: strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', $validated['name']), 0, 3)) . '-' . rand(100, 999),
+                    'sku' => !empty($validated['sku']) ? $validated['sku'] : strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', $validated['name']), 0, 3)) . '-' . rand(100, 999),
                     'barcode' => $validated['barcode'] ?? null,
                     'cost_price' => $validated['cost_price'] ?? 0,
                     'selling_price' => $validated['selling_price'],
                     'vat_percent' => $validated['vat_percent'] ?? 5.00,
                     'kitchen_station' => $validated['kitchen_station'],
+                    'image' => $imagePath,
                     'has_variants' => $hasVariants,
                     'is_available' => $request->boolean('is_available', true),
                 ]
