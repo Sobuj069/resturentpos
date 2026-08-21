@@ -73,8 +73,8 @@
             <template x-for="item in filteredItems" :key="item.id">
                 <div class="pos-card p-2.5 flex flex-col justify-between rounded-2xl bg-white border shadow-xs">
                     <div>
-                        <!-- Food Image -->
-                        <div class="relative w-full h-24 sm:h-28 rounded-xl overflow-hidden mb-2 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0">
+                        <!-- Food Image (Square 1:1) -->
+                        <div class="relative w-full aspect-square rounded-xl overflow-hidden mb-1.5 bg-[#F8F5F2] flex items-center justify-center border border-black/5 shrink-0">
                             <template x-if="item.image">
                                 <img :src="item.image" :alt="item.name" class="w-full h-full object-cover">
                             </template>
