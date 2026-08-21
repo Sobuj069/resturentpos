@@ -95,10 +95,11 @@
                 <tbody>
                     @foreach($ingredients as $ing)
                     <tr class="data-row border-b" style="border-color:#F0E8E5;">
-                        <td class="px-3 py-3.5">
-                            <div class="w-11 h-11 rounded-xl overflow-hidden bg-[#F8F5F2] border border-black/5 flex items-center justify-center shrink-0 shadow-2xs">
+                        <td class="px-3 py-2.5" style="width: 60px; min-width: 60px;">
+                            <div class="rounded-xl overflow-hidden bg-[#F8F5F2] border border-[#E0D4CF] flex items-center justify-center shrink-0 shadow-2xs"
+                                 style="width: 48px; height: 48px; min-width: 48px; min-height: 48px;">
                                 @if($ing->image)
-                                    <img src="{{ $ing->image }}" alt="{{ $ing->name }}" class="w-full h-full object-cover">
+                                    <img src="{{ $ing->image }}" alt="{{ $ing->name }}" style="width: 48px; height: 48px; object-fit: cover; display: block;">
                                 @else
                                     <i data-lucide="package" class="w-4 h-4 opacity-35" style="color:#8B1A2C;"></i>
                                 @endif
@@ -162,9 +163,10 @@
         <div class="pos-card p-4 flex flex-col justify-between">
             <div>
                 <div class="flex items-start gap-3 mb-3">
-                    <div class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 shrink-0 border border-black/5 flex items-center justify-center">
+                    <div class="rounded-xl overflow-hidden bg-gray-100 shrink-0 border border-black/5 flex items-center justify-center"
+                         style="width: 48px; height: 48px; min-width: 48px; min-height: 48px;">
                         @if($item->image)
-                            <img src="{{ $item->image }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                            <img src="{{ $item->image }}" alt="{{ $item->name }}" style="width: 48px; height: 48px; object-fit: cover; display: block;">
                         @else
                             <i data-lucide="utensils" class="w-5 h-5 opacity-35" style="color:#8B1A2C;"></i>
                         @endif
@@ -337,10 +339,11 @@
                 <div class="p-3.5 rounded-2xl border bg-[#FBF8F5]" style="border-color:#E8DDD9;">
                     <label class="section-heading mb-2">কাঁচামালের ছবি (Ingredient Image)</label>
                     <div class="flex items-start gap-3.5">
-                        <!-- Preview Box -->
-                        <div class="relative w-20 h-20 rounded-2xl overflow-hidden bg-white border border-[#E8DDD9] flex items-center justify-center shrink-0 shadow-2xs">
+                        <!-- Preview Box (Square 1:1) -->
+                        <div class="relative rounded-2xl overflow-hidden bg-white border border-[#E8DDD9] flex items-center justify-center shrink-0 shadow-2xs"
+                             style="width: 84px; height: 84px; min-width: 84px; min-height: 84px;">
                             <template x-if="ingredientForm.image_preview || ingredientForm.image">
-                                <img :src="ingredientForm.image_preview || ingredientForm.image" class="w-full h-full object-cover">
+                                <img :src="ingredientForm.image_preview || ingredientForm.image" style="width: 84px; height: 84px; object-fit: cover; display: block;">
                             </template>
                             <template x-if="!ingredientForm.image_preview && !ingredientForm.image">
                                 <div class="flex flex-col items-center justify-center text-center p-2">

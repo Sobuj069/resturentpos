@@ -105,10 +105,11 @@
                     <tbody>
                         @forelse($category->items as $item)
                         <tr class="data-row border-b" style="border-color:#F0E8E5;">
-                            <td class="px-3 py-2.5">
-                                <div class="w-11 h-11 rounded-xl overflow-hidden bg-[#F8F5F2] border border-black/5 flex items-center justify-center shrink-0 shadow-2xs">
+                            <td class="px-3 py-2.5" style="width: 60px; min-width: 60px;">
+                                <div class="rounded-xl overflow-hidden bg-[#F8F5F2] border border-[#E0D4CF] flex items-center justify-center shrink-0 shadow-2xs"
+                                     style="width: 48px; height: 48px; min-width: 48px; min-height: 48px;">
                                     @if($item->image)
-                                        <img src="{{ $item->image }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                                        <img src="{{ $item->image }}" alt="{{ $item->name }}" style="width: 48px; height: 48px; object-fit: cover; display: block;">
                                     @else
                                         <i data-lucide="utensils" class="w-4 h-4 opacity-35" style="color:#8B1A2C;"></i>
                                     @endif
@@ -343,10 +344,11 @@
                 <div class="p-3.5 rounded-2xl border bg-[#FBF8F5]" style="border-color:#E8DDD9;">
                     <label class="section-heading mb-2">খাবারের ছবি (Food Image)</label>
                     <div class="flex items-start gap-3.5">
-                        <!-- Image Preview -->
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-white border border-[#E8DDD9] flex items-center justify-center shrink-0 shadow-2xs">
+                        <!-- Image Preview (Square 1:1) -->
+                        <div class="relative rounded-2xl overflow-hidden bg-white border border-[#E8DDD9] flex items-center justify-center shrink-0 shadow-2xs"
+                             style="width: 84px; height: 84px; min-width: 84px; min-height: 84px;">
                             <template x-if="itemForm.image_preview || itemForm.image">
-                                <img :src="itemForm.image_preview || itemForm.image" class="w-full h-full object-cover">
+                                <img :src="itemForm.image_preview || itemForm.image" style="width: 84px; height: 84px; object-fit: cover; display: block;">
                             </template>
                             <template x-if="!itemForm.image_preview && !itemForm.image">
                                 <div class="flex flex-col items-center justify-center text-center p-2">
