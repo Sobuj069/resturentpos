@@ -18,20 +18,31 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\WaiterController;
 use Illuminate\Support\Facades\Route;
 
-// Authentication & Staff Switch
+// Authentication & SaaS Registration
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/auth/quick-switch', [AuthController::class, 'quickSwitch'])->name('auth.quickSwitch');
 
 // SaaS Multi-Tenant Platform & Onboarding
 Route::prefix('saas')->name('saas.')->group(function () {
-    Route::get('/dashboard', [SaaSController::class, 'dashboard'])->name('dashboard');
+    // Public Onboarding & Plans
     Route::get('/register', [SaaSController::class, 'registerForm'])->name('register');
     Route::post('/register', [SaaSController::class, 'register'])->name('register.submit');
-    Route::post('/tenant/{tenant}', [SaaSController::class, 'updateTenant'])->name('tenant.update');
     Route::get('/plans', [SaaSController::class, 'plans'])->name('plans');
+
+    // SuperAdmin Protected Command Center
+    Route::middleware(['auth', 'superadmin'])->group(function () {
+        Route::get('/dashboard', [SaaSController::class, 'dashboard'])->name('dashboard');
+        Route::post('/tenant/{tenant}', [SaaSController::class, 'updateTenant'])->name('tenant.update');
+        Route::delete('/tenant/{tenant}', [SaaSController::class, 'deleteTenant'])->name('tenant.delete');
+        Route::post('/impersonate/{user}', [SaaSController::class, 'impersonate'])->name('impersonate');
+    });
 });
+
+// Leave Impersonation (Return to SuperAdmin)
+Route::get('/leave-impersonation', [SaaSController::class, 'leaveImpersonation'])->name('impersonate.leave');
 
 // Redirect root to POS
 Route::get('/', function () {

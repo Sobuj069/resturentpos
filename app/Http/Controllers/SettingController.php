@@ -97,8 +97,10 @@ class SettingController extends Controller
             'email' => 'nullable|email|max:100',
             'role' => 'required|in:admin,manager,cashier,waiter,kitchen',
             'pin_code' => 'required|string|max:10',
-            'phone' => 'nullable|string|max:30',
+            'phone' => ['nullable', 'regex:/^01[3-9]\d{8}$/'],
             'is_active' => 'boolean',
+        ], [
+            'phone.regex' => 'মোবাইল নম্বরটি অবশ্যই ১১ ডিজিটের হতে হবে (যেমনঃ 017XXXXXXXX)।',
         ]);
 
         $user = User::updateOrCreate(

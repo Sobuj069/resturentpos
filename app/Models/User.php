@@ -28,6 +28,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
@@ -43,18 +48,28 @@ class User extends Authenticatable
         return $this->hasMany(Shift::class);
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'superadmin' || $this->email === 'superadmin@pos.com';
+    }
+
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return in_array($this->role, ['admin', 'superadmin']);
     }
 
     public function isManager(): bool
     {
-        return in_array($this->role, ['admin', 'manager']);
+        return in_array($this->role, ['admin', 'manager', 'superadmin']);
     }
 
     public function isKitchen(): bool
     {
         return $this->role === 'kitchen';
+    }
+
+    public function isWaiter(): bool
+    {
+        return $this->role === 'waiter';
     }
 }

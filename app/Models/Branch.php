@@ -18,6 +18,11 @@ class Branch extends Model
         'is_active' => 'boolean',
     ];
 
+    public function tenant(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
     public function users(): HasMany
     {
         return $this->hasMany(User::class);

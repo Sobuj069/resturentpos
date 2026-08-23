@@ -124,7 +124,6 @@
                 @php
                     $navLinks = [
                         ['route'=>'pos.index',         'match'=>'pos.*',             'icon'=>'shopping-cart',   'label'=>'POS টার্মিনাল'],
-                        // ['route'=>'kds.index',         'match'=>'kds.*',             'icon'=>'flame',           'label'=>'KDS কিচেন স্ক্রিন'],
                         ['route'=>'waiter.index',      'match'=>'waiter.*',          'icon'=>'chef-hat',        'label'=>'ক্যাপ্টেন ও ওয়েটার'],
                         ['route'=>'menu.index',        'match'=>'menu.*',            'icon'=>'utensils',        'label'=>'মেনু ও খাবার আইটেম'],
                         ['route'=>'tables.index',      'match'=>'tables.*',          'icon'=>'layout-grid',     'label'=>'টেবিল ও ফ্লোরপ্ল্যান'],
@@ -136,9 +135,13 @@
                         ['route'=>'inventory.index',   'match'=>'inventory.*',       'icon'=>'boxes',           'label'=>'ইনভেন্টরি ও BOM'],
                         ['route'=>'reports.dashboard', 'match'=>'reports.dashboard', 'icon'=>'bar-chart-3',     'label'=>'সেলস ড্যাশবোর্ড'],
                         ['route'=>'reports.mushak',    'match'=>'reports.mushak',    'icon'=>'file-badge-2',    'label'=>'NBR মূসক ৬.৩ চালান'],
-                        ['route'=>'saas.dashboard',    'match'=>'saas.*',            'icon'=>'building-2',      'label'=>'SaaS সুপার-অ্যাডমিন'],
-                        ['route'=>'settings.index',    'match'=>'settings.*',        'icon'=>'settings',        'label'=>'সিস্টেম সেটিংস'],
                     ];
+
+                    if (auth()->user()?->isSuperAdmin()) {
+                        $navLinks[] = ['route'=>'saas.dashboard', 'match'=>'saas.*', 'icon'=>'building-2', 'label'=>'SaaS সুপার-অ্যাডমিন'];
+                    }
+
+                    $navLinks[] = ['route'=>'settings.index', 'match'=>'settings.*', 'icon'=>'settings', 'label'=>'সিস্টেম সেটিংস'];
                 @endphp
 
                 @foreach($navLinks as $link)
@@ -280,8 +283,22 @@
     <!-- ═══════════════════════════════════════════════════ -->
     <!--  MAIN CONTENT WRAPPER                              -->
     <!-- ═══════════════════════════════════════════════════ -->
-    <main class="flex-1 h-[calc(100vh-54px)] md:h-screen overflow-y-auto overflow-x-hidden" style="background:#F5F0EC;">
-        @yield('content')
+    <main class="flex-1 h-[calc(100vh-54px)] md:h-screen flex flex-col overflow-hidden" style="background:#F5F0EC;">
+        @if(session()->has('impersonating_superadmin_id'))
+            <div class="bg-amber-500 text-black px-4 py-2 text-xs font-black flex items-center justify-between shadow-md shrink-0 z-50 border-b border-amber-600">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="eye" class="w-4 h-4 text-black shrink-0"></i>
+                    <span class="truncate">⚠️ আপনি বর্তমানে <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->role }}) হিসেবে কাজ করছেন। রেস্টুরেন্ট: {{ $currentBranch->restaurant_name ?? '' }}</span>
+                </div>
+                <a href="{{ route('impersonate.leave') }}" class="bg-black text-white hover:bg-neutral-900 px-3 py-1 rounded-lg text-xs font-bold transition-all shrink-0 shadow-xs flex items-center gap-1">
+                    <span>সুপার-অ্যাডমিনে ফেরত যান</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+        @endif
+        <div class="flex-1 overflow-y-auto overflow-x-hidden">
+            @yield('content')
+        </div>
     </main>
 
     <!-- ═══════════════════════════════════════════════════ -->
