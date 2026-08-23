@@ -750,6 +750,85 @@
         </div>
     </div>
 
+    <!-- ════ MODAL 4B: KITCHEN KOT TOKEN RECEIPT ════ -->
+    <div x-show="openKotModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop">
+        <div @click.outside="openKotModal = false"
+             class="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border"
+             style="border-color:#E8DDD9;">
+            <div class="p-3 border-b flex items-center justify-between shrink-0" style="background:#FBF8F5; border-color:#E0D4CF;">
+                <div class="flex items-center gap-1.5">
+                    <i data-lucide="chef-hat" class="w-4 h-4 text-emerald-700"></i>
+                    <span class="text-xs font-bold" style="color:#1A0A0C;">কিচেন KOT টোকেন স্লিপ</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button @click="printKotReceipt()" class="px-3 py-1.5 rounded-lg text-white font-bold text-xs flex items-center gap-1 shadow-xs" style="background:#2E7D52;">
+                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> প্রিন্ট KOT
+                    </button>
+                    <button @click="openKotModal = false" style="color:#9B7A7E;"><i data-lucide="x" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+            <div id="thermalKotReceipt" class="p-4 overflow-y-auto font-mono text-[11px] leading-tight space-y-2 select-text bg-white">
+                <div class="text-center pb-2 border-b-2 border-dashed border-gray-800">
+                    <p class="text-xs font-black uppercase">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-gray-700">কিচেন অর্ডার টোকেন (KOT SLIP)</p>
+                </div>
+
+                <!-- Big Bold Token & Table Box -->
+                <div class="text-center py-2.5 px-2 bg-gray-50 border-2 border-dashed border-gray-800 rounded-xl my-1">
+                    <p class="text-[10px] font-extrabold uppercase text-gray-600">টোকেন নম্বর / TOKEN NO</p>
+                    <p class="text-3xl font-black pos-nums text-black my-0.5">#<span x-text="kotPrintData?.token_number"></span></p>
+                    <p class="text-xs font-black mt-1 text-black"
+                       x-text="kotPrintData?.table_name ? ('টেবিল: ' + kotPrintData.table_name) : (kotPrintData?.order_type === 'takeaway' ? 'পার্সেল (TAKEAWAY)' : 'ডেলিভারি (DELIVERY)')"></p>
+                </div>
+
+                <!-- Order Meta -->
+                <div class="pb-2 border-b border-dashed border-gray-800 text-[10px] space-y-0.5">
+                    <div class="flex justify-between"><span>KOT / অর্ডার নং:</span><span class="font-bold pos-nums" x-text="kotPrintData?.order_number"></span></div>
+                    <div class="flex justify-between"><span>তারিখ ও সময়:</span><span class="font-bold pos-nums" x-text="kotPrintData?.time"></span></div>
+                    <div class="flex justify-between"><span>ওয়েটার / সার্ভার:</span><span class="font-bold" x-text="kotPrintData?.waiter_name || '{{ $currentUser->name ?? "ক্যাশিয়ার" }}'"></span></div>
+                    <template x-if="kotPrintData?.customer_name || kotPrintData?.customer_phone">
+                        <div class="flex justify-between"><span>কাস্টমার:</span><span class="font-bold" x-text="(kotPrintData?.customer_name || '') + ' ' + (kotPrintData?.customer_phone || '')"></span></div>
+                    </template>
+                </div>
+
+                <!-- Food Items List -->
+                <div class="pb-2 border-b-2 border-dashed border-gray-800">
+                    <div class="flex justify-between font-black text-xs border-b border-gray-800 pb-1 mb-1">
+                        <span class="w-2/3">খাবার আইটেম (Item)</span>
+                        <span class="w-1/3 text-right">পরিমাণ (Qty)</span>
+                    </div>
+                    <template x-for="(item, idx) in kotPrintData?.items" :key="idx">
+                        <div class="py-1 border-b border-dotted border-gray-200">
+                            <div class="flex justify-between items-start text-xs font-black">
+                                <span class="w-2/3 leading-snug text-black" x-text="item.item_name || item.name"></span>
+                                <span class="w-1/3 text-right font-black text-sm pos-nums text-black" x-text="item.quantity + 'x'"></span>
+                            </div>
+                            <template x-if="item.variant_name">
+                                <p class="text-[10px] text-gray-700 italic">ভ্যারিয়েন্ট: <span x-text="item.variant_name"></span></p>
+                            </template>
+                            <template x-if="item.selected_modifiers && item.selected_modifiers.length > 0">
+                                <p class="text-[10px] text-gray-700 italic">এড-অন: <span x-text="item.selected_modifiers.map(m=>m.name).join(', ')"></span></p>
+                            </template>
+                            <template x-if="item.notes">
+                                <p class="text-[10px] font-bold text-red-700 bg-red-50 p-0.5 rounded mt-0.5">⚠️ নোট: <span x-text="item.notes"></span></p>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Total Count -->
+                <div class="flex justify-between text-xs font-black pt-1">
+                    <span>মোট আইটেম সংখ্যা:</span>
+                    <span class="pos-nums" x-text="kotPrintData?.total_quantity + ' টি'"></span>
+                </div>
+
+                <div class="text-center text-[9px] font-bold pt-2 text-gray-600 border-t border-dashed border-gray-800">
+                    *** কিচেন কপি (Kitchen Copy) ***
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ════ MODAL 5: AI VOICE ORDER ════ -->
     <div x-show="openAiModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop">
         <div @click.outside="openAiModal = false"
@@ -914,9 +993,9 @@ function posTerminal() {
         splitCount: 2,
         splitRows: [],
         openModifierModal: false, openTableModal: false, openPaymentModal: false,
-        openMushakModal: false, openAiModal: false, openSplitModal: false,
+        openMushakModal: false, openKotModal: false, openAiModal: false, openSplitModal: false,
         activeItem: null, selectedVariant: null, selectedModifiers: [], itemCustomNote: '',
-        paymentMethod: 'cash', paidAmount: 0, trxId: '', mushakData: null,
+        paymentMethod: 'cash', paidAmount: 0, trxId: '', mushakData: null, kotPrintData: null,
         aiPromptText: '', isRecording: false, isAiLoading: false, recognition: null,
         tableSyncChannel: null,
         currentLoadedOrderId: null,
@@ -1043,7 +1122,7 @@ function posTerminal() {
                 }
             } catch(e) {}
         },
-        closeAllModals() { this.openModifierModal=this.openTableModal=this.openPaymentModal=this.openMushakModal=this.openAiModal=this.openSplitModal=false; },
+        closeAllModals() { this.openModifierModal=this.openTableModal=this.openPaymentModal=this.openMushakModal=this.openKotModal=this.openAiModal=this.openSplitModal=false; },
         get filteredItems() {
             return this.allItems.filter(item=>{
                 const mc = this.selectedCategory===null||item.category_id===this.selectedCategory;
@@ -1204,10 +1283,29 @@ function posTerminal() {
                 const d=await res.json();
                 if(d.success){
                     window.playBeep(1200,180);
-                    alert(this.isOccupiedTable ? 'নতুন আইটেম কিচেনে KOT পাঠানো হয়েছে!' : 'KOT কিচেনে পাঠানো হয়েছে! অর্ডার নং: '+d.order.order_number);
                     
                     this.currentLoadedOrderId = d.order.id;
                     this.tokenNumber = d.order.token_number || d.order.order_number;
+
+                    // Prepare KOT Print Data for Kitchen Token Slip
+                    this.kotPrintData = {
+                        token_number: d.order.token_number || this.tokenNumber,
+                        order_number: d.order.order_number,
+                        order_type: d.order.order_type,
+                        table_name: this.selectedTable?.name || d.order.table?.name || null,
+                        waiter_name: d.order.waiter?.name || null,
+                        customer_name: d.order.customer?.name || this.customerData?.name || null,
+                        customer_phone: d.order.customer_phone || this.customerPhone || null,
+                        time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + ', ' + new Date().toLocaleDateString('en-GB'),
+                        items: this.cart.map(c => ({
+                            item_name: c.name,
+                            variant_name: c.variant_name,
+                            quantity: c.quantity,
+                            selected_modifiers: c.selected_modifiers || [],
+                            notes: c.notes || ''
+                        })),
+                        total_quantity: this.cart.reduce((sum, i) => sum + i.quantity, 0),
+                    };
 
                     // Instant table status update & broadcast
                     const tableId = targetTableId || d.order?.table_id;
@@ -1220,9 +1318,25 @@ function posTerminal() {
                     }
 
                     this.cart.forEach(c => c.is_existing = true);
-                    this.mobileCartOpen=false;
+                    this.mobileCartOpen = false;
+                    this.openKotModal = true;
+
+                    this.$nextTick(() => {
+                        this.printKotReceipt();
+                    });
                 }
             } catch(e){ alert('ত্রুটি: '+e.message); } finally { this.isProcessing=false; }
+        },
+        printKotReceipt() {
+            const c = document.getElementById('thermalKotReceipt').innerHTML;
+            const w = window.open('', '_blank', 'width=350,height=600');
+            w.document.write(`<html><head><title>Kitchen KOT #${this.kotPrintData?.token_number || ''}</title><style>body{font-family:monospace;font-size:12px;margin:0;padding:8px;width:58mm;}.text-center{text-align:center;}.text-right{text-align:right;}.flex{display:flex;}.justify-between{justify-content:space-between;}.items-start{align-items:flex-start;}.font-bold{font-weight:bold;}.font-black{font-weight:900;}.text-sm{font-size:13px;}.text-xs{font-size:11px;}.text-2xl{font-size:24px;}.text-3xl{font-size:28px;}.border-b{border-bottom:1px dashed #000;padding-bottom:5px;margin-bottom:5px;}.border-b-2{border-bottom:2px dashed #000;padding-bottom:5px;margin-bottom:5px;}.border-t{border-top:1px dashed #000;padding-top:5px;margin-top:5px;}.py-1{padding-top:3px;padding-bottom:3px;}.my-1{margin-top:4px;margin-bottom:4px;}</style></head><body>${c}</body></html>`);
+            w.document.close();
+            w.focus();
+            setTimeout(() => {
+                w.print();
+                w.close();
+            }, 250);
         },
         async processPaymentAndPrint() {
             this.isProcessing=true;

@@ -416,10 +416,10 @@ class PosController extends Controller
             return $order;
         });
 
-        $order->load(['items.modifiers', 'table', 'payments']);
+        $order->load(['items.modifiers', 'table', 'payments', 'customer', 'waiter']);
         $mushakData = $this->mushakService->formatMushak63Invoice($order);
         $freshTables = RestaurantTable::where('is_active', true)
-            ->with(['currentOrder.items.modifiers', 'currentOrder.customer'])
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer', 'activeOrders.items.modifiers', 'activeOrders.customer'])
             ->orderBy('sort_order')
             ->get();
 

@@ -124,7 +124,7 @@
                 @php
                     $navLinks = [
                         ['route'=>'pos.index',         'match'=>'pos.*',             'icon'=>'shopping-cart',   'label'=>'POS টার্মিনাল'],
-                        ['route'=>'kds.index',         'match'=>'kds.*',             'icon'=>'flame',           'label'=>'KDS কিচেন স্ক্রিন'],
+                        // ['route'=>'kds.index',         'match'=>'kds.*',             'icon'=>'flame',           'label'=>'KDS কিচেন স্ক্রিন'],
                         ['route'=>'waiter.index',      'match'=>'waiter.*',          'icon'=>'chef-hat',        'label'=>'ক্যাপ্টেন ও ওয়েটার'],
                         ['route'=>'menu.index',        'match'=>'menu.*',            'icon'=>'utensils',        'label'=>'মেনু ও খাবার আইটেম'],
                         ['route'=>'tables.index',      'match'=>'tables.*',          'icon'=>'layout-grid',     'label'=>'টেবিল ও ফ্লোরপ্ল্যান'],
