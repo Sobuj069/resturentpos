@@ -488,9 +488,10 @@
             <div class="grid grid-cols-2 gap-2">
                 <button @click="handleKotButtonClick()" :disabled="cart.length === 0"
                         class="btn-outline py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs"
-                        :style="cart.length > 0 ? 'background:#FFFBEB; color:#92400E; border-color:#FDE68A; font-weight:800; cursor:pointer;' : 'opacity:0.5;'">
-                    <i data-lucide="printer" class="w-4 h-4" style="color:#B8922A;"></i>
-                    <span x-text="(isOccupiedTable && newItemsCount > 0) ? '+ নতুন (' + newItemsCount + 'টি) KOT (F8)' : '🖨️ কিচেন KOT (F8)'"></span>
+                        :style="cart.length === 0 ? 'opacity:0.5;' : (isAllKotPrinted ? 'background:#ECFDF5; color:#065F46; border-color:#A7F3D0; font-weight:700;' : 'background:#FFFBEB; color:#92400E; border-color:#FDE68A; font-weight:800;')">
+                    <i :data-lucide="isAllKotPrinted ? 'check-circle' : 'printer'" class="w-4 h-4"
+                       :style="isAllKotPrinted ? 'color:#059669;' : 'color:#B8922A;'"></i>
+                    <span x-text="isAllKotPrinted ? '✓ KOT প্রিন্ট সম্পন্ন (F8)' : ((isOccupiedTable && newItemsCount > 0) ? '+ নতুন (' + newItemsCount + 'টি) KOT (F8)' : '🖨️ কিচেন KOT (F8)')"></span>
                 </button>
                 <button @click="openSplitBillModal()" :disabled="cart.length === 0"
                         class="py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 disabled:opacity-50 transition-all border"
@@ -1262,8 +1263,12 @@ function posTerminal() {
             this.addToCart(this.activeItem,this.selectedVariant,mods,this.itemCustomNote);
             this.openModifierModal=false;
         },
+        kotPrinted: false,
         get isOccupiedTable() { return this.selectedTable && this.selectedTable.status === 'occupied' && this.selectedTable.current_order; },
         get newItemsCount() { return this.cart.filter(i => !i.is_existing).length; },
+        get isAllKotPrinted() {
+            return this.cart.length > 0 && this.newItemsCount === 0 && (this.isOccupiedTable || this.kotPrinted);
+        },
         prepareKotPrintData() {
             const currentOrder = this.selectedTable?.current_order || (this.selectedTable?.active_orders ? this.selectedTable.active_orders[0] : null);
             this.kotPrintData = {
@@ -1295,6 +1300,7 @@ function posTerminal() {
                 // If order was already saved (e.g. by waiter), directly open KOT & print!
                 this.prepareKotPrintData();
                 this.openKotModal = true;
+                this.kotPrinted = true;
                 this.$nextTick(() => {
                     this.printKotReceipt();
                 });
@@ -1675,6 +1681,7 @@ function posTerminal() {
         },
         resetOrder(clearTable=true) {
             this.currentLoadedOrderId = null;
+            this.kotPrinted = false;
             this.cart = [];
             this.discountValue = 0;
             this.paidAmount = 0;
