@@ -92,6 +92,35 @@
                 <label class="section-heading">রেস্টুরেন্টের সম্পূর্ণ ঠিকানা (চালানে প্রিন্ট হবে)</label>
                 <textarea x-model="branchForm.address" rows="2" class="pos-input w-full p-2.5 text-xs rounded-xl resize-none"></textarea>
             </div>
+
+            <!-- Logo Upload & Live Preview -->
+            <div class="p-3.5 rounded-2xl border bg-[#FBF8F5]" style="border-color:#E8DDD9;">
+                <label class="section-heading mb-2">রেস্টুরেন্ট লোগো (Restaurant Logo)</label>
+                <div class="flex items-center gap-3.5">
+                    <!-- Logo Preview -->
+                    <div class="relative rounded-2xl overflow-hidden bg-white border border-[#E8DDD9] flex items-center justify-center shrink-0 shadow-2xs"
+                         style="width: 72px; height: 72px; min-width: 72px; min-height: 72px; background: #2D050B;">
+                        <img :src="logoPreview || branchForm.logo || '/images/logo.svg'"
+                             alt="Logo Preview"
+                             style="width: 72px; height: 72px; object-fit: contain; padding: 4px;"
+                             class="block">
+                    </div>
+
+                    <!-- Upload & URL inputs -->
+                    <div class="flex-1 space-y-2">
+                        <div>
+                            <label class="text-[10px] font-bold block mb-1" style="color:#5C3840;">কম্পিউটার/মোবাইল থেকে লোগো আপলোড</label>
+                            <input type="file" @change="handleLogoUpload($event)" accept="image/*"
+                                   class="block w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-xl file:border-0 file:text-[11px] file:font-semibold file:bg-[#8B1A2C]/10 file:text-[#8B1A2C] hover:file:bg-[#8B1A2C]/20 cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold block mb-1" style="color:#5C3840;">অথবা লোগোর লিংক (Logo URL)</label>
+                            <input type="text" x-model="branchForm.logo" @input="logoPreview = branchForm.logo" placeholder="/images/logo.svg"
+                                   class="pos-input w-full px-3 py-1.5 text-xs rounded-xl">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- NBR Mushak 6.3 & Tax Settings -->
@@ -357,17 +386,39 @@ function settingsManager() {
         openUserModal: false,
 
         branchForm: @json($branch),
+        logoFile: null,
+        logoPreview: null,
         userForm: { id: null, name: '', email: '', role: 'cashier', pin_code: '1234', phone: '' },
 
         init() { this.$nextTick(() => window.initLucideIcons()); },
 
+        handleLogoUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                this.logoFile = file;
+                const reader = new FileReader();
+                reader.onload = (ev) => { this.logoPreview = ev.target.result; };
+                reader.readAsDataURL(file);
+            }
+        },
+
         async saveBranchSettings() {
             this.isSaving = true;
             try {
+                const formData = new FormData();
+                for (const key in this.branchForm) {
+                    if (this.branchForm[key] !== null && this.branchForm[key] !== undefined) {
+                        formData.append(key, this.branchForm[key]);
+                    }
+                }
+                if (this.logoFile) {
+                    formData.append('logo_file', this.logoFile);
+                }
+
                 const res = await fetch('{{ route('settings.branch.update') }}', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                    body: JSON.stringify(this.branchForm)
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    body: formData
                 });
                 const data = await res.json();
                 if (data.success) { alert(data.message); location.reload(); }

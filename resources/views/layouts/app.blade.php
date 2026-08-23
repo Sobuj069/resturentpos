@@ -28,12 +28,12 @@
             </button>
 
             <a href="{{ route('pos.index') }}" class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-lg flex items-center justify-center"
-                     style="background: rgba(212,172,80,0.25); border: 1px solid rgba(212,172,80,0.5);">
-                    <i data-lucide="utensils-crossed" class="w-3.5 h-3.5 stroke-[2.5]" style="color:#D4AC50;"></i>
+                <div class="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-xs"
+                     style="background: rgba(255,255,255,0.08); border: 1px solid rgba(212,172,80,0.5);">
+                    <img src="{{ $currentBranch->logo ?? '/images/logo.svg' }}" alt="Logo" class="w-full h-full object-contain p-0.5">
                 </div>
                 <div class="leading-tight">
-                    <p class="text-xs font-extrabold text-white truncate max-w-[130px]">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
+                    <p class="text-xs font-black text-white truncate max-w-[130px]">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
                 </div>
             </a>
         </div>
@@ -77,12 +77,12 @@
             <!-- Drawer Header -->
             <div class="h-[60px] px-4 flex items-center justify-between border-b" style="border-color: rgba(255,255,255,0.1);">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-xl flex items-center justify-center"
-                         style="background: rgba(212,172,80,0.25); border: 1.5px solid rgba(212,172,80,0.5);">
-                        <i data-lucide="utensils-crossed" class="w-4 h-4 stroke-[2.5]" style="color:#D4AC50;"></i>
+                    <div class="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center shrink-0 shadow-xs"
+                         style="background: rgba(255,255,255,0.08); border: 1.5px solid rgba(212,172,80,0.5);">
+                        <img src="{{ $currentBranch->logo ?? '/images/logo.svg' }}" alt="Logo" class="w-full h-full object-contain p-0.5">
                     </div>
                     <div class="leading-tight">
-                        <p class="text-sm font-extrabold text-white truncate">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
+                        <p class="text-sm font-black text-white truncate">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
                         <p class="text-[10px] font-bold uppercase" style="color:#D4AC50;">{{ $currentBranch->name ?? "Main Branch" }}</p>
                     </div>
                 </div>
@@ -178,12 +178,12 @@
         <div class="flex-1 overflow-y-auto">
             <div class="sidebar-brand h-[60px] px-4 flex items-center justify-between sticky top-0 z-10">
                 <a href="{{ route('pos.index') }}" class="flex items-center gap-3 overflow-hidden min-w-0">
-                    <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-                         style="background: rgba(212,172,80,0.25); border: 1.5px solid rgba(212,172,80,0.5);">
-                        <i data-lucide="utensils-crossed" class="w-[18px] h-[18px] stroke-[2.5]" style="color:#D4AC50;"></i>
+                    <div class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shrink-0 shadow-xs"
+                         style="background: rgba(255,255,255,0.08); border: 1.5px solid rgba(212,172,80,0.5);">
+                        <img src="{{ $currentBranch->logo ?? '/images/logo.svg' }}" alt="Logo" class="w-full h-full object-contain p-0.5">
                     </div>
                     <div x-show="!collapsed" class="min-w-0 leading-tight">
-                        <p class="text-sm font-extrabold tracking-tight text-white truncate">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
+                        <p class="text-sm font-black tracking-tight text-white truncate">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
                         <p class="text-[10px] font-bold uppercase tracking-widest truncate" style="color:#D4AC50;">{{ $currentBranch->name ?? "Main Branch" }}</p>
                     </div>
                 </a>

@@ -60,7 +60,20 @@ class SettingController extends Controller
             'currency_symbol' => 'required|string|max:10',
             'bkash_number' => 'nullable|string|max:30',
             'nagad_number' => 'nullable|string|max:30',
+            'logo' => 'nullable|string',
+            'logo_file' => 'nullable|image|max:3072',
         ]);
+
+        if ($request->hasFile('logo_file')) {
+            $file = $request->file('logo_file');
+            $uploadDir = public_path('uploads/logos');
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $filename = 'logo_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($uploadDir, $filename);
+            $validated['logo'] = '/uploads/logos/' . $filename;
+        }
 
         $branch = Branch::first() ?? new Branch();
         $branch->fill($validated);
@@ -68,7 +81,7 @@ class SettingController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'রেস্টুরেন্ট ও ব্রাঞ্চের সেটিংস সফলভাবে আপডেট হয়েছে!',
+            'message' => 'রেস্টুরেন্ট ও ব্রাঞ্চের সেটিংস এবং লোগো সফলভাবে আপডেট হয়েছে!',
             'branch' => $branch,
         ]);
     }

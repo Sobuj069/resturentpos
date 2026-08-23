@@ -37,4 +37,12 @@ class Branch extends Model
     {
         return $this->hasMany(Ingredient::class);
     }
+
+    public function getLogoAttribute($value): string
+    {
+        if (!empty($value)) {
+            return $value;
+        }
+        return '/images/logo.svg';
+    }
 }
