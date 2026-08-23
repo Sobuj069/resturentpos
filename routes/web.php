@@ -42,6 +42,7 @@ Route::get('/', function () {
 Route::prefix('pos')->name('pos.')->group(function () {
     Route::get('/', [PosController::class, 'index'])->name('index');
     Route::get('/catalog', [PosController::class, 'getCatalog'])->name('catalog');
+    Route::get('/tables-live', [PosController::class, 'getLiveTables'])->name('tablesLive');
     Route::post('/order', [PosController::class, 'storeOrder'])->name('order.store');
     Route::post('/order/{order}/settle', [PosController::class, 'settlePayment'])->name('order.settle');
     Route::post('/shift/open', [PosController::class, 'openShift'])->name('shift.open');
@@ -63,6 +64,7 @@ Route::prefix('menu')->name('menu.')->group(function () {
 // 3. Tables & Floor Layout Management + QR Cards
 Route::prefix('tables')->name('tables.')->group(function () {
     Route::get('/', [TableController::class, 'index'])->name('index');
+    Route::get('/live-status', [TableController::class, 'getLiveStatus'])->name('liveStatus');
     Route::post('/', [TableController::class, 'storeTable'])->name('store');
     Route::post('/{table}/status', [TableController::class, 'updateStatus'])->name('status');
     Route::delete('/{table}', [TableController::class, 'deleteTable'])->name('delete');

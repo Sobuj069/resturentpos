@@ -872,10 +872,44 @@ function posTerminal() {
         activeItem: null, selectedVariant: null, selectedModifiers: [], itemCustomNote: '',
         paymentMethod: 'cash', paidAmount: 0, trxId: '', mushakData: null,
         aiPromptText: '', isRecording: false, isAiLoading: false, recognition: null,
+        tableSyncChannel: null,
 
         init() {
+            // Setup Cross-Window Real-Time BroadcastChannel for Tables & Orders
+            if ('BroadcastChannel' in window) {
+                this.tableSyncChannel = new BroadcastChannel('pos_table_sync_channel');
+                this.tableSyncChannel.onmessage = (ev) => {
+                    if (ev.data && ev.data.tables) {
+                        this.applyLiveTables(ev.data.tables);
+                    } else if (ev.data && ev.data.type === 'TABLE_UPDATED') {
+                        this.updateSingleTableLocally(ev.data.table_id, ev.data.status, ev.data.order);
+                    }
+                };
+            }
+
+            // Cross-window storage fallback for offline and multi-tab sync
+            window.addEventListener('storage', (ev) => {
+                if (ev.key === 'pos_table_sync_event' && ev.newValue) {
+                    try {
+                        const payload = JSON.parse(ev.newValue);
+                        if (payload.tables) {
+                            this.applyLiveTables(payload.tables);
+                        } else if (payload.table_id) {
+                            this.updateSingleTableLocally(payload.table_id, payload.status, payload.order);
+                        }
+                    } catch(e) {}
+                }
+            });
+
+            // Start silent live background heartbeat polling (every 3 seconds)
+            setInterval(() => {
+                if (!document.hidden && !this.isProcessing) {
+                    this.pollLiveTableStatuses();
+                }
+            }, 3000);
+
             window.addEventListener('keydown', (e) => {
-                if (e.key==='F2'){ e.preventDefault(); this.resetOrder(); }
+                if (e.key==='F2'){ e.preventDefault(); this.resetOrder(true); }
                 if (e.key==='F3'){ e.preventDefault(); this.openTableModal=true; }
                 if (e.key==='F4'){ e.preventDefault(); if(this.cart.length>0) this.openPaymentModal=true; }
                 if (e.key==='F8'){ e.preventDefault(); if(this.cart.length>0) this.sendKOT(); }
@@ -903,6 +937,64 @@ function posTerminal() {
             }
 
             this.$nextTick(()=>window.initLucideIcons());
+        },
+
+        applyLiveTables(newTables) {
+            if (!Array.isArray(newTables)) return;
+            this.tables = newTables;
+            if (this.selectedTable) {
+                const updated = this.tables.find(t => t.id === this.selectedTable.id);
+                if (updated) {
+                    this.selectedTable = updated;
+                }
+            }
+            this.$nextTick(() => window.initLucideIcons());
+        },
+
+        updateSingleTableLocally(tableId, status, currentOrder = null) {
+            if (!tableId) return;
+            const t = this.tables.find(x => x.id == tableId);
+            if (t) {
+                t.status = status;
+                t.current_order = currentOrder;
+                t.current_order_id = currentOrder ? currentOrder.id : null;
+            }
+            if (this.selectedTable && this.selectedTable.id == tableId) {
+                this.selectedTable.status = status;
+                this.selectedTable.current_order = currentOrder;
+                this.selectedTable.current_order_id = currentOrder ? currentOrder.id : null;
+                if (status === 'available') {
+                    this.selectedTable = null;
+                }
+            }
+            this.$nextTick(() => window.initLucideIcons());
+        },
+
+        broadcastTableChange(tables, singleTableId = null, singleStatus = null, singleOrder = null) {
+            const payload = {
+                type: 'TABLE_UPDATED',
+                tables: tables || this.tables,
+                table_id: singleTableId,
+                status: singleStatus,
+                order: singleOrder,
+                timestamp: Date.now()
+            };
+            if (this.tableSyncChannel) {
+                try { this.tableSyncChannel.postMessage(payload); } catch(e) {}
+            }
+            try {
+                localStorage.setItem('pos_table_sync_event', JSON.stringify(payload));
+            } catch(e) {}
+        },
+
+        async pollLiveTableStatuses() {
+            try {
+                const res = await fetch('{{ route('pos.tablesLive') }}');
+                const data = await res.json();
+                if (data.success && Array.isArray(data.tables)) {
+                    this.applyLiveTables(data.tables);
+                }
+            } catch(e) {}
         },
         closeAllModals() { this.openModifierModal=this.openTableModal=this.openPaymentModal=this.openMushakModal=this.openAiModal=this.openSplitModal=false; },
         get filteredItems() {
@@ -1025,24 +1117,55 @@ function posTerminal() {
         },
         async sendKOT() {
             if(!this.cart.length) return; this.isProcessing=true;
+            const targetTableId = this.selectedTable?.id || null;
             try {
-                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.selectedTable?.current_order?.id||null,order_type:this.orderType,table_id:this.selectedTable?.id||null,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'unpaid',waiter_id:this.selectedWaiterId||null})});
+                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.selectedTable?.current_order?.id||null,order_type:this.orderType,table_id:targetTableId,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'unpaid',waiter_id:this.selectedWaiterId||null})});
                 const d=await res.json();
                 if(d.success){
                     window.playBeep(1200,180);
                     alert(this.isOccupiedTable ? 'নতুন আইটেম কিচেনে KOT পাঠানো হয়েছে!' : 'KOT কিচেনে পাঠানো হয়েছে! অর্ডার নং: '+d.order.order_number);
+                    
+                    // Instant table status update & broadcast
+                    const tableId = targetTableId || d.order?.table_id;
+                    if (tableId) {
+                        this.updateSingleTableLocally(tableId, 'occupied', d.order);
+                        this.broadcastTableChange(d.tables, tableId, 'occupied', d.order);
+                    }
+                    if (d.tables) {
+                        this.applyLiveTables(d.tables);
+                    }
+
                     this.cart.forEach(c => c.is_existing = true);
-                    if (!this.isOccupiedTable) { this.resetOrder(); }
+                    if (!this.isOccupiedTable) { this.resetOrder(true); }
                     this.mobileCartOpen=false;
                 }
             } catch(e){ alert('ত্রুটি: '+e.message); } finally { this.isProcessing=false; }
         },
         async processPaymentAndPrint() {
             this.isProcessing=true;
+            const targetTableId = this.selectedTable?.id || null;
             try {
-                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.selectedTable?.current_order?.id||null,order_type:this.orderType,table_id:this.selectedTable?.id||null,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'paid',payment_method:this.paymentMethod,paid_amount:this.paidAmount||this.grandTotal,waiter_id:this.selectedWaiterId||null})});
+                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.selectedTable?.current_order?.id||null,order_type:this.orderType,table_id:targetTableId,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'paid',payment_method:this.paymentMethod,paid_amount:this.paidAmount||this.grandTotal,waiter_id:this.selectedWaiterId||null})});
                 const d=await res.json();
-                if(d.success){ this.mushakData=d.mushak; this.openPaymentModal=false; this.mobileCartOpen=false; this.openMushakModal=true; this.$nextTick(()=>{ const q=document.getElementById('qrcodeCanvas'); if(q){q.innerHTML=''; new QRCode(q,{text:d.mushak.qr_string,width:85,height:85,correctLevel:QRCode.CorrectLevel.M});} }); this.resetOrder(false); }
+                if(d.success){
+                    this.mushakData=d.mushak;
+                    this.openPaymentModal=false;
+                    this.mobileCartOpen=false;
+                    this.openMushakModal=true;
+
+                    // Instant table status freed & broadcast
+                    const tableId = targetTableId || d.order?.table_id;
+                    if (tableId) {
+                        this.updateSingleTableLocally(tableId, 'available', null);
+                        this.broadcastTableChange(d.tables, tableId, 'available', null);
+                    }
+                    if (d.tables) {
+                        this.applyLiveTables(d.tables);
+                    }
+
+                    this.$nextTick(()=>{ const q=document.getElementById('qrcodeCanvas'); if(q){q.innerHTML=''; new QRCode(q,{text:d.mushak.qr_string,width:85,height:85,correctLevel:QRCode.CorrectLevel.M});} });
+                    this.resetOrder(true);
+                }
             } catch(e){ alert('পেমেন্ট ফেইল: '+e.message); } finally { this.isProcessing=false; }
         },
         printReceipt() {
@@ -1101,6 +1224,7 @@ function posTerminal() {
                 return;
             }
             this.isProcessing = true;
+            const targetTableId = this.selectedTable?.id || null;
             try {
                 const res = await fetch('{{ route('pos.order.store') }}', {
                     method: 'POST',
@@ -1108,7 +1232,7 @@ function posTerminal() {
                     body: JSON.stringify({
                         order_id: this.selectedTable?.current_order?.id || null,
                         order_type: this.orderType,
-                        table_id: this.selectedTable?.id || null,
+                        table_id: targetTableId,
                         token_number: this.tokenNumber.toString(),
                         customer_phone: this.customerPhone || null,
                         customer_name: this.customerData?.name || null,
@@ -1142,6 +1266,17 @@ function posTerminal() {
                     this.openSplitModal = false;
                     this.mobileCartOpen = false;
                     this.openMushakModal = true;
+
+                    // Instant table status freed & broadcast
+                    const tableId = targetTableId || d.order?.table_id;
+                    if (tableId) {
+                        this.updateSingleTableLocally(tableId, 'available', null);
+                        this.broadcastTableChange(d.tables, tableId, 'available', null);
+                    }
+                    if (d.tables) {
+                        this.applyLiveTables(d.tables);
+                    }
+
                     this.$nextTick(() => {
                         const q = document.getElementById('qrcodeCanvas');
                         if (q) {
@@ -1149,7 +1284,7 @@ function posTerminal() {
                             new QRCode(q, { text: d.mushak.qr_string, width: 85, height: 85, correctLevel: QRCode.CorrectLevel.M });
                         }
                     });
-                    this.resetOrder(false);
+                    this.resetOrder(true);
                 }
             } catch (e) {
                 alert('স্প্লিট পেমেন্ট ফেইল: ' + e.message);

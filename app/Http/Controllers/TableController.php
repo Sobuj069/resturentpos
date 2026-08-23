@@ -69,6 +69,23 @@ class TableController extends Controller
     }
 
     /**
+     * Get live table statuses for floor management & live floor stats
+     */
+    public function getLiveStatus(Request $request): JsonResponse
+    {
+        $tables = RestaurantTable::where('is_active', true)
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer'])
+            ->orderBy('sort_order')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'tables' => $tables,
+            'timestamp' => now()->timestamp,
+        ]);
+    }
+
+    /**
      * Update Table Live Status
      */
     public function updateStatus(Request $request, RestaurantTable $table): JsonResponse
@@ -79,10 +96,16 @@ class TableController extends Controller
 
         $table->update(['status' => $validated['status']]);
 
+        $freshTables = RestaurantTable::where('is_active', true)
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer'])
+            ->orderBy('sort_order')
+            ->get();
+
         return response()->json([
             'success' => true,
             'message' => "টেবিল {$table->name} এর স্ট্যাটাস পরিবর্তন হয়েছে!",
             'table' => $table,
+            'tables' => $freshTables,
         ]);
     }
 

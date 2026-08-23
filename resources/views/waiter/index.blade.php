@@ -159,7 +159,99 @@ function waiterApp() {
         transferSourceId: '',
         transferTargetId: '',
 
-        init() { this.$nextTick(() => window.initLucideIcons()); },
+        tableSyncChannel: null,
+
+        init() {
+            // Real-Time Cross-Tab / Cross-Window Sync
+            if ('BroadcastChannel' in window) {
+                this.tableSyncChannel = new BroadcastChannel('pos_table_sync_channel');
+                this.tableSyncChannel.onmessage = (ev) => {
+                    if (ev.data && ev.data.tables) {
+                        this.applyLiveTables(ev.data.tables);
+                    } else if (ev.data && ev.data.type === 'TABLE_UPDATED') {
+                        this.updateSingleTableLocally(ev.data.table_id, ev.data.status, ev.data.order);
+                    }
+                };
+            }
+
+            // Cross-window storage sync fallback
+            window.addEventListener('storage', (ev) => {
+                if (ev.key === 'pos_table_sync_event' && ev.newValue) {
+                    try {
+                        const payload = JSON.parse(ev.newValue);
+                        if (payload.tables) {
+                            this.applyLiveTables(payload.tables);
+                        } else if (payload.table_id) {
+                            this.updateSingleTableLocally(payload.table_id, payload.status, payload.order);
+                        }
+                    } catch(e) {}
+                }
+            });
+
+            // Live Background Polling Heartbeat (every 3 seconds)
+            setInterval(() => {
+                if (!document.hidden && !this.isSending) {
+                    this.pollLiveTableStatuses();
+                }
+            }, 3000);
+
+            this.$nextTick(() => window.initLucideIcons());
+        },
+
+        applyLiveTables(newTables) {
+            if (!Array.isArray(newTables)) return;
+            this.tables = newTables;
+            if (this.activeTable) {
+                const updated = this.tables.find(t => t.id === this.activeTable.id);
+                if (updated) {
+                    this.activeTable = updated;
+                }
+            }
+            this.$nextTick(() => window.initLucideIcons());
+        },
+
+        updateSingleTableLocally(tableId, status, currentOrder = null) {
+            if (!tableId) return;
+            const t = this.tables.find(x => x.id == tableId);
+            if (t) {
+                t.status = status;
+                t.current_order = currentOrder;
+                t.current_order_id = currentOrder ? currentOrder.id : null;
+            }
+            if (this.activeTable && this.activeTable.id == tableId) {
+                this.activeTable.status = status;
+                this.activeTable.current_order = currentOrder;
+                this.activeTable.current_order_id = currentOrder ? currentOrder.id : null;
+            }
+            this.$nextTick(() => window.initLucideIcons());
+        },
+
+        broadcastTableChange(tables, singleTableId = null, singleStatus = null, singleOrder = null) {
+            const payload = {
+                type: 'TABLE_UPDATED',
+                tables: tables || this.tables,
+                table_id: singleTableId,
+                status: singleStatus,
+                order: singleOrder,
+                timestamp: Date.now()
+            };
+            if (this.tableSyncChannel) {
+                try { this.tableSyncChannel.postMessage(payload); } catch(e) {}
+            }
+            try {
+                localStorage.setItem('pos_table_sync_event', JSON.stringify(payload));
+            } catch(e) {}
+        },
+
+        async pollLiveTableStatuses() {
+            try {
+                const res = await fetch('{{ route('pos.tablesLive') }}');
+                const data = await res.json();
+                if (data.success && Array.isArray(data.tables)) {
+                    this.applyLiveTables(data.tables);
+                }
+            } catch(e) {}
+        },
 
         get filteredItems() {
             if (this.selectedCategory === null) return this.allItems;
@@ -179,13 +271,14 @@ function waiterApp() {
         async sendWaiterKOT() {
             if (!this.activeTable || this.cart.length === 0) return;
             this.isSending = true;
+            const targetTableId = this.activeTable.id;
             try {
                 const res = await fetch('{{ route('pos.order.store') }}', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                     body: JSON.stringify({
                         order_type: 'dine_in',
-                        table_id: this.activeTable.id,
+                        table_id: targetTableId,
                         token_number: Math.floor(10 + Math.random() * 90).toString(),
                         payment_status: 'unpaid',
                         items: this.cart.map(c => ({ item_id: c.item_id, quantity: c.quantity, unit_price: c.unit_price }))
@@ -195,8 +288,16 @@ function waiterApp() {
                 if (data.success) {
                     window.playBeep(1200, 150);
                     alert('KOT কিচেনে পাঠানো হয়েছে! অর্ডার নং: ' + data.order.order_number);
+                    
+                    // Instant table status update & broadcast
+                    this.updateSingleTableLocally(targetTableId, 'occupied', data.order);
+                    this.broadcastTableChange(data.tables, targetTableId, 'occupied', data.order);
+                    if (data.tables) {
+                        this.applyLiveTables(data.tables);
+                    }
+
                     this.cart = [];
-                    location.reload();
+                    this.activeTable = null;
                 }
             } catch(e) { alert('ত্রুটি: ' + e.message); }
             finally { this.isSending = false; }

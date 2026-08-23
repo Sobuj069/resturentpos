@@ -85,6 +85,23 @@ class PosController extends Controller
     }
 
     /**
+     * Get lightweight live table statuses for real-time instant syncing
+     */
+    public function getLiveTables(Request $request): JsonResponse
+    {
+        $tables = RestaurantTable::where('is_active', true)
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer'])
+            ->orderBy('sort_order')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'tables' => $tables,
+            'timestamp' => now()->timestamp,
+        ]);
+    }
+
+    /**
      * Store new Order (KOT / Save / Pay)
      */
     public function storeOrder(Request $request): JsonResponse
@@ -384,12 +401,17 @@ class PosController extends Controller
 
         $order->load(['items.modifiers', 'table', 'payments']);
         $mushakData = $this->mushakService->formatMushak63Invoice($order);
+        $freshTables = RestaurantTable::where('is_active', true)
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer'])
+            ->orderBy('sort_order')
+            ->get();
 
         return response()->json([
             'success' => true,
             'message' => 'Order created successfully!',
             'order' => $order,
             'mushak' => $mushakData,
+            'tables' => $freshTables,
         ]);
     }
 
@@ -462,12 +484,17 @@ class PosController extends Controller
 
         $order->load(['items.modifiers', 'table', 'payments']);
         $mushakData = $this->mushakService->formatMushak63Invoice($order);
+        $freshTables = RestaurantTable::where('is_active', true)
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer'])
+            ->orderBy('sort_order')
+            ->get();
 
         return response()->json([
             'success' => true,
             'message' => 'Payment settled successfully!',
             'order' => $order,
             'mushak' => $mushakData,
+            'tables' => $freshTables,
         ]);
     }
 

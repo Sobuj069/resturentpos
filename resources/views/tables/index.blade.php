@@ -28,33 +28,27 @@
         </div>
     </div>
 
-    <!-- Live Floor Stats -->
+    <!-- Live Floor Stats (100% Real-Time Reactive) -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        @php
-            $totalTables = $tables->count();
-            $availableTables = $tables->where('status', 'available')->count();
-            $occupiedTables = $tables->where('status', 'occupied')->count();
-            $totalCapacity = $tables->sum('capacity');
-        @endphp
         <div class="stat-card rounded-2xl p-4">
             <div class="card-accent" style="background:#8B1A2C;"></div>
             <p class="text-[11px] mb-1" style="color:#9B7A7E;">মোট টেবিল</p>
-            <p class="text-2xl font-black pos-nums price-maroon">{{ $totalTables }} <span class="text-xs font-normal" style="color:#9B7A7E;">টি</span></p>
+            <p class="text-2xl font-black pos-nums price-maroon"><span x-text="totalTables"></span> <span class="text-xs font-normal" style="color:#9B7A7E;">টি</span></p>
         </div>
         <div class="stat-card rounded-2xl p-4">
             <div class="card-accent" style="background:#2E7D52;"></div>
             <p class="text-[11px] mb-1" style="color:#9B7A7E;">খালি আছে (Available)</p>
-            <p class="text-2xl font-black pos-nums" style="color:#2E7D52;">{{ $availableTables }} <span class="text-xs font-normal" style="color:#9B7A7E;">টি</span></p>
+            <p class="text-2xl font-black pos-nums" style="color:#2E7D52;"><span x-text="availableTables"></span> <span class="text-xs font-normal" style="color:#9B7A7E;">টি</span></p>
         </div>
         <div class="stat-card rounded-2xl p-4">
             <div class="card-accent" style="background:#C02020;"></div>
             <p class="text-[11px] mb-1" style="color:#9B7A7E;">কাস্টমার খাচ্ছে (Occupied)</p>
-            <p class="text-2xl font-black pos-nums" style="color:#C02020;">{{ $occupiedTables }} <span class="text-xs font-normal" style="color:#9B7A7E;">টি</span></p>
+            <p class="text-2xl font-black pos-nums" style="color:#C02020;"><span x-text="occupiedTables"></span> <span class="text-xs font-normal" style="color:#9B7A7E;">টি</span></p>
         </div>
         <div class="stat-card rounded-2xl p-4">
             <div class="card-accent" style="background:#B8922A;"></div>
             <p class="text-[11px] mb-1" style="color:#9B7A7E;">মোট সিটিং ক্যাপাসিটি</p>
-            <p class="text-2xl font-black pos-nums" style="color:#B8922A;">{{ $totalCapacity }} <span class="text-xs font-normal" style="color:#9B7A7E;">জন</span></p>
+            <p class="text-2xl font-black pos-nums" style="color:#B8922A;"><span x-text="totalCapacity"></span> <span class="text-xs font-normal" style="color:#9B7A7E;">জন</span></p>
         </div>
     </div>
 
@@ -320,14 +314,94 @@ function tableFloorManager() {
         openRunningOrderModal: false,
         activeTable: null,
         activeOrder: null,
+        tableSyncChannel: null,
 
         tableForm: { id: null, name: '', floor_name: 'Ground Floor', capacity: 4, shape: 'square', status: 'available', sort_order: 0 },
 
-        init() { this.$nextTick(() => window.initLucideIcons()); },
+        init() {
+            // Real-Time Cross-Tab / Cross-Window Sync
+            if ('BroadcastChannel' in window) {
+                this.tableSyncChannel = new BroadcastChannel('pos_table_sync_channel');
+                this.tableSyncChannel.onmessage = (ev) => {
+                    if (ev.data && ev.data.tables) {
+                        this.applyLiveTables(ev.data.tables);
+                    } else if (ev.data && ev.data.type === 'TABLE_UPDATED') {
+                        this.updateSingleTableLocally(ev.data.table_id, ev.data.status, ev.data.order);
+                    }
+                };
+            }
+
+            // Cross-window storage sync fallback
+            window.addEventListener('storage', (ev) => {
+                if (ev.key === 'pos_table_sync_event' && ev.newValue) {
+                    try {
+                        const payload = JSON.parse(ev.newValue);
+                        if (payload.tables) {
+                            this.applyLiveTables(payload.tables);
+                        } else if (payload.table_id) {
+                            this.updateSingleTableLocally(payload.table_id, payload.status, payload.order);
+                        }
+                    } catch(e) {}
+                }
+            });
+
+            // Live Background Polling Heartbeat (every 3 seconds)
+            setInterval(() => {
+                if (!document.hidden) {
+                    this.pollLiveTableStatuses();
+                }
+            }, 3000);
+
+            this.$nextTick(() => window.initLucideIcons());
+        },
+
+        get totalTables() { return this.tables.length; },
+        get availableTables() { return this.tables.filter(t => t.status === 'available').length; },
+        get occupiedTables() { return this.tables.filter(t => t.status === 'occupied').length; },
+        get totalCapacity() { return this.tables.reduce((sum, t) => sum + (parseInt(t.capacity) || 0), 0); },
 
         get filteredTables() {
             if (this.selectedFloor === 'all') return this.tables;
             return this.tables.filter(t => t.floor_name === this.selectedFloor);
+        },
+
+        applyLiveTables(newTables) {
+            if (!Array.isArray(newTables)) return;
+            this.tables = newTables;
+            if (this.activeTable) {
+                const updated = this.tables.find(t => t.id === this.activeTable.id);
+                if (updated) {
+                    this.activeTable = updated;
+                    this.activeOrder = updated.current_order;
+                }
+            }
+            this.$nextTick(() => window.initLucideIcons());
+        },
+
+        updateSingleTableLocally(tableId, status, currentOrder = null) {
+            if (!tableId) return;
+            const t = this.tables.find(x => x.id == tableId);
+            if (t) {
+                t.status = status;
+                t.current_order = currentOrder;
+                t.current_order_id = currentOrder ? currentOrder.id : null;
+            }
+            if (this.activeTable && this.activeTable.id == tableId) {
+                this.activeTable.status = status;
+                this.activeTable.current_order = currentOrder;
+                this.activeTable.current_order_id = currentOrder ? currentOrder.id : null;
+            }
+            this.$nextTick(() => window.initLucideIcons());
+        },
+
+        async pollLiveTableStatuses() {
+            try {
+                const res = await fetch('{{ route('tables.liveStatus') }}');
+                const data = await res.json();
+                if (data.success && Array.isArray(data.tables)) {
+                    this.applyLiveTables(data.tables);
+                }
+            } catch(e) {}
         },
 
         resetTableForm() {
