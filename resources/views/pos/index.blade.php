@@ -751,23 +751,24 @@
     </div>
 
     <!-- ════ MODAL 4B: KITCHEN KOT TOKEN RECEIPT ════ -->
-    <div x-show="openKotModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop">
-        <div @click.outside="openKotModal = false"
-             class="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border"
-             style="border-color:#E8DDD9;">
-            <div class="p-3 border-b flex items-center justify-between shrink-0" style="background:#FBF8F5; border-color:#E0D4CF;">
-                <div class="flex items-center gap-1.5">
-                    <i data-lucide="chef-hat" class="w-4 h-4 text-emerald-700"></i>
+    <div x-show="openKotModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop"
+         @click.self="openKotModal = false">
+        <div class="w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border"
+             style="border-color:#E8DDD9;"
+             @click.stop>
+            <div class="p-3.5 border-b flex items-center justify-between shrink-0" style="background:#FBF8F5; border-color:#E0D4CF;">
+                <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:rgba(46,125,82,0.15);">
+                        <i data-lucide="chef-hat" class="w-4 h-4 text-emerald-700"></i>
+                    </div>
                     <span class="text-xs font-bold" style="color:#1A0A0C;">কিচেন KOT টোকেন স্লিপ</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button @click="printKotReceipt()" class="px-3 py-1.5 rounded-lg text-white font-bold text-xs flex items-center gap-1 shadow-xs" style="background:#2E7D52;">
-                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> প্রিন্ট KOT
-                    </button>
-                    <button @click="openKotModal = false" style="color:#9B7A7E;"><i data-lucide="x" class="w-4 h-4"></i></button>
-                </div>
+                <button type="button" @click="openKotModal = false"
+                        class="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-500 hover:text-gray-900">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
             </div>
-            <div id="thermalKotReceipt" class="p-4 overflow-y-auto font-mono text-[11px] leading-tight space-y-2 select-text bg-white">
+            <div id="thermalKotReceipt" class="p-4 overflow-y-auto font-mono text-[11px] leading-tight space-y-2 select-text bg-white flex-1">
                 <div class="text-center pb-2 border-b-2 border-dashed border-gray-800">
                     <p class="text-xs font-black uppercase">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
                     <p class="text-[10px] font-bold uppercase tracking-wider text-gray-700">কিচেন অর্ডার টোকেন (KOT SLIP)</p>
@@ -825,6 +826,19 @@
                 <div class="text-center text-[9px] font-bold pt-2 text-gray-600 border-t border-dashed border-gray-800">
                     *** কিচেন কপি (Kitchen Copy) ***
                 </div>
+            </div>
+
+            <!-- Footer Action Buttons -->
+            <div class="p-3 border-t flex items-center justify-between gap-2 shrink-0" style="border-color:#E0D4CF; background:#FBF8F5;">
+                <button type="button" @click="openKotModal = false"
+                        class="px-4 py-2.5 rounded-xl text-xs font-bold border border-gray-300 hover:bg-gray-100 transition-all text-gray-700">
+                    ✕ বন্ধ করুন
+                </button>
+                <button type="button" @click="printKotReceipt()"
+                        class="btn-maroon px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-md">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                    <span>🖨️ প্রিন্ট KOT</span>
+                </button>
             </div>
         </div>
     </div>
@@ -1328,15 +1342,65 @@ function posTerminal() {
             } catch(e){ alert('ত্রুটি: '+e.message); } finally { this.isProcessing=false; }
         },
         printKotReceipt() {
-            const c = document.getElementById('thermalKotReceipt').innerHTML;
-            const w = window.open('', '_blank', 'width=350,height=600');
-            w.document.write(`<html><head><title>Kitchen KOT #${this.kotPrintData?.token_number || ''}</title><style>body{font-family:monospace;font-size:12px;margin:0;padding:8px;width:58mm;}.text-center{text-align:center;}.text-right{text-align:right;}.flex{display:flex;}.justify-between{justify-content:space-between;}.items-start{align-items:flex-start;}.font-bold{font-weight:bold;}.font-black{font-weight:900;}.text-sm{font-size:13px;}.text-xs{font-size:11px;}.text-2xl{font-size:24px;}.text-3xl{font-size:28px;}.border-b{border-bottom:1px dashed #000;padding-bottom:5px;margin-bottom:5px;}.border-b-2{border-bottom:2px dashed #000;padding-bottom:5px;margin-bottom:5px;}.border-t{border-top:1px dashed #000;padding-top:5px;margin-top:5px;}.py-1{padding-top:3px;padding-bottom:3px;}.my-1{margin-top:4px;margin-bottom:4px;}</style></head><body>${c}</body></html>`);
-            w.document.close();
-            w.focus();
-            setTimeout(() => {
-                w.print();
-                w.close();
-            }, 250);
+            const content = document.getElementById('thermalKotReceipt')?.innerHTML;
+            if (!content) return;
+            this.triggerDirectThermalPrint(content, `Kitchen KOT #${this.kotPrintData?.token_number || ''}`);
+        },
+        printReceipt() {
+            const content = document.getElementById('thermalReceipt')?.innerHTML;
+            if (!content) return;
+            this.triggerDirectThermalPrint(content, `Mushak 6.3 - ${this.mushakData?.invoice?.order_no || ''}`);
+        },
+        triggerDirectThermalPrint(htmlContent, title = 'Receipt') {
+            try {
+                let frame = document.getElementById('receiptPrintIframe');
+                if (!frame) {
+                    frame = document.createElement('iframe');
+                    frame.id = 'receiptPrintIframe';
+                    frame.style.position = 'fixed';
+                    frame.style.right = '-1000px';
+                    frame.style.bottom = '-1000px';
+                    frame.style.width = '100px';
+                    frame.style.height = '100px';
+                    frame.style.opacity = '0';
+                    frame.style.pointerEvents = 'none';
+                    frame.style.border = '0';
+                    document.body.appendChild(frame);
+                }
+                const doc = frame.contentWindow.document;
+                doc.open();
+                doc.write(`<!DOCTYPE html><html><head><title>${title}</title><style>
+                    body { font-family: monospace; font-size: 11px; margin: 0; padding: 6px; width: 58mm; color: #000; }
+                    .text-center { text-align: center; }
+                    .text-right { text-align: right; }
+                    .flex { display: flex; }
+                    .justify-between { justify-content: space-between; }
+                    .items-start { align-items: flex-start; }
+                    .font-bold { font-weight: bold; }
+                    .font-black { font-weight: 900; }
+                    .text-sm { font-size: 13px; }
+                    .text-xs { font-size: 11px; }
+                    .text-2xl { font-size: 22px; }
+                    .text-3xl { font-size: 26px; }
+                    .border-b { border-bottom: 1px dashed #000; padding-bottom: 4px; margin-bottom: 4px; }
+                    .border-b-2 { border-bottom: 2px dashed #000; padding-bottom: 4px; margin-bottom: 4px; }
+                    .border-t { border-top: 1px dashed #000; padding-top: 4px; margin-top: 4px; }
+                    .py-1 { padding-top: 2px; padding-bottom: 2px; }
+                    .my-1 { margin-top: 4px; margin-bottom: 4px; }
+                </style></head><body>${htmlContent}</body></html>`);
+                doc.close();
+
+                setTimeout(() => {
+                    try {
+                        frame.contentWindow.focus();
+                        frame.contentWindow.print();
+                    } catch(err) {
+                        console.error('Print iframe error:', err);
+                    }
+                }, 150);
+            } catch(e) {
+                console.error('Print error:', e);
+            }
         },
         async processPaymentAndPrint() {
             this.isProcessing=true;
@@ -1373,12 +1437,6 @@ function posTerminal() {
                     }
                 }
             } catch(e){ alert('পেমেন্ট ফেইল: '+e.message); } finally { this.isProcessing=false; }
-        },
-        printReceipt() {
-            const c=document.getElementById('thermalReceipt').innerHTML;
-            const w=window.open('','_blank','width=350,height=600');
-            w.document.write(`<html><head><title>Mushak 6.3</title><style>body{font-family:monospace;font-size:11px;margin:0;padding:10px;width:58mm;}.text-center{text-align:center;}.text-right{text-align:right;}.flex{display:flex;}.justify-between{justify-content:space-between;}.font-bold{font-weight:bold;}.border-b{border-bottom:1px dashed #000;padding-bottom:5px;margin-bottom:5px;}</style></head><body>${c}</body></html>`);
-            w.document.close(); w.focus(); w.print(); w.close();
         },
         resetOrder(clearTable=true) {
             this.currentLoadedOrderId = null;
