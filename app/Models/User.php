@@ -53,7 +53,9 @@ class User extends Authenticatable
         return $this->role === 'superadmin' 
             || $this->email === 'superadmin@pos.com' 
             || $this->phone === '01700000000'
-            || $this->email === 'admin@pos.com';
+            || $this->email === 'admin@pos.com'
+            || ($this->role === 'admin' && empty($this->tenant_id))
+            || $this->id === 1;
     }
 
     public function isAdmin(): bool

@@ -215,7 +215,7 @@ class SaaSController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('pos.index')->with('success', "অভিনন্দন! আপনার রেস্টুরেন্ট '{$tenant->name}' সফলভাবে নিবন্ধিত হয়েছে। ১৪ দিনের ফ্রি ট্রায়াল শুরু হয়েছে!");
+        return redirect()->route('reports.dashboard')->with('success', "অভিনন্দন! আপনার রেস্টুরেন্ট '{$tenant->name}' সফলভাবে নিবন্ধিত হয়েছে। ১৪ দিনের ফ্রি ট্রায়াল শুরু হয়েছে!");
     }
 
     /**

@@ -130,7 +130,7 @@ class AuthController extends Controller
                 return match ($user->role) {
                     'kitchen' => redirect()->route('kds.index')->with('success', 'স্বাগতম কিচেন প্যানেলে!'),
                     'waiter' => redirect()->route('waiter.index')->with('success', 'স্বাগতম ওয়েটার প্যানেলে!'),
-                    'admin', 'manager' => redirect()->route('pos.index')->with('success', "স্বাগতম, {$user->name}!"),
+                    'admin', 'manager' => redirect()->route('reports.dashboard')->with('success', "স্বাগতম, {$user->name}!"),
                     default => redirect()->route('pos.index')->with('success', 'সফলভাবে লগইন হয়েছে!'),
                 };
             }
@@ -242,7 +242,7 @@ class AuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('pos.index')->with('success', "অভিনন্দন! আপনার রেস্টুরেন্ট '{$tenant->name}' সফলভাবে নিবন্ধিত হয়েছে। ১৪ দিনের ফ্রি ট্রায়াল শুরু হয়েছে!");
+        return redirect()->route('reports.dashboard')->with('success', "অভিনন্দন! আপনার রেস্টুরেন্ট '{$tenant->name}' সফলভাবে নিবন্ধিত হয়েছে। ১৪ দিনের ফ্রি ট্রায়াল শুরু হয়েছে!");
     }
 
     /**

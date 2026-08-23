@@ -39,6 +39,28 @@
                     <span class="hidden lg:inline">AI ভয়েস</span>
                 </button>
 
+                @if(auth()->user()?->isSuperAdmin())
+                    <!-- SuperAdmin Command Center Link -->
+                    <a href="{{ route('saas.dashboard') }}"
+                       title="SaaS সুপার-অ্যাডমিন কমান্ড সেন্টার"
+                       class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black transition-all shrink-0 border shadow-xs"
+                       style="background:#FEF3C7; border-color:#FDE68A; color:#92400E;">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-amber-700"></i>
+                        <span class="hidden sm:inline">সুপার-অ্যাডমিন</span>
+                    </a>
+                @endif
+
+                @if(auth()->user()?->isAdmin() || auth()->user()?->isManager())
+                    <!-- Management Dashboard Link -->
+                    <a href="{{ route('reports.dashboard') }}"
+                       title="ম্যানেজমেন্ট ও সেলস ড্যাশবোর্ড"
+                       class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all shrink-0 border shadow-xs"
+                       style="background:#EFF6FF; border-color:#DBEAFE; color:#1E40AF;">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4 text-blue-600"></i>
+                        <span class="hidden sm:inline">ড্যাশবোর্ড</span>
+                    </a>
+                @endif
+
                 <!-- Logout / Lock Button -->
                 <button @click="logoutConfirm()"
                         title="লগআউট করুন"
