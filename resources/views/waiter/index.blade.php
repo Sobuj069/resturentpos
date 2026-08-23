@@ -98,9 +98,9 @@
                     <p class="text-[10px]" style="color:#9B7A7E;"><span x-text="cart.length"></span> টি আইটেম · মোট ৳<span x-text="formatNumber(totalCart)"></span></p>
                 </div>
                 <button @click="sendWaiterKOT()" :disabled="!activeTable || isSending"
-                        class="btn-maroon px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2">
-                    <i data-lucide="printer" class="w-4 h-4"></i>
-                    <span x-text="isSending ? 'পাঠানো হচ্ছে...' : 'কিচেনে KOT পাঠান'"></span>
+                        class="btn-maroon px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-md hover:opacity-95 cursor-pointer">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span x-text="isSending ? 'পাঠানো হচ্ছে...' : 'অর্ডার সাবমিট করুন (POS এ পাঠান)'"></span>
                 </button>
             </div>
         </div>
@@ -226,11 +226,13 @@ function waiterApp() {
             this.$nextTick(() => window.initLucideIcons());
         },
 
-        broadcastTableChange(tables, singleTableId = null, singleStatus = null, singleOrder = null) {
+        broadcastTableChange(tables, singleTableId = null, singleStatus = null, singleOrder = null, tableName = null) {
             const payload = {
                 type: 'TABLE_UPDATED',
                 tables: tables || this.tables,
                 table_id: singleTableId,
+                table_name: tableName,
+                waiter_name: '{{ auth()->user()->name }}',
                 status: singleStatus,
                 order: singleOrder,
                 timestamp: Date.now()
@@ -272,6 +274,7 @@ function waiterApp() {
             if (!this.activeTable || this.cart.length === 0) return;
             this.isSending = true;
             const targetTableId = this.activeTable.id;
+            const targetTableName = this.activeTable.name;
             try {
                 const res = await fetch('{{ route('pos.order.store') }}', {
                     method: 'POST',
@@ -287,11 +290,11 @@ function waiterApp() {
                 const data = await res.json();
                 if (data.success) {
                     window.playBeep(1200, 150);
-                    alert('KOT কিচেনে পাঠানো হয়েছে! অর্ডার নং: ' + data.order.order_number);
+                    alert(`✓ অর্ডার সফলভাবে POS টার্মিনালে পাঠানো হয়েছে!\nটেবিল: ${targetTableName}\nঅর্ডার নং: ${data.order.order_number}`);
                     
                     // Instant table status update & broadcast
                     this.updateSingleTableLocally(targetTableId, 'occupied', data.order);
-                    this.broadcastTableChange(data.tables, targetTableId, 'occupied', data.order);
+                    this.broadcastTableChange(data.tables, targetTableId, 'occupied', data.order, targetTableName);
                     if (data.tables) {
                         this.applyLiveTables(data.tables);
                     }

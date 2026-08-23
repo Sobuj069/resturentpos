@@ -508,6 +508,31 @@
         </div>
     </div>
 
+    <!-- ════ FLOATING INCOMING WAITER ORDER BANNER ════ -->
+    <div x-show="incomingWaiterOrder" x-cloak x-transition
+         class="fixed top-4 right-4 z-50 bg-white border-2 border-emerald-500 rounded-3xl shadow-2xl p-4 max-w-sm flex flex-col gap-2.5">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-emerald-800 font-black text-xs">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                <span>🔔 ওয়েটার থেকে নতুন অর্ডার এসেছে!</span>
+            </div>
+            <button @click="incomingWaiterOrder = null" class="text-gray-400 hover:text-gray-600">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+        <div class="bg-emerald-50/80 p-3 rounded-2xl border border-emerald-100 text-xs space-y-0.5">
+            <p class="font-bold text-gray-900">টেবিল: <span class="font-black text-rose-900" x-text="incomingWaiterOrder?.table_name"></span></p>
+            <p class="text-[11px] text-gray-600 font-medium">অর্ডার গ্রহণকারী: <span class="font-bold text-gray-800" x-text="incomingWaiterOrder?.waiter_name || 'ওয়েটার'"></span></p>
+            <p class="text-[11px] text-gray-600 font-medium">অর্ডার নং: <span class="font-mono font-bold text-gray-900" x-text="incomingWaiterOrder?.order?.order_number"></span></p>
+        </div>
+        <div class="flex items-center gap-2 pt-1">
+            <button @click="loadIncomingOrder()" class="btn-maroon flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md">
+                <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
+                <span>কার্টে লোড ও KOT প্রিন্ট</span>
+            </button>
+        </div>
+    </div>
+
     <!-- ════ MODAL 1: VARIANT / MODIFIERS ════ -->
     <div x-show="openModifierModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop">
         <div @click.outside="openModifierModal = false"
@@ -1058,6 +1083,7 @@ function posTerminal() {
         aiPromptText: '', isRecording: false, isAiLoading: false, recognition: null,
         tableSyncChannel: null,
         currentLoadedOrderId: null,
+        incomingWaiterOrder: null,
 
         init() {
             // Setup Cross-Window Real-Time BroadcastChannel for Tables & Orders
@@ -1066,8 +1092,21 @@ function posTerminal() {
                 this.tableSyncChannel.onmessage = (ev) => {
                     if (ev.data && ev.data.tables) {
                         this.applyLiveTables(ev.data.tables);
-                    } else if (ev.data && ev.data.type === 'TABLE_UPDATED') {
+                    }
+                    if (ev.data && ev.data.type === 'TABLE_UPDATED') {
                         this.updateSingleTableLocally(ev.data.table_id, ev.data.status, ev.data.order);
+                        if (ev.data.status === 'occupied' && ev.data.order) {
+                            this.incomingWaiterOrder = {
+                                table_id: ev.data.table_id,
+                                table_name: ev.data.table_name || ('Table ' + ev.data.table_id),
+                                waiter_name: ev.data.waiter_name || 'ওয়েটার',
+                                order: ev.data.order
+                            };
+                            window.playBeep(1200, 250);
+                            if (this.selectedTable && this.selectedTable.id == ev.data.table_id) {
+                                this.loadExistingOrder(ev.data.order);
+                            }
+                        }
                     }
                 };
             }
@@ -1079,8 +1118,21 @@ function posTerminal() {
                         const payload = JSON.parse(ev.newValue);
                         if (payload.tables) {
                             this.applyLiveTables(payload.tables);
-                        } else if (payload.table_id) {
+                        }
+                        if (payload.table_id) {
                             this.updateSingleTableLocally(payload.table_id, payload.status, payload.order);
+                            if (payload.status === 'occupied' && payload.order) {
+                                this.incomingWaiterOrder = {
+                                    table_id: payload.table_id,
+                                    table_name: payload.table_name || ('Table ' + payload.table_id),
+                                    waiter_name: payload.waiter_name || 'ওয়েটার',
+                                    order: payload.order
+                                };
+                                window.playBeep(1200, 250);
+                                if (this.selectedTable && this.selectedTable.id == payload.table_id) {
+                                    this.loadExistingOrder(payload.order);
+                                }
+                            }
                         }
                     } catch(e) {}
                 }
@@ -1261,6 +1313,19 @@ function posTerminal() {
             } else {
                 this.startNewGuestOrderOnTable();
             }
+            this.$nextTick(() => window.initLucideIcons());
+        },
+        loadIncomingOrder() {
+            if (!this.incomingWaiterOrder) return;
+            const tId = this.incomingWaiterOrder.table_id;
+            const matchedTable = this.tables.find(t => t.id == tId);
+            if (matchedTable) {
+                this.selectTable(matchedTable);
+                // Also automatically prepare & open KOT print modal for kitchen firing
+                this.prepareKotPrintData();
+                this.openKotModal = true;
+            }
+            this.incomingWaiterOrder = null;
             this.$nextTick(() => window.initLucideIcons());
         },
         loadExistingOrder(order) {
