@@ -106,47 +106,55 @@ class PosController extends Controller
      */
     public function storeOrder(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'order_id' => 'nullable|exists:orders,id',
-            'order_type' => 'required|in:dine_in,takeaway,delivery',
-            'table_id' => 'nullable|exists:tables,id',
-            'token_number' => 'nullable|string',
-            'customer_name' => 'nullable|string',
-            'customer_phone' => 'nullable|string',
-            'customer_address' => 'nullable|string',
-            'items' => 'required|array|min:1',
-            'items.*.item_id' => 'required|exists:items,id',
-            'items.*.variant_id' => 'nullable|exists:item_variants,id',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.unit_price' => 'required|numeric|min:0',
-            'items.*.notes' => 'nullable|string',
-            'items.*.modifiers' => 'nullable|array',
-            'items.*.is_existing' => 'nullable|boolean',
-            'discount_type' => 'nullable|in:fixed,percentage',
-            'discount_value' => 'nullable|numeric|min:0',
-            'vat_percent' => 'nullable|numeric|min:0',
-            'service_charge' => 'nullable|numeric|min:0',
-            'payment_status' => 'nullable|in:unpaid,paid,partial',
-            'payment_method' => 'nullable|string',
-            'paid_amount' => 'nullable|numeric|min:0',
-            'payments' => 'nullable|array',
-            'notes' => 'nullable|string',
-            'offline_uuid' => 'nullable|string',
-            'waiter_id' => 'nullable|exists:users,id',
-        ]);
+        try {
+            $validated = $request->validate([
+                'order_id' => 'nullable|exists:orders,id',
+                'order_type' => 'required|in:dine_in,takeaway,delivery',
+                'table_id' => 'nullable|exists:tables,id',
+                'token_number' => 'nullable|string',
+                'customer_name' => 'nullable|string',
+                'customer_phone' => 'nullable|string',
+                'customer_address' => 'nullable|string',
+                'items' => 'required|array|min:1',
+                'items.*.item_id' => 'required|exists:items,id',
+                'items.*.variant_id' => 'nullable|exists:item_variants,id',
+                'items.*.quantity' => 'required|integer|min:1',
+                'items.*.unit_price' => 'nullable|numeric|min:0',
+                'items.*.notes' => 'nullable|string',
+                'items.*.modifiers' => 'nullable|array',
+                'items.*.is_existing' => 'nullable|boolean',
+                'discount_type' => 'nullable|in:fixed,percentage',
+                'discount_value' => 'nullable|numeric|min:0',
+                'redeemed_points' => 'nullable|integer|min:0',
+                'vat_percent' => 'nullable|numeric|min:0',
+                'service_charge' => 'nullable|numeric|min:0',
+                'payment_status' => 'nullable|in:unpaid,paid,partial',
+                'payment_method' => 'nullable|string',
+                'paid_amount' => 'nullable|numeric|min:0',
+                'payments' => 'nullable|array',
+                'notes' => 'nullable|string',
+                'offline_uuid' => 'nullable|string',
+                'waiter_id' => 'nullable|exists:users,id',
+            ]);
 
-        $branch = Branch::first();
-        $activeShift = Shift::where('status', 'open')->latest()->first();
+            $branch = Branch::first();
+            $activeShift = Shift::where('status', 'open')->latest()->first();
 
-        // Calculate totals
-        $subtotal = 0;
-        $orderItemsData = [];
+            // Calculate totals
+            $subtotal = 0;
+            $orderItemsData = [];
 
-        foreach ($validated['items'] as $itemData) {
-            $item = Item::find($itemData['item_id']);
-            $unitPrice = (float)$itemData['unit_price'];
-            $qty = (int)$itemData['quantity'];
-            $itemSubtotal = $unitPrice * $qty;
+            foreach ($validated['items'] as $itemData) {
+                $item = Item::find($itemData['item_id']);
+                if (!$item) continue;
+                
+                $variant = !empty($itemData['variant_id']) ? ItemVariant::find($itemData['variant_id']) : null;
+                $unitPrice = isset($itemData['unit_price']) && is_numeric($itemData['unit_price'])
+                    ? (float)$itemData['unit_price']
+                    : ($variant ? (float)$variant->price : (float)$item->selling_price);
+                
+                $qty = max(1, (int)($itemData['quantity'] ?? 1));
+                $itemSubtotal = $unitPrice * $qty;
 
             // Add modifiers price if any
             $modTotal = 0;
@@ -371,7 +379,7 @@ class PosController extends Controller
                 $order->update(['customer_id' => $customer->id]);
 
                 // Deduct redeemed points if used
-                $redeemedPoints = (int)($request->input('redeemed_points', 0));
+                $redeemedPoints = (int)($validated['redeemed_points'] ?? 0);
                 if ($redeemedPoints > 0) {
                     $customer->reward_points = max(0, $customer->reward_points - $redeemedPoints);
                     $customer->save();
@@ -423,13 +431,25 @@ class PosController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Order created successfully!',
-            'order' => $order,
-            'mushak' => $mushakData,
-            'tables' => $freshTables,
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Order created successfully!',
+                'order' => $order,
+                'mushak' => $mushakData,
+                'tables' => $freshTables,
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $ve) {
+            return response()->json([
+                'success' => false,
+                'message' => 'ভ্যালিডেশন এরর: ' . implode(', ', array_map(fn($e) => implode(' ', $e), $ve->errors())),
+                'errors' => $ve->errors(),
+            ], 422);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'সার্ভার এরর: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -437,6 +457,7 @@ class PosController extends Controller
      */
     public function settlePayment(Request $request, Order $order): JsonResponse
     {
+        try {
         $validated = $request->validate([
             'payment_method' => 'required|string',
             'paid_amount' => 'required|numeric|min:' . $order->grand_total,
@@ -518,13 +539,25 @@ class PosController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Payment settled successfully!',
-            'order' => $order,
-            'mushak' => $mushakData,
-            'tables' => $freshTables,
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment settled successfully!',
+                'order' => $order,
+                'mushak' => $mushakData,
+                'tables' => $freshTables,
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $ve) {
+            return response()->json([
+                'success' => false,
+                'message' => 'ভ্যালিডেশন এরর: ' . implode(', ', array_map(fn($e) => implode(' ', $e), $ve->errors())),
+                'errors' => $ve->errors(),
+            ], 422);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'সার্ভার এরর: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**

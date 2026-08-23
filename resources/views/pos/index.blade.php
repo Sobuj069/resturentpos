@@ -1347,9 +1347,39 @@ function posTerminal() {
             if(!this.cart.length) return; this.isProcessing=true;
             const targetTableId = this.selectedTable?.id || null;
             try {
-                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.currentLoadedOrderId||null,order_type:this.orderType,table_id:targetTableId,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'unpaid',waiter_id:this.selectedWaiterId||null})});
+                const res=await fetch('{{ route('pos.order.store') }}',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Accept':'application/json',
+                        'X-CSRF-TOKEN':'{{ csrf_token() }}'
+                    },
+                    body:JSON.stringify({
+                        order_id:this.currentLoadedOrderId||null,
+                        order_type:this.orderType,
+                        table_id:targetTableId,
+                        token_number:this.tokenNumber.toString(),
+                        customer_phone:this.customerPhone||null,
+                        customer_name:this.customerData?.name||null,
+                        redeemed_points:this.redeemedPoints,
+                        items:this.cart.map(c=>({
+                            item_id:c.item_id,
+                            variant_id:c.variant_id||null,
+                            quantity:parseInt(c.quantity)||1,
+                            unit_price:parseFloat(c.unit_price)||0,
+                            notes:c.notes||'',
+                            is_existing:c.is_existing||false,
+                            modifiers:c.selected_modifiers?.map(m=>m.id)||[]
+                        })),
+                        discount_type:this.discountType,
+                        discount_value:this.discountValue,
+                        vat_percent:this.vatRate,
+                        payment_status:'unpaid',
+                        waiter_id:this.selectedWaiterId||null
+                    })
+                });
                 const d=await res.json();
-                if(d.success){
+                if(res.ok && d.success){
                     window.playBeep(1200,180);
                     
                     this.currentLoadedOrderId = d.order.id;
@@ -1392,6 +1422,8 @@ function posTerminal() {
                     this.$nextTick(() => {
                         this.printKotReceipt();
                     });
+                } else {
+                    alert('KOT পাঠানো যায়নি: ' + (d.message || 'অজানা ত্রুটি'));
                 }
             } catch(e){ alert('ত্রুটি: '+e.message); } finally { this.isProcessing=false; }
         },
@@ -1460,9 +1492,41 @@ function posTerminal() {
             this.isProcessing=true;
             const targetTableId = this.selectedTable?.id || null;
             try {
-                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.currentLoadedOrderId||null,order_type:this.orderType,table_id:targetTableId,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'paid',payment_method:this.paymentMethod,paid_amount:this.paidAmount||this.grandTotal,waiter_id:this.selectedWaiterId||null})});
+                const res=await fetch('{{ route('pos.order.store') }}',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Accept':'application/json',
+                        'X-CSRF-TOKEN':'{{ csrf_token() }}'
+                    },
+                    body:JSON.stringify({
+                        order_id:this.currentLoadedOrderId||null,
+                        order_type:this.orderType,
+                        table_id:targetTableId,
+                        token_number:this.tokenNumber.toString(),
+                        customer_phone:this.customerPhone||null,
+                        customer_name:this.customerData?.name||null,
+                        redeemed_points:this.redeemedPoints,
+                        items:this.cart.map(c=>({
+                            item_id:c.item_id,
+                            variant_id:c.variant_id||null,
+                            quantity:parseInt(c.quantity)||1,
+                            unit_price:parseFloat(c.unit_price)||0,
+                            notes:c.notes||'',
+                            is_existing:c.is_existing||false,
+                            modifiers:c.selected_modifiers?.map(m=>m.id)||[]
+                        })),
+                        discount_type:this.discountType,
+                        discount_value:this.discountValue,
+                        vat_percent:this.vatRate,
+                        payment_status:'paid',
+                        payment_method:this.paymentMethod,
+                        paid_amount:this.paidAmount||this.grandTotal,
+                        waiter_id:this.selectedWaiterId||null
+                    })
+                });
                 const d=await res.json();
-                if(d.success){
+                if(res.ok && d.success){
                     this.mushakData=d.mushak;
                     this.openPaymentModal=false;
                     this.mobileCartOpen=false;
@@ -1489,6 +1553,8 @@ function posTerminal() {
                         }
                         this.resetOrder(true);
                     }
+                } else {
+                    alert('পেমেন্ট ফেইল: ' + (d.message || 'অজানা ত্রুটি'));
                 }
             } catch(e){ alert('পেমেন্ট ফেইল: '+e.message); } finally { this.isProcessing=false; }
         },
@@ -1558,7 +1624,11 @@ function posTerminal() {
             try {
                 const res = await fetch('{{ route('pos.order.store') }}', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
                     body: JSON.stringify({
                         order_id: this.currentLoadedOrderId || null,
                         order_type: this.orderType,
@@ -1569,10 +1639,10 @@ function posTerminal() {
                         redeemed_points: this.redeemedPoints,
                         items: this.cart.map(c => ({
                             item_id: c.item_id,
-                            variant_id: c.variant_id,
-                            quantity: c.quantity,
-                            unit_price: c.unit_price,
-                            notes: c.notes,
+                            variant_id: c.variant_id || null,
+                            quantity: parseInt(c.quantity) || 1,
+                            unit_price: parseFloat(c.unit_price) || 0,
+                            notes: c.notes || '',
                             is_existing: c.is_existing || false,
                             modifiers: c.selected_modifiers?.map(m => m.id) || []
                         })),
@@ -1591,7 +1661,7 @@ function posTerminal() {
                     })
                 });
                 const d = await res.json();
-                if (d.success) {
+                if (res.ok && d.success) {
                     this.mushakData = d.mushak;
                     this.openSplitModal = false;
                     this.mobileCartOpen = false;
@@ -1624,6 +1694,8 @@ function posTerminal() {
                         }
                         this.resetOrder(true);
                     }
+                } else {
+                    alert('স্প্লিট পেমেন্ট ফেইল: ' + (d.message || 'অজানা ত্রুটি'));
                 }
             } catch (e) {
                 alert('স্প্লিট পেমেন্ট ফেইল: ' + e.message);
