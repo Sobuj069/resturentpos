@@ -277,32 +277,54 @@
                 <div class="flex items-center gap-1.5">
                     <div class="relative flex-1">
                         <i data-lucide="phone" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2" style="color:#9B7A7E;"></i>
-                        <input type="text" x-model="customerPhone" @input.debounce.400ms="searchCustomer()"
-                               placeholder="কাস্টমার মোবাইল (017...)"
-                               class="pos-input w-full pl-7 pr-2 py-1 text-xs pos-nums rounded-lg bg-white">
+                        <input type="text" x-model="customerPhone"
+                               @input.debounce.300ms="searchCustomer(false)"
+                               @keydown.enter.prevent="searchOrRegisterCustomer(true)"
+                               placeholder="মোবাইল নম্বর লিখে Enter চাপুন..."
+                               class="pos-input w-full pl-7 pr-7 py-1 text-xs pos-nums rounded-lg bg-white">
+                        <button type="button" x-show="customerPhone" @click="clearCustomer()"
+                                class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+                            <i data-lucide="x" class="w-3 h-3"></i>
+                        </button>
                     </div>
-                    <span x-show="customerData" class="text-[10px] font-bold px-2 py-1 rounded-lg uppercase"
-                          :style="customerData?.membership_tier === 'platinum' ? 'background:#F3E8FF; color:#9333EA;' : (customerData?.membership_tier === 'gold' ? 'background:#FEF3C7; color:#B8922A;' : 'background:#E0F2FE; color:#0284C7;')"
-                          x-text="customerData?.membership_tier || 'Bronze'"></span>
+                    
+                    <button type="button" @click="searchOrRegisterCustomer(true)"
+                            class="px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1 shrink-0 shadow-xs"
+                            :style="customerData ? 'background:#E8F5E9; color:#2E7D32; border:1px solid #A5D6A7;' : 'background:#8B1A2C; color:#fff;'">
+                        <i :data-lucide="customerData ? 'check' : 'user-plus'" class="w-3 h-3"></i>
+                        <span x-text="customerData ? 'যুক্ত' : 'খুঁজুন/সেভ'"></span>
+                    </button>
                 </div>
 
                 <!-- Customer Details & Points Redeem -->
-                <div x-show="customerData" x-cloak class="p-2 rounded-xl flex items-center justify-between text-xs" style="background:#FBF1F3; border:1px solid rgba(139,26,44,0.15);">
-                    <div>
-                        <p class="font-bold text-xs" style="color:#1A0A0C;" x-text="customerData?.name"></p>
-                        <p class="text-[10px]" style="color:#8B1A2C;">
-                            পয়েন্টস: <strong class="pos-nums" x-text="customerData?.reward_points"></strong> (৳<span x-text="customerData?.reward_points"></span>)
+                <div x-show="customerData" x-cloak class="p-2 rounded-xl flex items-center justify-between text-xs transition-all shadow-xs"
+                     :style="isNewCustomerBadge ? 'background:#ECFDF5; border:1px solid #6EE7B7;' : 'background:#FBF1F3; border:1px solid rgba(139,26,44,0.15);'">
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-black text-xs truncate" style="color:#1A0A0C;" x-text="customerData?.name"></span>
+                            <span class="text-[9px] font-bold px-1.5 py-0.2 rounded uppercase"
+                                  :style="customerData?.membership_tier === 'platinum' ? 'background:#F3E8FF; color:#9333EA;' : (customerData?.membership_tier === 'gold' ? 'background:#FEF3C7; color:#B8922A;' : 'background:#E0F2FE; color:#0284C7;')"
+                                  x-text="customerData?.membership_tier || 'Bronze'"></span>
+                            <span x-show="isNewCustomerBadge" class="text-[9px] font-bold bg-emerald-600 text-white px-1.5 py-0.2 rounded">নতুন নিবন্ধিত</span>
+                        </div>
+                        <p class="text-[10px] mt-0.5" style="color:#8B1A2C;">
+                            পয়েন্টস: <strong class="pos-nums font-bold" x-text="customerData?.reward_points || 0"></strong> (৳<span x-text="customerData?.reward_points || 0"></span>)
+                            <template x-if="customerData?.total_visits > 0">
+                                <span class="text-gray-500 text-[9px] ml-1">· ভিজিট: <span x-text="customerData?.total_visits"></span> বার</span>
+                            </template>
                         </p>
                     </div>
-                    <button x-show="customerData?.reward_points > 0 && redeemedPoints === 0"
-                            @click="redeemCustomerPoints()"
-                            class="px-2 py-1 rounded-lg text-[10px] font-bold"
-                            style="background:#8B1A2C; color:#fff;">
-                        পয়েন্ট রিডিম
-                    </button>
-                    <span x-show="redeemedPoints > 0" class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
-                        ✓ ৳<span x-text="redeemedPoints"></span> ছাড়
-                    </span>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button x-show="customerData?.reward_points > 0 && redeemedPoints === 0"
+                                @click="redeemCustomerPoints()"
+                                class="px-2 py-1 rounded-lg text-[10px] font-bold shadow-xs hover:opacity-90 transition-all"
+                                style="background:#8B1A2C; color:#fff;">
+                            পয়েন্ট রিডিম
+                        </button>
+                        <span x-show="redeemedPoints > 0" class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
+                            ✓ ৳<span x-text="redeemedPoints"></span> ছাড়
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1003,6 +1025,7 @@ function posTerminal() {
         mobileCartOpen: false,
         customerPhone: '',
         customerData: null,
+        isNewCustomerBadge: false,
         redeemedPoints: 0,
         splitCount: 2,
         splitRows: [],
@@ -1269,17 +1292,48 @@ function posTerminal() {
             }
             this.$nextTick(() => window.initLucideIcons());
         },
-        async searchCustomer() {
-            if (!this.customerPhone || this.customerPhone.length < 4) { this.customerData = null; this.redeemedPoints = 0; return; }
+        async searchCustomer(autoCreate = false) {
+            const phone = (this.customerPhone || '').trim();
+            if (!phone || phone.length < 3) {
+                this.customerData = null;
+                this.redeemedPoints = 0;
+                this.isNewCustomerBadge = false;
+                return;
+            }
             try {
-                const res = await fetch(`{{ route('customers.search') }}?phone=${this.customerPhone}`);
+                const res = await fetch(`{{ route('customers.search') }}?phone=${encodeURIComponent(phone)}&auto_create=${autoCreate ? '1' : '0'}`);
                 const data = await res.json();
                 if (data.success && data.customer) {
                     this.customerData = data.customer;
-                } else {
+                    this.customerPhone = data.customer.phone;
+                    this.isNewCustomerBadge = !!data.is_new;
+                    if (data.is_new) {
+                        window.playBeep(1200, 100);
+                    }
+                } else if (!autoCreate) {
                     this.customerData = null;
+                    this.isNewCustomerBadge = false;
                 }
             } catch(e) {}
+            this.$nextTick(() => window.initLucideIcons());
+        },
+        async searchOrRegisterCustomer(forceCreate = true) {
+            const phone = (this.customerPhone || '').trim();
+            if (!phone || phone.length < 5) {
+                alert('অনুগ্রহ করে সঠিক মোবাইল নম্বর লিখুন (কমপক্ষে ৫-১১ ডিজিট)');
+                return;
+            }
+            await this.searchCustomer(forceCreate);
+        },
+        clearCustomer() {
+            this.customerPhone = '';
+            this.customerData = null;
+            this.redeemedPoints = 0;
+            this.isNewCustomerBadge = false;
+            if (this.discountType === 'fixed' && this.discountValue === this.redeemedPoints) {
+                this.discountValue = 0;
+            }
+            this.$nextTick(() => window.initLucideIcons());
         },
         redeemCustomerPoints() {
             if (!this.customerData || this.customerData.reward_points <= 0) return;
@@ -1447,6 +1501,7 @@ function posTerminal() {
             this.tokenNumber = Math.floor(10 + Math.random() * 90);
             this.customerPhone = '';
             this.customerData = null;
+            this.isNewCustomerBadge = false;
             if (clearTable) this.selectedTable = null;
             this.$nextTick(() => window.initLucideIcons());
         },

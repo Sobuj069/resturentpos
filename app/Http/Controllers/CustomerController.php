@@ -46,20 +46,51 @@ class CustomerController extends Controller
     }
 
     /**
-     * Fast Customer Search API for POS Terminal
+     * Fast Customer Search & Auto-Register API for POS Terminal
      */
     public function search(Request $request): JsonResponse
     {
-        $phone = $request->query('phone');
+        $phone = trim($request->query('phone') ?? '');
         if (!$phone) {
-            return response()->json(['success' => false, 'customer' => null]);
+            return response()->json(['success' => false, 'customer' => null, 'is_new' => false]);
         }
 
-        $customer = Customer::where('phone', 'like', "%{$phone}%")->first();
+        // Exact match first, then partial match
+        $customer = Customer::where('phone', $phone)->first()
+            ?? Customer::where('phone', 'like', "%{$phone}%")->first();
+
+        if ($customer) {
+            return response()->json([
+                'success' => true,
+                'customer' => $customer,
+                'is_new' => false,
+            ]);
+        }
+
+        // Auto-create new customer if requested (e.g. on Enter key)
+        if ($request->boolean('auto_create') && strlen($phone) >= 6) {
+            $name = $request->input('name') ?: 'গ্রাহক (' . substr($phone, -4) . ')';
+            $customer = Customer::create([
+                'name' => $name,
+                'phone' => $phone,
+                'membership_tier' => 'bronze',
+                'reward_points' => 0,
+                'total_spent' => 0,
+                'total_visits' => 0,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'customer' => $customer,
+                'is_new' => true,
+                'message' => 'নতুন কাস্টমার প্রোফাইল তৈরি হয়েছে!',
+            ]);
+        }
 
         return response()->json([
             'success' => true,
-            'customer' => $customer,
+            'customer' => null,
+            'is_new' => false,
         ]);
     }
 
