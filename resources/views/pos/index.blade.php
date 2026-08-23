@@ -486,12 +486,11 @@
         <!-- Action Buttons -->
         <div class="p-3 border-t shrink-0 space-y-2 bg-white" style="border-color:#E0D4CF;">
             <div class="grid grid-cols-2 gap-2">
-                <button @click="handleKotButtonClick()"
-                        class="btn-outline py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all"
-                        :style="(isOccupiedTable && newItemsCount === 0) ? 'background:#ECFDF5; color:#065F46; border-color:#A7F3D0; cursor:default;' : ''">
-                    <i :data-lucide="(isOccupiedTable && newItemsCount === 0) ? 'check-circle' : 'printer'" class="w-4 h-4"
-                       :style="(isOccupiedTable && newItemsCount === 0) ? 'color:#059669;' : 'color:#B8922A;'"></i>
-                    <span x-text="(isOccupiedTable && newItemsCount === 0) ? '✓ টেবিলে সার্ভড' : (isOccupiedTable && newItemsCount > 0) ? '+ নতুন (' + newItemsCount + 'টি) KOT' : 'কিচেন KOT (F8)'"></span>
+                <button @click="handleKotButtonClick()" :disabled="cart.length === 0"
+                        class="btn-outline py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs"
+                        :style="cart.length > 0 ? 'background:#FFFBEB; color:#92400E; border-color:#FDE68A; font-weight:800; cursor:pointer;' : 'opacity:0.5;'">
+                    <i data-lucide="printer" class="w-4 h-4" style="color:#B8922A;"></i>
+                    <span x-text="(isOccupiedTable && newItemsCount > 0) ? '+ নতুন (' + newItemsCount + 'টি) KOT (F8)' : '🖨️ কিচেন KOT (F8)'"></span>
                 </button>
                 <button @click="openSplitBillModal()" :disabled="cart.length === 0"
                         class="py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 disabled:opacity-50 transition-all border"
@@ -1265,12 +1264,41 @@ function posTerminal() {
         },
         get isOccupiedTable() { return this.selectedTable && this.selectedTable.status === 'occupied' && this.selectedTable.current_order; },
         get newItemsCount() { return this.cart.filter(i => !i.is_existing).length; },
+        prepareKotPrintData() {
+            const currentOrder = this.selectedTable?.current_order || (this.selectedTable?.active_orders ? this.selectedTable.active_orders[0] : null);
+            this.kotPrintData = {
+                token_number: currentOrder?.token_number || this.tokenNumber || Math.floor(10 + Math.random() * 90),
+                order_number: currentOrder?.order_number || ('ORD-' + (currentOrder?.token_number || this.tokenNumber)),
+                order_type: currentOrder?.order_type || this.orderType || 'dine_in',
+                table_name: this.selectedTable?.name || currentOrder?.table?.name || 'Takeaway',
+                waiter_name: currentOrder?.waiter?.name || this.selectedWaiterName || null,
+                customer_name: currentOrder?.customer?.name || this.customerData?.name || null,
+                customer_phone: currentOrder?.customer_phone || this.customerPhone || null,
+                time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) + ', ' + new Date().toLocaleDateString('en-GB'),
+                items: this.cart.map(c => ({
+                    item_name: c.name,
+                    variant_name: c.variant_name,
+                    quantity: c.quantity,
+                    selected_modifiers: c.selected_modifiers || [],
+                    notes: c.notes || ''
+                })),
+                total_quantity: this.cart.reduce((sum, i) => sum + i.quantity, 0),
+            };
+        },
         handleKotButtonClick() {
-            if (this.isOccupiedTable && this.newItemsCount === 0) {
-                alert('এই টেবিলের বর্তমান সকল আইটেম ইতিমধ্যে কিচেনে পাঠানো আছে। নতুন কোনো খাবার মেনু থেকে কার্টে যোগ করলে শুধু সেটি কিচেনে পাঠানো যাবে।');
-                return;
+            if (this.cart.length === 0) return;
+
+            // If there are new unsaved items, send them to server & print
+            if (this.newItemsCount > 0 || !this.currentLoadedOrderId) {
+                this.sendKOT();
+            } else {
+                // If order was already saved (e.g. by waiter), directly open KOT & print!
+                this.prepareKotPrintData();
+                this.openKotModal = true;
+                this.$nextTick(() => {
+                    this.printKotReceipt();
+                });
             }
-            this.sendKOT();
         },
         addToCart(item,variant,modifiers=[],notes='') {
             window.playBeep(920,90);
