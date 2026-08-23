@@ -232,6 +232,46 @@
                 </select>
             </div>
 
+            <!-- Multi-Guest / Consecutive Sub-Orders on Same Table -->
+            <template x-if="orderType === 'dine_in' && selectedTable">
+                <div class="p-2 rounded-xl border space-y-1.5" style="background:#FFF9F8; border-color:#EBDCD8;">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-extrabold flex items-center gap-1" style="color:#5C0F1B;">
+                            <i data-lucide="users" class="w-3.5 h-3.5" style="color:#8B1A2C;"></i>
+                            <span>কাস্টমার / সাব-অর্ডার:</span>
+                        </span>
+                        <button @click="startNewGuestOrderOnTable()"
+                                class="px-2.5 py-1 rounded-lg text-[10px] font-black transition-all border flex items-center gap-1 shadow-xs hover:opacity-90 cursor-pointer"
+                                style="background:#2E7D52; color:#fff; border-color:#2E7D52;">
+                            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                            <span>+ নতুন কাস্টমার বিল</span>
+                        </button>
+                    </div>
+
+                    <!-- List of Active Guest Orders on This Table -->
+                    <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <template x-for="(ord, idx) in (selectedTable.active_orders || (selectedTable.current_order ? [selectedTable.current_order] : []))" :key="ord.id">
+                            <button @click="loadExistingOrder(ord)"
+                                    class="px-2 py-1 rounded-lg text-[10px] font-bold transition-all border flex items-center gap-1 shadow-xs"
+                                    :style="currentLoadedOrderId === ord.id ? 'background:#8B1A2C; color:#fff; border-color:#8B1A2C; box-shadow:0 2px 6px rgba(139,26,44,0.25);' : 'background:#FFFFFF; color:#5C3840; border-color:#D8C4BF;'">
+                                <span x-text="'কাস্টমার #' + (idx + 1) + ' (টোকেন #' + (ord.token_number || ord.order_number) + ')'"></span>
+                                <span class="font-black pos-nums text-[9px] px-1 py-0.2 rounded"
+                                      :style="currentLoadedOrderId === ord.id ? 'background:rgba(255,255,255,0.25); color:#fff;' : 'background:#F0E8E5; color:#8B1A2C;'"
+                                      x-text="'৳' + formatNumber(ord.grand_total)"></span>
+                            </button>
+                        </template>
+
+                        <template x-if="!currentLoadedOrderId">
+                            <span class="px-2 py-1 rounded-lg text-[10px] font-black border flex items-center gap-1 shadow-xs"
+                                  style="background:rgba(184,146,42,0.15); color:#8B1A2C; border-color:#B8922A;">
+                                <i data-lucide="sparkles" class="w-3 h-3 text-amber-600"></i>
+                                <span>নতুন কাস্টমার (টোকেন #<span x-text="tokenNumber"></span>)</span>
+                            </span>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
             <!-- Customer CRM & Loyalty Points Bar -->
             <div class="pt-2 border-t space-y-1.5" style="border-color:#E8DDD9;">
                 <div class="flex items-center gap-1.5">
@@ -529,7 +569,7 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3">
                     <template x-for="t in filteredTables" :key="t.id">
                         <button @click="selectTable(t)"
-                                class="p-3 sm:p-3.5 rounded-2xl border flex flex-col items-center justify-center gap-1 transition-all text-center relative"
+                                class="p-3 sm:p-3.5 rounded-2xl border flex flex-col items-center justify-center gap-1 transition-all text-center relative hover:scale-[1.02] cursor-pointer"
                                 :style="t.status === 'occupied' ? 'background:#FEE2E2; border-color:#FCA5A5; color:#991B1B;'
                                        : t.status === 'billed' ? 'background:#FEF3C7; border-color:#FCD34D; color:#92400E;'
                                        : 'background:#FFFFFF; border-color:#E8DDD9; color:#1A0A0C;'">
@@ -538,12 +578,18 @@
                             <i data-lucide="utensils" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                             <span class="text-xs sm:text-sm font-black pos-nums" x-text="t.name"></span>
                             <span class="text-[9px] sm:text-[10px]" x-text="t.capacity + ' জন'"></span>
-                            <span class="text-[8px] sm:text-[9px] font-bold px-1.5 py-0.2 rounded"
-                                  :style="t.status==='occupied' ? 'background:#FEE2E2; color:#991B1B;' : t.status==='billed' ? 'background:#FEF3C7; color:#92400E;' : 'background:#D1FAE5; color:#065F46;'"
-                                  x-text="t.status==='occupied' ? 'খাচ্ছে' : t.status==='billed' ? 'বিল সম্পন্ন' : 'খালি আছে'"></span>
-                            <template x-if="t.status === 'occupied' && t.current_order">
+                            <div class="flex items-center gap-1 flex-wrap justify-center">
+                                <span class="text-[8px] sm:text-[9px] font-bold px-1.5 py-0.2 rounded"
+                                      :style="t.status==='occupied' ? 'background:#FEE2E2; color:#991B1B;' : t.status==='billed' ? 'background:#FEF3C7; color:#92400E;' : 'background:#D1FAE5; color:#065F46;'"
+                                      x-text="t.status==='occupied' ? 'খাচ্ছে' : t.status==='billed' ? 'বিল সম্পন্ন' : 'খালি আছে'"></span>
+                                <template x-if="t.active_orders && t.active_orders.length > 1">
+                                    <span class="text-[8px] font-black px-1.5 py-0.2 rounded" style="background:#8B1A2C; color:#fff;"
+                                          x-text="t.active_orders.length + ' কাস্টমার'"></span>
+                                </template>
+                            </div>
+                            <template x-if="t.status === 'occupied' && (t.current_order || (t.active_orders && t.active_orders.length > 0))">
                                 <span class="text-[9px] font-black pos-nums px-1.5 py-0.5 rounded" style="background:#EF4444; color:#fff;">
-                                    বিল: ৳<span x-text="formatNumber(t.current_order.grand_total)"></span>
+                                    বিল: ৳<span x-text="formatNumber(getTableTotal(t))"></span>
                                 </span>
                             </template>
                         </button>
@@ -873,6 +919,7 @@ function posTerminal() {
         paymentMethod: 'cash', paidAmount: 0, trxId: '', mushakData: null,
         aiPromptText: '', isRecording: false, isAiLoading: false, recognition: null,
         tableSyncChannel: null,
+        currentLoadedOrderId: null,
 
         init() {
             // Setup Cross-Window Real-Time BroadcastChannel for Tables & Orders
@@ -1056,15 +1103,34 @@ function posTerminal() {
         get vatAmount() { return (Math.max(0,this.subtotal-this.discountAmount)*this.vatRate)/100; },
         get grandTotal() { return Math.round(Math.max(0,this.subtotal-this.discountAmount)+this.vatAmount); },
         get changeAmount() { return (this.paidAmount||0)-this.grandTotal; },
+        getTableTotal(table) {
+            if (!table) return 0;
+            if (table.active_orders && table.active_orders.length > 0) {
+                return table.active_orders.reduce((sum, ord) => sum + (parseFloat(ord.grand_total) || 0), 0);
+            }
+            return table.current_order ? (parseFloat(table.current_order.grand_total) || 0) : 0;
+        },
         selectTable(table) {
             this.selectedTable = table;
             this.orderType = 'dine_in';
             this.openTableModal = false;
 
-            // Auto-load running order items into cart if table is occupied
-            if (table.current_order && table.current_order.items && table.current_order.items.length > 0) {
-                this.cart = [];
-                table.current_order.items.forEach(it => {
+            // If table has active orders, load the first active order; otherwise start fresh guest
+            if (table.active_orders && table.active_orders.length > 0) {
+                this.loadExistingOrder(table.active_orders[0]);
+            } else if (table.current_order) {
+                this.loadExistingOrder(table.current_order);
+            } else {
+                this.startNewGuestOrderOnTable();
+            }
+            this.$nextTick(() => window.initLucideIcons());
+        },
+        loadExistingOrder(order) {
+            if (!order) return;
+            this.currentLoadedOrderId = order.id;
+            this.cart = [];
+            if (order.items && order.items.length > 0) {
+                order.items.forEach(it => {
                     const mods = it.modifiers || [];
                     const key = `${it.item_id}_${it.variant_id || 'null'}_${mods.map(m=>m.modifier_id||m.id).join('-')}_${it.notes || ''}`;
                     this.cart.push({
@@ -1081,17 +1147,32 @@ function posTerminal() {
                         is_existing: true,
                     });
                 });
-                if (table.current_order.customer) {
-                    this.customerData = table.current_order.customer;
-                    this.customerPhone = table.current_order.customer.phone;
-                } else if (table.current_order.customer_phone) {
-                    this.customerPhone = table.current_order.customer_phone;
-                    this.searchCustomer();
-                }
-                if (table.current_order.token_number) {
-                    this.tokenNumber = table.current_order.token_number;
-                }
-                window.playBeep(1100, 120);
+            }
+            if (order.customer) {
+                this.customerData = order.customer;
+                this.customerPhone = order.customer.phone;
+            } else if (order.customer_phone) {
+                this.customerPhone = order.customer_phone;
+                this.searchCustomer();
+            } else {
+                this.customerData = null;
+                this.customerPhone = '';
+            }
+            this.tokenNumber = order.token_number || order.order_number || Math.floor(10 + Math.random() * 90);
+            window.playBeep(1100, 120);
+            this.$nextTick(() => window.initLucideIcons());
+        },
+        startNewGuestOrderOnTable() {
+            this.currentLoadedOrderId = null;
+            this.cart = [];
+            this.customerPhone = '';
+            this.customerData = null;
+            this.redeemedPoints = 0;
+            this.discountValue = 0;
+            this.tokenNumber = Math.floor(10 + Math.random() * 90);
+            window.playBeep(990, 100);
+            if (this.$refs.searchInput) {
+                this.$refs.searchInput.focus();
             }
             this.$nextTick(() => window.initLucideIcons());
         },
@@ -1119,12 +1200,15 @@ function posTerminal() {
             if(!this.cart.length) return; this.isProcessing=true;
             const targetTableId = this.selectedTable?.id || null;
             try {
-                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.selectedTable?.current_order?.id||null,order_type:this.orderType,table_id:targetTableId,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'unpaid',waiter_id:this.selectedWaiterId||null})});
+                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.currentLoadedOrderId||null,order_type:this.orderType,table_id:targetTableId,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'unpaid',waiter_id:this.selectedWaiterId||null})});
                 const d=await res.json();
                 if(d.success){
                     window.playBeep(1200,180);
                     alert(this.isOccupiedTable ? 'নতুন আইটেম কিচেনে KOT পাঠানো হয়েছে!' : 'KOT কিচেনে পাঠানো হয়েছে! অর্ডার নং: '+d.order.order_number);
                     
+                    this.currentLoadedOrderId = d.order.id;
+                    this.tokenNumber = d.order.token_number || d.order.order_number;
+
                     // Instant table status update & broadcast
                     const tableId = targetTableId || d.order?.table_id;
                     if (tableId) {
@@ -1136,7 +1220,6 @@ function posTerminal() {
                     }
 
                     this.cart.forEach(c => c.is_existing = true);
-                    if (!this.isOccupiedTable) { this.resetOrder(true); }
                     this.mobileCartOpen=false;
                 }
             } catch(e){ alert('ত্রুটি: '+e.message); } finally { this.isProcessing=false; }
@@ -1145,7 +1228,7 @@ function posTerminal() {
             this.isProcessing=true;
             const targetTableId = this.selectedTable?.id || null;
             try {
-                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.selectedTable?.current_order?.id||null,order_type:this.orderType,table_id:targetTableId,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'paid',payment_method:this.paymentMethod,paid_amount:this.paidAmount||this.grandTotal,waiter_id:this.selectedWaiterId||null})});
+                const res=await fetch('{{ route('pos.order.store') }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},body:JSON.stringify({order_id:this.currentLoadedOrderId||null,order_type:this.orderType,table_id:targetTableId,token_number:this.tokenNumber.toString(),customer_phone:this.customerPhone||null,customer_name:this.customerData?.name||null,redeemed_points:this.redeemedPoints,items:this.cart.map(c=>({item_id:c.item_id,variant_id:c.variant_id,quantity:c.quantity,unit_price:c.unit_price,notes:c.notes,is_existing:c.is_existing||false,modifiers:c.selected_modifiers?.map(m=>m.id)||[]})),discount_type:this.discountType,discount_value:this.discountValue,vat_percent:this.vatRate,payment_status:'paid',payment_method:this.paymentMethod,paid_amount:this.paidAmount||this.grandTotal,waiter_id:this.selectedWaiterId||null})});
                 const d=await res.json();
                 if(d.success){
                     this.mushakData=d.mushak;
@@ -1153,18 +1236,27 @@ function posTerminal() {
                     this.mobileCartOpen=false;
                     this.openMushakModal=true;
 
-                    // Instant table status freed & broadcast
+                    // Instant table status sync & broadcast
                     const tableId = targetTableId || d.order?.table_id;
-                    if (tableId) {
-                        this.updateSingleTableLocally(tableId, 'available', null);
-                        this.broadcastTableChange(d.tables, tableId, 'available', null);
-                    }
                     if (d.tables) {
                         this.applyLiveTables(d.tables);
                     }
 
                     this.$nextTick(()=>{ const q=document.getElementById('qrcodeCanvas'); if(q){q.innerHTML=''; new QRCode(q,{text:d.mushak.qr_string,width:85,height:85,correctLevel:QRCode.CorrectLevel.M});} });
-                    this.resetOrder(true);
+
+                    // Check if table still has other remaining active guest orders
+                    const upTable = d.tables ? d.tables.find(t => t.id == tableId) : null;
+                    if (upTable && upTable.active_orders && upTable.active_orders.length > 0) {
+                        this.selectedTable = upTable;
+                        this.loadExistingOrder(upTable.active_orders[0]);
+                        this.broadcastTableChange(d.tables, tableId, 'occupied', upTable.active_orders[0]);
+                    } else {
+                        if (tableId) {
+                            this.updateSingleTableLocally(tableId, 'available', null);
+                            this.broadcastTableChange(d.tables, tableId, 'available', null);
+                        }
+                        this.resetOrder(true);
+                    }
                 }
             } catch(e){ alert('পেমেন্ট ফেইল: '+e.message); } finally { this.isProcessing=false; }
         },
@@ -1174,7 +1266,18 @@ function posTerminal() {
             w.document.write(`<html><head><title>Mushak 6.3</title><style>body{font-family:monospace;font-size:11px;margin:0;padding:10px;width:58mm;}.text-center{text-align:center;}.text-right{text-align:right;}.flex{display:flex;}.justify-between{justify-content:space-between;}.font-bold{font-weight:bold;}.border-b{border-bottom:1px dashed #000;padding-bottom:5px;margin-bottom:5px;}</style></head><body>${c}</body></html>`);
             w.document.close(); w.focus(); w.print(); w.close();
         },
-        resetOrder(clearTable=true) { this.cart=[]; this.discountValue=0; this.paidAmount=0; this.trxId=''; this.tokenNumber=Math.floor(10+Math.random()*90); if(clearTable) this.selectedTable=null; this.$nextTick(()=>window.initLucideIcons()); },
+        resetOrder(clearTable=true) {
+            this.currentLoadedOrderId = null;
+            this.cart = [];
+            this.discountValue = 0;
+            this.paidAmount = 0;
+            this.trxId = '';
+            this.tokenNumber = Math.floor(10 + Math.random() * 90);
+            this.customerPhone = '';
+            this.customerData = null;
+            if (clearTable) this.selectedTable = null;
+            this.$nextTick(() => window.initLucideIcons());
+        },
         toggleVoiceRecord() {
             if(!this.recognition){ alert('স্পিচ সাপোর্ট নেই। টাইপ করুন।'); return; }
             if(this.isRecording){ this.recognition.stop(); this.isRecording=false; } else { this.aiPromptText=''; this.recognition.start(); this.isRecording=true; }
@@ -1230,7 +1333,7 @@ function posTerminal() {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                     body: JSON.stringify({
-                        order_id: this.selectedTable?.current_order?.id || null,
+                        order_id: this.currentLoadedOrderId || null,
                         order_type: this.orderType,
                         table_id: targetTableId,
                         token_number: this.tokenNumber.toString(),
@@ -1267,12 +1370,8 @@ function posTerminal() {
                     this.mobileCartOpen = false;
                     this.openMushakModal = true;
 
-                    // Instant table status freed & broadcast
+                    // Instant table status sync & broadcast
                     const tableId = targetTableId || d.order?.table_id;
-                    if (tableId) {
-                        this.updateSingleTableLocally(tableId, 'available', null);
-                        this.broadcastTableChange(d.tables, tableId, 'available', null);
-                    }
                     if (d.tables) {
                         this.applyLiveTables(d.tables);
                     }
@@ -1284,7 +1383,20 @@ function posTerminal() {
                             new QRCode(q, { text: d.mushak.qr_string, width: 85, height: 85, correctLevel: QRCode.CorrectLevel.M });
                         }
                     });
-                    this.resetOrder(true);
+
+                    // Check if table still has other remaining active guest orders
+                    const upTable = d.tables ? d.tables.find(t => t.id == tableId) : null;
+                    if (upTable && upTable.active_orders && upTable.active_orders.length > 0) {
+                        this.selectedTable = upTable;
+                        this.loadExistingOrder(upTable.active_orders[0]);
+                        this.broadcastTableChange(d.tables, tableId, 'occupied', upTable.active_orders[0]);
+                    } else {
+                        if (tableId) {
+                            this.updateSingleTableLocally(tableId, 'available', null);
+                            this.broadcastTableChange(d.tables, tableId, 'available', null);
+                        }
+                        this.resetOrder(true);
+                    }
                 }
             } catch (e) {
                 alert('স্প্লিট পেমেন্ট ফেইল: ' + e.message);

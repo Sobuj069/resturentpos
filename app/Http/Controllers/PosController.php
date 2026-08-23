@@ -45,7 +45,7 @@ class PosController extends Controller
             ->get();
 
         $tables = RestaurantTable::where('is_active', true)
-            ->with(['currentOrder.items.modifiers', 'currentOrder.customer'])
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer', 'activeOrders.items.modifiers', 'activeOrders.customer'])
             ->orderBy('sort_order')
             ->get();
 
@@ -69,7 +69,7 @@ class PosController extends Controller
             ->get();
 
         $tables = RestaurantTable::where('is_active', true)
-            ->with('currentOrder')
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer', 'activeOrders.items.modifiers', 'activeOrders.customer'])
             ->orderBy('sort_order')
             ->get();
 
@@ -90,7 +90,7 @@ class PosController extends Controller
     public function getLiveTables(Request $request): JsonResponse
     {
         $tables = RestaurantTable::where('is_active', true)
-            ->with(['currentOrder.items.modifiers', 'currentOrder.customer'])
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer', 'activeOrders.items.modifiers', 'activeOrders.customer'])
             ->orderBy('sort_order')
             ->get();
 
@@ -326,8 +326,25 @@ class PosController extends Controller
             if (!empty($validated['table_id'])) {
                 $table = RestaurantTable::find($validated['table_id']);
                 if ($table) {
-                    $table->status = $isPaid ? 'available' : 'occupied';
-                    $table->current_order_id = $isPaid ? null : $order->id;
+                    $otherActiveOrder = Order::where('table_id', $table->id)
+                        ->where('id', '!=', $order->id)
+                        ->where('payment_status', '!=', 'paid')
+                        ->where('status', '!=', 'cancelled')
+                        ->latest()
+                        ->first();
+
+                    if ($isPaid) {
+                        if ($otherActiveOrder) {
+                            $table->status = 'occupied';
+                            $table->current_order_id = $otherActiveOrder->id;
+                        } else {
+                            $table->status = 'available';
+                            $table->current_order_id = null;
+                        }
+                    } else {
+                        $table->status = 'occupied';
+                        $table->current_order_id = $order->id;
+                    }
                     $table->save();
                 }
             }
@@ -442,8 +459,20 @@ class PosController extends Controller
             if ($order->table_id) {
                 $table = RestaurantTable::find($order->table_id);
                 if ($table) {
-                    $table->status = 'available';
-                    $table->current_order_id = null;
+                    $otherActiveOrder = Order::where('table_id', $table->id)
+                        ->where('id', '!=', $order->id)
+                        ->where('payment_status', '!=', 'paid')
+                        ->where('status', '!=', 'cancelled')
+                        ->latest()
+                        ->first();
+
+                    if ($otherActiveOrder) {
+                        $table->status = 'occupied';
+                        $table->current_order_id = $otherActiveOrder->id;
+                    } else {
+                        $table->status = 'available';
+                        $table->current_order_id = null;
+                    }
                     $table->save();
                 }
             }
@@ -485,7 +514,7 @@ class PosController extends Controller
         $order->load(['items.modifiers', 'table', 'payments']);
         $mushakData = $this->mushakService->formatMushak63Invoice($order);
         $freshTables = RestaurantTable::where('is_active', true)
-            ->with(['currentOrder.items.modifiers', 'currentOrder.customer'])
+            ->with(['currentOrder.items.modifiers', 'currentOrder.customer', 'activeOrders.items.modifiers', 'activeOrders.customer'])
             ->orderBy('sort_order')
             ->get();
 

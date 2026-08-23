@@ -46,6 +46,14 @@ class RestaurantTable extends Model
         return $this->hasMany(Order::class, 'table_id');
     }
 
+    public function activeOrders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'table_id')
+            ->where('payment_status', '!=', 'paid')
+            ->where('status', '!=', 'cancelled')
+            ->with(['items.modifiers', 'customer']);
+    }
+
     public function getQrUrlAttribute(): string
     {
         return url('/order/table/' . ($this->qr_code_token ?: $this->id));
