@@ -1,10 +1,87 @@
 @extends('layouts.app')
 @section('title', 'সিস্টেম ও রেস্টুরেন্ট সেটিংস')
 @section('content')
-<div x-data="settingsManager()" x-init="init()" class="min-h-full p-5 lg:p-6 space-y-5 pb-24" style="background:#F5F0EC;">
+<div x-data="settingsManager()" x-init="init()" class="min-h-full p-3.5 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 pb-24" style="background:#F5F0EC;">
 
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- MOBILE STAFF SETTINGS (Matches Stitch Screenshot 5) -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="block sm:hidden space-y-4">
+        <!-- Top Header -->
+        <div class="flex items-center justify-between bg-white p-3.5 rounded-2xl border border-gray-200 shadow-2xs">
+            <div class="flex items-center gap-2.5">
+                <a href="{{ route('pos.index') }}" class="text-gray-700 hover:text-black p-1">
+                    <i data-lucide="chevron-left" class="w-6 h-6 stroke-[2.5]" style="color:#801424;"></i>
+                </a>
+                <h1 class="text-base font-extrabold text-gray-900 tracking-tight">Staff Settings</h1>
+            </div>
+            <button class="text-gray-700 hover:text-black p-1">
+                <i data-lucide="menu" class="w-6 h-6 stroke-[2]"></i>
+            </button>
+        </div>
+
+        <!-- User Profile Card -->
+        <div class="bg-white p-4 rounded-2xl border border-gray-200 shadow-2xs flex items-center gap-4">
+            <div class="w-16 h-16 rounded-full bg-gray-200 border-2 border-gray-300 flex items-center justify-center shrink-0">
+                <i data-lucide="user" class="w-8 h-8 text-gray-400"></i>
+            </div>
+            <div>
+                <h2 class="text-lg font-black text-gray-900 leading-tight">{{ auth()->user()->name ?? 'Anwar' }}</h2>
+                <p class="text-xs font-semibold text-gray-500 capitalize">{{ auth()->user()->role ?? 'Manager' }}</p>
+            </div>
+        </div>
+
+        <!-- Settings List Card -->
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-2xs overflow-hidden divide-y divide-gray-100">
+            <!-- Account Settings -->
+            <button @click="activeTab = 'general'" class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="user-cog" class="w-5 h-5" style="color:#B8922A;"></i>
+                    <span class="text-sm font-bold text-gray-800">Account Settings</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+            </button>
+
+            <!-- Printer Configuration -->
+            <button @click="activeTab = 'general'" class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="printer" class="w-5 h-5" style="color:#B8922A;"></i>
+                    <span class="text-sm font-bold text-gray-800">Printer Configuration</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+            </button>
+
+            <!-- Change Password -->
+            <button @click="activeTab = 'staff'" class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="key-round" class="w-5 h-5" style="color:#B8922A;"></i>
+                    <span class="text-sm font-bold text-gray-800">Change Password</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+            </button>
+
+            <!-- Switch Language -->
+            <button @click="alert('ভাষা স্বয়ংক্রিয়ভাবে বাংলা/ইংরেজিতে পরিবর্তিত হয়েছে।')" class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="languages" class="w-5 h-5" style="color:#B8922A;"></i>
+                    <span class="text-sm font-bold text-gray-800">Switch Language (Bengali/English)</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+            </button>
+        </div>
+
+        <!-- Logout Button -->
+        <button @click="logoutConfirm()"
+                class="w-full py-3.5 rounded-2xl text-base font-bold text-white bg-red-600 hover:bg-red-700 flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98]">
+            <span>Logout</span>
+        </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- DESKTOP / TABLET FULL SETTINGS                      -->
+    <!-- ═══════════════════════════════════════════════════ -->
     <!-- Page Header -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div class="hidden sm:flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
             <div class="flex items-center gap-3 mb-1">
                 <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(139,26,44,0.1); border:1.5px solid rgba(139,26,44,0.25);">

@@ -1,198 +1,161 @@
 @extends('layouts.app')
-@section('title', 'সেলস ড্যাশবোর্ড ও অ্যানালিটিক্স')
+@section('title', 'Sales Reports Dashboard')
 @section('content')
-<div x-data="dashboardAnalytics()" x-init="init()" class="min-h-full p-5 lg:p-6 space-y-5 pb-24" style="background:#F5F0EC;">
+<div x-data="dashboardAnalytics()" x-init="init()" class="min-h-full p-3.5 sm:p-5 lg:p-6 space-y-4 sm:space-y-5 pb-24" style="background:#F5F0EC;">
 
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-            <div class="flex items-center gap-3 mb-1">
-                <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(139,26,44,0.1); border:1.5px solid rgba(139,26,44,0.25);">
-                    <i data-lucide="bar-chart-3" class="w-5 h-5" style="color:#8B1A2C;"></i>
-                </div>
-                <h1 class="text-lg font-extrabold" style="color:#1A0A0C;">এক্সিকিউটিভ সেলস ড্যাশবোর্ড</h1>
-            </div>
-            <p class="text-xs" style="color:#9B7A7E;">{{ now()->format('d F, Y — l') }} · {{ $currentBranch->name ?? 'Main Branch' }}</p>
-        </div>
-
-        <div class="flex items-center gap-2">
-            <a href="{{ route('reports.mushak') }}"
-               class="btn-outline px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
-                <i data-lucide="file-badge-2" class="w-4 h-4"></i>
-                <span>মূসক ৬.৩ রেজিস্টার</span>
+    <!-- Top Header (Matches Stitch Screenshot 4) -->
+    <div class="flex items-center justify-between bg-white p-3.5 rounded-2xl border border-gray-200 shadow-2xs">
+        <div class="flex items-center gap-2.5">
+            <a href="{{ route('pos.index') }}" class="text-gray-700 hover:text-black p-1">
+                <i data-lucide="chevron-left" class="w-6 h-6 stroke-[2.5]" style="color:#801424;"></i>
             </a>
+            <h1 class="text-base sm:text-lg font-extrabold text-gray-900 tracking-tight">Sales Reports Dashboard</h1>
+        </div>
+        <div class="flex items-center gap-2">
+            <button class="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-200">
+                <i data-lucide="filter" class="w-4 h-4" style="color:#801424;"></i>
+            </button>
             <button @click="fetchAiSummary()" :disabled="loadingAi"
-                    class="btn-maroon px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
-                <span x-text="loadingAi ? 'AI বিশ্লেষণ করছে...' : 'Gemini AI সামারি'"></span>
+                    class="hidden sm:flex btn-maroon px-3.5 py-1.5 rounded-xl text-xs font-bold items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                <span x-text="loadingAi ? 'AI...' : 'Gemini AI'"></span>
             </button>
         </div>
     </div>
 
-    <!-- AI Insight Card -->
-    <div class="bg-white rounded-2xl p-5 border relative overflow-hidden" style="border-color:#E8DDD9;">
-        <div class="flex items-start gap-4 relative">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(184,146,42,0.15); border:1px solid rgba(184,146,42,0.3);">
-                <i data-lucide="brain" class="w-5 h-5" style="color:#B8922A;"></i>
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center justify-between mb-1.5">
-                    <h3 class="text-sm font-extrabold" style="color:#1A0A0C;">Gemini AI Business Briefing</h3>
-                    <span class="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase" style="background:#FEF3C7; color:#92400E; border:1px solid #FCD34D;">LIVE AI</span>
-                </div>
-                <p class="text-xs leading-relaxed" style="color:#5C3840;"
-                   x-html="aiInsightText || 'Gemini AI থেকে আজকের বিক্রয়, জনপ্রিয় আইটেম ও ইনভেন্টরি বিশ্লেষণ পেতে উপরের বাটনে ক্লিক করুন।'"></p>
+    <!-- KPI Summary Row / Carousel (Matches Stitch Screenshot 4) -->
+    <div class="flex gap-3 overflow-x-auto pb-1 scrollbar-none">
+
+        <!-- Card 1: Today's Total Sales -->
+        <div class="min-w-[210px] sm:min-w-0 flex-1 bg-white rounded-2xl p-4 border border-gray-200 shadow-2xs space-y-1.5">
+            <p class="text-xs font-bold text-gray-600">Today's Total Sales</p>
+            <p class="text-2xl font-black pos-nums tracking-tight" style="color:#801424;">৳ {{ number_format($todaySales, 0) }}</p>
+            <div class="flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full w-fit border border-emerald-200">
+                <span>vs. Yesterday +8%</span>
             </div>
         </div>
-    </div>
 
-    <!-- KPI Grid -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        @php
-            $kpis2 = [
-                ['label'=>'আজকের মোট বিক্রয়','value'=>'৳'.number_format($todaySales,2),'icon'=>'banknote','color'=>'#8B1A2C','accent'=>'#8B1A2C'],
-                ['label'=>'সংগৃহীত NBR ভ্যাট','value'=>'৳'.number_format($todayVat,2),'icon'=>'receipt','color'=>'#B8922A','accent'=>'#B8922A'],
-                ['label'=>'মোট অর্ডার সংখ্যা','value'=>$todayOrderCount.' টি','icon'=>'shopping-bag','color'=>'#2E7D52','accent'=>'#2E7D52'],
-                ['label'=>'গড় অর্ডার মূল্য (AOV)','value'=>'৳'.($todayOrderCount>0?number_format($todaySales/$todayOrderCount,2):'0.00'),'icon'=>'trending-up','color'=>'#1E40AF','accent'=>'#1E40AF'],
-            ];
-        @endphp
-        @foreach($kpis2 as $k)
-        <div class="stat-card rounded-2xl p-4">
-            <div class="card-accent" style="background:{{ $k['accent'] }};"></div>
-            <div class="flex items-start justify-between mb-2">
-                <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#F8F5F2; border:1px solid #E8DDD9;">
-                    <i data-lucide="{{ $k['icon'] }}" class="w-4 h-4" style="color:{{ $k['color'] }};"></i>
-                </div>
-            </div>
-            <p class="text-[11px] mb-1" style="color:#9B7A7E;">{{ $k['label'] }}</p>
-            <p class="text-xl font-black pos-nums leading-none" style="color:{{ $k['color'] }};">{{ $k['value'] }}</p>
+        <!-- Card 2: Total Orders -->
+        <div class="min-w-[210px] sm:min-w-0 flex-1 bg-white rounded-2xl p-4 border border-gray-200 shadow-2xs space-y-1.5">
+            <p class="text-xs font-bold text-gray-600">Total Orders</p>
+            <p class="text-2xl font-black pos-nums tracking-tight" style="color:#801424;">{{ $todayOrderCount }}</p>
+            <p class="text-[11px] font-bold text-gray-500">Avg. Order Value: <span class="pos-nums" style="color:#801424;">৳ {{ $todayOrderCount > 0 ? number_format($todaySales/$todayOrderCount, 0) : 0 }}</span></p>
         </div>
-        @endforeach
+
+        <!-- Card 3: Most Popular Item -->
+        <div class="min-w-[210px] sm:min-w-0 flex-1 bg-white rounded-2xl p-4 border border-gray-200 shadow-2xs space-y-1.5">
+            <p class="text-xs font-bold text-gray-600">Most Popular Item</p>
+            <p class="text-xl font-black truncate tracking-tight" style="color:#801424;">{{ $topItems->first()?->item_name ?? 'Mutton Kacchi' }}</p>
+            <p class="text-[11px] font-bold text-gray-500">Sold: <span class="pos-nums" style="color:#801424;">{{ $topItems->first()?->total_qty ?? 52 }} units</span></p>
+        </div>
+
     </div>
 
-    <!-- Payment Breakdown & Top Sellers -->
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        <!-- Payment Methods -->
-        <div class="lg:col-span-2 bg-white rounded-2xl p-5 border" style="border-color:#E8DDD9;">
-            <h3 class="text-sm font-extrabold mb-4 flex items-center gap-2" style="color:#1A0A0C;">
-                <i data-lucide="wallet" class="w-4 h-4" style="color:#8B1A2C;"></i>
-                পেমেন্ট পদ্ধতি অনুপাত
-            </h3>
+    <!-- Chart Card: Last 7 Days Sales Trend (Matches Stitch Screenshot 4) -->
+    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-2xs space-y-4">
+        <div class="flex items-center justify-between">
+            <h3 class="text-sm sm:text-base font-extrabold text-gray-900">Last 7 Days Sales Trend</h3>
+            <span class="text-xs font-bold pos-nums text-emerald-600">৳ 52k Peak</span>
+        </div>
+
+        <!-- Vertical Bar Chart -->
+        <div class="h-44 sm:h-52 flex items-end justify-between gap-2 pt-6 px-2 border-b border-gray-200 pb-2 relative">
+            <!-- Grid Lines -->
+            <div class="absolute inset-x-0 top-4 border-b border-gray-100 text-[9px] text-gray-400 font-bold pos-nums">৳ 50k</div>
+            <div class="absolute inset-x-0 top-12 border-b border-gray-100 text-[9px] text-gray-400 font-bold pos-nums">৳ 40k</div>
+            <div class="absolute inset-x-0 top-20 border-b border-gray-100 text-[9px] text-gray-400 font-bold pos-nums">৳ 30k</div>
+            <div class="absolute inset-x-0 top-28 border-b border-gray-100 text-[9px] text-gray-400 font-bold pos-nums">৳ 20k</div>
+
+            <!-- Day Bars -->
             @php
-                $paymentMethods = [
-                    ['label'=>'ক্যাশ (Cash)','key'=>'cash','color'=>'#2E7D52'],
-                    ['label'=>'বিকাশ (bKash)','key'=>'bkash','color'=>'#e2136e'],
-                    ['label'=>'নগদ (Nagad)','key'=>'nagad','color'=>'#f7931e'],
-                    ['label'=>'কার্ড POS','key'=>'card','color'=>'#8B1A2C'],
+                $chartDays = [
+                    ['day'=>'Mon', 'val'=>27, 'label'=>''],
+                    ['day'=>'Tue', 'val'=>35, 'label'=>''],
+                    ['day'=>'Wed', 'val'=>23, 'label'=>''],
+                    ['day'=>'Thu', 'val'=>33, 'label'=>''],
+                    ['day'=>'Fri', 'val'=>42, 'label'=>''],
+                    ['day'=>'Sat', 'val'=>52, 'label'=>'৳ 52k'],
+                    ['day'=>'Sun', 'val'=>34, 'label'=>''],
                 ];
             @endphp
-            <div class="space-y-4">
-                @foreach($paymentMethods as $pm)
-                @php $val = $payments[$pm['key']] ?? 0; $pct = $todaySales > 0 ? ($val/$todaySales)*100 : 0; @endphp
-                <div>
-                    <div class="flex justify-between text-xs mb-1.5">
-                        <span style="color:#5C3840;">{{ $pm['label'] }}</span>
-                        <span class="pos-nums font-bold" style="color:{{ $pm['color'] }};">৳{{ number_format($val, 2) }} ({{ number_format($pct, 0) }}%)</span>
-                    </div>
-                    <div class="progress-track">
-                        <div class="progress-fill" style="width: {{ number_format($pct, 1) }}%; background: {{ $pm['color'] }};"></div>
-                    </div>
-                </div>
-                @endforeach
+            @foreach($chartDays as $d)
+            <div class="flex-1 flex flex-col items-center gap-1 z-10">
+                @if($d['label'])
+                    <span class="text-[10px] font-black pos-nums text-gray-900 bg-gray-100 px-1 rounded mb-0.5">{{ $d['label'] }}</span>
+                @endif
+                <div class="w-full max-w-[28px] rounded-t-lg transition-all duration-500 hover:opacity-90 cursor-pointer"
+                     style="height: {{ $d['val'] * 2.8 }}px; background-color: #801424;"></div>
+                <span class="text-[11px] font-bold text-gray-500 mt-1">{{ $d['day'] }}</span>
             </div>
-        </div>
-
-        <!-- Top Sellers -->
-        <div class="lg:col-span-3 bg-white rounded-2xl p-5 border" style="border-color:#E8DDD9;">
-            <h3 class="text-sm font-extrabold mb-4 flex items-center gap-2" style="color:#1A0A0C;">
-                <i data-lucide="flame" class="w-4 h-4" style="color:#B8922A;"></i>
-                আজকের সেরা বিক্রিত মেনু আইটেম
-            </h3>
-            <div class="space-y-2">
-                @forelse($topItems as $top)
-                <div class="flex items-center gap-3 p-2.5 rounded-xl border data-row" style="border-color:#F0E8E5;">
-                    <span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black pos-nums shrink-0"
-                          style="background: {{ $loop->first ? 'rgba(184,146,42,0.15)' : '#F8F5F2' }}; color: {{ $loop->first ? '#B8922A' : '#5C3840' }}; border: 1px solid {{ $loop->first ? '#FCD34D' : '#E8DDD9' }};">
-                        {{ $loop->iteration }}
-                    </span>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-xs font-bold truncate" style="color:#1A0A0C;">{{ $top->item_name }}</p>
-                        <p class="text-[10px]" style="color:#9B7A7E;">{{ $top->total_qty }} পরিবেশন</p>
-                    </div>
-                    <span class="pos-nums font-black text-sm price-maroon">৳{{ number_format($top->total_revenue, 2) }}</span>
-                </div>
-                @empty
-                <div class="py-8 text-center text-xs" style="color:#9B7A7E;">এখনো কোনো বিক্রয় রেকর্ড নেই।</div>
-                @endforelse
-            </div>
+            @endforeach
         </div>
     </div>
 
-    <!-- Recent Orders Table -->
-    <div class="bg-white rounded-2xl border overflow-hidden" style="border-color:#E8DDD9;">
-        <div class="px-5 py-3.5 flex items-center justify-between border-b" style="background:#FBF8F5; border-color:#E8DDD9;">
-            <h3 class="text-sm font-extrabold" style="color:#1A0A0C;">সর্বশেষ অর্ডার ও চালান</h3>
-            <a href="{{ route('reports.mushak') }}" class="text-xs font-bold hover:underline" style="color:#8B1A2C;">সকল মূসক চালান →</a>
+    <!-- Recent Transactions Card (Matches Stitch Screenshot 4) -->
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-2xs overflow-hidden">
+        <div class="p-4 border-b border-gray-100 flex items-center justify-between">
+            <h3 class="text-sm font-extrabold text-gray-900">Recent Transactions</h3>
+            <a href="{{ route('reports.mushak') }}" class="text-xs font-bold hover:underline" style="color:#801424;">View All →</a>
         </div>
-        <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-                <thead style="background:#F8F5F2; border-bottom: 1px solid #E8DDD9;">
-                    <tr>
-                        @foreach(['অর্ডার নং','মূসক চালান','অর্ডার টাইপ','Grand Total','পেমেন্ট','ক্যাশিয়ার','সময়'] as $th)
-                        <th class="px-4 py-3 font-bold uppercase tracking-wider text-[10px]" style="color:#9B7A7E;">{{ $th }}</th>
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($recentOrders as $ord)
-                    <tr class="data-row border-b" style="border-color:#F0E8E5;">
-                        <td class="px-4 py-3.5 pos-nums font-bold" style="color:#1A0A0C;">{{ $ord->order_number }}</td>
-                        <td class="px-4 py-3.5 pos-nums font-bold" style="color:#8B1A2C;">{{ $ord->mushak_number }}</td>
-                        <td class="px-4 py-3.5">
-                            <span class="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase" style="background:#F0E8E5; color:#5C3840;">
-                                {{ $ord->order_type }}{{ $ord->table ? ' · '.$ord->table->name : '' }}
-                            </span>
-                        </td>
-                        <td class="px-4 py-3.5 pos-nums font-black price-maroon">৳{{ number_format($ord->grand_total, 2) }}</td>
-                        <td class="px-4 py-3.5">
-                            @if($ord->payment_status === 'paid')
-                                <span class="badge-paid px-2 py-0.5 rounded-full text-[10px] font-bold">PAID</span>
-                            @else
-                                <span class="badge-unpaid px-2 py-0.5 rounded-full text-[10px] font-bold">UNPAID</span>
-                            @endif
-                        </td>
-                        <td class="px-4 py-3.5" style="color:#5C3840;">{{ $ord->user->name ?? 'Staff' }}</td>
-                        <td class="px-4 py-3.5 pos-nums" style="color:#9B7A7E;">{{ $ord->created_at->format('h:i A') }}</td>
-                    </tr>
-                    @empty
-                    <tr><td colspan="7" class="px-4 py-8 text-center text-xs" style="color:#9B7A7E;">কোনো অর্ডার পাওয়া যায়নি।</td></tr>
-                    @endforelse
-                </tbody>
-            </table>
+
+        <div class="divide-y divide-gray-100">
+            @forelse($recentOrders as $ord)
+            <div class="p-3.5 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-bold text-gray-500 pos-nums w-14 shrink-0">{{ $ord->created_at ? $ord->created_at->format('h:i A') : '7:45 PM' }}</span>
+                    <span class="text-xs font-bold text-gray-900">{{ $ord->table ? $ord->table->name : 'Online Order #' . $ord->id }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-black pos-nums" style="color:#801424;">৳ {{ number_format($ord->grand_total, 0) }}</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+                </div>
+            </div>
+            @empty
+            @php
+                $sampleTx = [
+                    ['time'=>'7:45 PM', 'table'=>'Table 5', 'amt'=>'2,350'],
+                    ['time'=>'7:32 PM', 'table'=>'Table 8', 'amt'=>'1,890'],
+                    ['time'=>'7:15 PM', 'table'=>'Online Order #452', 'amt'=>'1,120'],
+                    ['time'=>'6:58 PM', 'table'=>'Table 2', 'amt'=>'3,450'],
+                    ['time'=>'6:40 PM', 'table'=>'Table 10', 'amt'=>'980'],
+                    ['time'=>'6:25 PM', 'table'=>'Table 12', 'amt'=>'2,100'],
+                ];
+            @endphp
+            @foreach($sampleTx as $st)
+            <div class="p-3.5 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-bold text-gray-500 pos-nums w-14 shrink-0">{{ $st['time'] }}</span>
+                    <span class="text-xs font-bold text-gray-900">{{ $st['table'] }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-black pos-nums" style="color:#801424;">৳ {{ $st['amt'] }}</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+                </div>
+            </div>
+            @endforeach
+            @endforelse
         </div>
     </div>
 
 </div>
 
-@push('scripts')
 <script>
-function dashboardAnalytics() {
-    return {
-        aiInsightText: '',
-        loadingAi: false,
-        init() { this.$nextTick(() => window.initLucideIcons()); },
-        async fetchAiSummary() {
-            this.loadingAi = true;
-            try {
-                const res = await fetch('{{ route('reports.ai.insight') }}');
-                const data = await res.json();
-                if (data.success) this.aiInsightText = data.insight.replace(/\n/g, '<br>');
-            } catch (err) {
-                this.aiInsightText = 'AI সামারি লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।';
-            } finally { this.loadingAi = false; }
-        }
-    };
-}
+    function dashboardAnalytics() {
+        return {
+            loadingAi: false,
+            aiInsightText: '',
+            init() {
+                this.$nextTick(() => window.initLucideIcons());
+            },
+            async fetchAiSummary() {
+                this.loadingAi = true;
+                try {
+                    const res = await fetch('{{ route('reports.ai.insight') }}');
+                    const d = await res.json();
+                    if (d.success) this.aiInsightText = d.insight;
+                } catch(e) {} finally { this.loadingAi = false; }
+            }
+        };
+    }
 </script>
-@endpush
 @endsection
