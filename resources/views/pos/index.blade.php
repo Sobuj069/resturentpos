@@ -673,29 +673,30 @@
         </div>
     </div>
 
-    <!-- ════ MODAL 3: QUICK PAYMENT (Stitch Design) ════ -->
-    <div x-show="openPaymentModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop">
+    <!-- ════ MODAL 3: QUICK PAYMENT (Pixel-Perfect Stitch Design) ════ -->
+    <div x-show="openPaymentModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 modal-backdrop">
         <div @click.outside="openPaymentModal = false"
-             class="w-full max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl border flex flex-col max-h-[95vh]"
-             style="border-color:#E0D4CF;">
+             class="w-full max-w-sm sm:max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl border flex flex-col max-h-[98vh]"
+             style="border-color:#D1D5DB;">
 
             <!-- Header -->
-            <div class="px-4 py-3.5 border-b flex items-center justify-between shrink-0 bg-white" style="border-color:#E5E7EB;">
+            <div class="px-4 py-3 border-b flex items-center justify-between shrink-0 bg-white" style="border-color:#E5E7EB;">
                 <button @click="openPaymentModal = false" class="text-gray-700 hover:text-black p-1">
                     <i data-lucide="chevron-left" class="w-6 h-6 stroke-[2.5]"></i>
                 </button>
-                <h3 class="text-base font-extrabold text-gray-900">Quick Payment</h3>
+                <h3 class="text-lg font-bold text-gray-900 tracking-tight">Quick Payment</h3>
                 <button @click="openPaymentModal = false" class="text-gray-700 hover:text-black p-1">
                     <i data-lucide="menu" class="w-6 h-6 stroke-[2]"></i>
                 </button>
             </div>
 
-            <div class="p-4 space-y-4 overflow-y-auto flex-1 bg-[#FAFAFA]">
+            <!-- Modal Content -->
+            <div class="p-3.5 sm:p-4 space-y-3.5 overflow-y-auto flex-1 bg-white">
 
                 <!-- Total Amount Card -->
-                <div class="bg-white rounded-2xl p-4 border border-gray-200 text-center shadow-2xs space-y-1">
-                    <p class="text-xs font-extrabold text-gray-600">Total Amount</p>
-                    <p class="text-3xl font-black text-gray-900 pos-nums">৳ <span x-text="formatNumber(grandTotal)"></span></p>
+                <div class="bg-[#F8FAFC] rounded-2xl p-3.5 sm:p-4 border border-gray-200 text-center shadow-2xs">
+                    <p class="text-xs font-semibold text-gray-600 mb-0.5">Total Amount</p>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">৳ <span x-text="formatNumber(grandTotal)"></span></p>
                 </div>
 
                 <!-- Payment Methods Grid (4 Cards in a Row) -->
@@ -703,84 +704,77 @@
                     <!-- Cash Card -->
                     <button @click="paymentMethod = 'cash'; paidAmount = grandTotal;"
                             class="p-2.5 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all text-center"
-                            :class="paymentMethod === 'cash' ? 'bg-[#F0F4FF] border-[#2563EB] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
-                        <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-emerald-50 text-emerald-700">
-                            <i data-lucide="banknote" class="w-5 h-5 stroke-[2]"></i>
-                        </div>
-                        <span class="text-xs font-bold text-gray-800">Cash</span>
+                            :class="paymentMethod === 'cash' ? 'bg-[#F0FDF4] border-[#16A34A] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
+                        <i data-lucide="banknote" class="w-6 h-6" :class="paymentMethod === 'cash' ? 'text-[#16A34A]' : 'text-gray-800'"></i>
+                        <span class="text-xs font-semibold text-gray-800">Cash</span>
                     </button>
 
                     <!-- Card -->
                     <button @click="paymentMethod = 'card'; paidAmount = grandTotal;"
                             class="p-2.5 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all text-center"
-                            :class="paymentMethod === 'card' ? 'bg-[#F0F4FF] border-[#2563EB] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
-                        <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-indigo-50 text-indigo-700">
-                            <i data-lucide="credit-card" class="w-5 h-5 stroke-[2]"></i>
-                        </div>
-                        <span class="text-xs font-bold text-gray-800">Card</span>
+                            :class="paymentMethod === 'card' ? 'bg-[#F0FDF4] border-[#16A34A] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
+                        <i data-lucide="credit-card" class="w-6 h-6" :class="paymentMethod === 'card' ? 'text-[#16A34A]' : 'text-gray-800'"></i>
+                        <span class="text-xs font-semibold text-gray-800">Card</span>
                     </button>
 
                     <!-- Bkash -->
                     <button @click="paymentMethod = 'bkash'; paidAmount = grandTotal;"
                             class="p-2.5 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all text-center"
                             :class="paymentMethod === 'bkash' ? 'bg-[#FDF2F8] border-[#DB2777] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
-                        <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-pink-50 text-pink-600">
-                            <i data-lucide="smartphone" class="w-5 h-5 stroke-[2]"></i>
-                        </div>
-                        <span class="text-xs font-bold text-gray-800">Bkash</span>
+                        <i data-lucide="smartphone" class="w-6 h-6" :class="paymentMethod === 'bkash' ? 'text-[#DB2777]' : 'text-gray-800'"></i>
+                        <span class="text-xs font-semibold text-gray-800">Bkash</span>
                     </button>
 
                     <!-- Nagad -->
                     <button @click="paymentMethod = 'nagad'; paidAmount = grandTotal;"
                             class="p-2.5 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all text-center"
                             :class="paymentMethod === 'nagad' ? 'bg-[#FFFBEB] border-[#D97706] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
-                        <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-amber-50 text-amber-600">
-                            <i data-lucide="wallet" class="w-5 h-5 stroke-[2]"></i>
-                        </div>
-                        <span class="text-xs font-bold text-gray-800">Nagad</span>
+                        <i data-lucide="wallet" class="w-6 h-6" :class="paymentMethod === 'nagad' ? 'text-[#D97706]' : 'text-gray-800'"></i>
+                        <span class="text-xs font-semibold text-gray-800">Nagad</span>
                     </button>
                 </div>
 
-                <!-- Input Amount Display & Change Row -->
-                <div class="p-3 bg-white rounded-2xl border border-gray-200 flex items-center justify-between">
-                    <div>
-                        <span class="text-[10px] font-bold text-gray-500 uppercase block">Given Amount</span>
-                        <input type="number" x-model.number="paidAmount" class="w-28 text-lg font-black text-gray-900 pos-nums border-b border-gray-300 focus:outline-none">
+                <!-- Given Amount & Change Display Box -->
+                <div class="p-3 bg-[#F8FAFC] rounded-2xl border border-gray-200 flex items-center justify-between shadow-2xs">
+                    <div class="flex-1">
+                        <span class="text-[10px] font-bold text-gray-500 uppercase block tracking-wider mb-0.5">GIVEN AMOUNT</span>
+                        <input type="number" x-model.number="paidAmount" class="w-full text-lg font-bold text-gray-900 bg-transparent border-b border-gray-300 focus:outline-none pb-0.5">
                     </div>
-                    <div class="text-right">
-                        <span class="text-[10px] font-bold text-gray-500 uppercase block">Change</span>
-                        <span class="text-base font-black pos-nums" :class="changeAmount >= 0 ? 'text-emerald-600' : 'text-rose-600'">
+                    <div class="text-right shrink-0 pl-4">
+                        <span class="text-[10px] font-bold text-gray-500 uppercase block tracking-wider mb-0.5">CHANGE</span>
+                        <span class="text-lg font-bold text-[#16A34A] block">
                             ৳ <span x-text="formatNumber(Math.max(0, changeAmount))"></span>
                         </span>
                     </div>
                 </div>
 
-                <!-- 3x4 On-Screen Keypad Grid -->
+                <!-- 3x4 On-Screen Keypad Grid (Exact Stitch Keypad) -->
                 <div class="grid grid-cols-3 gap-2">
-                    <button @click="appendKeypadDigit('1')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">1</button>
-                    <button @click="appendKeypadDigit('2')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">2</button>
-                    <button @click="appendKeypadDigit('3')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">3</button>
+                    <button @click="appendKeypadDigit('1')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">1</button>
+                    <button @click="appendKeypadDigit('2')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">2</button>
+                    <button @click="appendKeypadDigit('3')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">3</button>
 
-                    <button @click="appendKeypadDigit('4')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">4</button>
-                    <button @click="appendKeypadDigit('5')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">5</button>
-                    <button @click="appendKeypadDigit('6')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">6</button>
+                    <button @click="appendKeypadDigit('4')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">4</button>
+                    <button @click="appendKeypadDigit('5')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">5</button>
+                    <button @click="appendKeypadDigit('6')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">6</button>
 
-                    <button @click="appendKeypadDigit('7')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">7</button>
-                    <button @click="appendKeypadDigit('8')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">8</button>
-                    <button @click="deleteKeypadDigit()" class="py-3.5 bg-white rounded-2xl border border-gray-200 flex items-center justify-center text-gray-800 shadow-2xs active:bg-gray-100 transition-all">
+                    <button @click="appendKeypadDigit('7')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">7</button>
+                    <button @click="appendKeypadDigit('8')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">8</button>
+                    <button @click="deleteKeypadDigit()" class="py-3 bg-white rounded-2xl border border-gray-200 flex items-center justify-center text-gray-800 shadow-2xs active:bg-gray-100 transition-all">
                         <i data-lucide="delete" class="w-6 h-6"></i>
                     </button>
 
-                    <button @click="appendKeypadDigit('00')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">00</button>
-                    <button @click="appendKeypadDigit('0')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">0</button>
-                    <button @click="paidAmount = grandTotal" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-base font-extrabold text-gray-800 shadow-2xs active:bg-gray-100 transition-all">OK</button>
+                    <!-- Blank button matching Stitch Reference 1 -->
+                    <button @click="appendKeypadDigit('00')" class="py-3 bg-white rounded-2xl border border-gray-200 text-sm font-bold text-gray-400 shadow-2xs active:bg-gray-100 transition-all">00</button>
+                    <button @click="appendKeypadDigit('0')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">0</button>
+                    <button @click="paidAmount = grandTotal" class="py-3 bg-white rounded-2xl border border-gray-200 text-base font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">OK</button>
                 </div>
             </div>
 
             <!-- Complete Payment Green Button -->
-            <div class="p-4 bg-white border-t shrink-0 border-gray-200">
+            <div class="p-3.5 bg-white border-t shrink-0 border-gray-200">
                 <button @click="processPaymentAndPrint()" :disabled="isProcessing"
-                        class="w-full py-4 rounded-2xl text-base font-extrabold text-white flex items-center justify-center gap-2 shadow-lg cursor-pointer transition-all active:scale-[0.98] disabled:opacity-50"
+                        class="w-full py-3.5 rounded-2xl text-base font-bold text-white flex items-center justify-center gap-2 shadow-lg cursor-pointer transition-all active:scale-[0.98] disabled:opacity-50"
                         style="background-color: #25A25A;">
                     <i data-lucide="check-circle-2" class="w-5 h-5 stroke-[2.5]"></i>
                     <span x-text="isProcessing ? 'Processing Payment...' : 'Complete Payment'"></span>
