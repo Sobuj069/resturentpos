@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Models\Customer;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderItem;
