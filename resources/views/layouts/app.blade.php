@@ -125,6 +125,7 @@
                     $navLinks = [
                         ['route'=>'reports.dashboard', 'match'=>'reports.dashboard', 'icon'=>'bar-chart-3',     'label'=>'ড্যাশবোর্ড ও অ্যানালিটিক্স'],
                         ['route'=>'pos.index',         'match'=>'pos.*',             'icon'=>'shopping-cart',   'label'=>'POS বিলিং টার্মিনাল'],
+                        ['route'=>'reports.mushak',    'match'=>'reports.mushak',    'icon'=>'clipboard-list',  'label'=>'অর্ডার তালিকা (Order List)'],
                         ['route'=>'waiter.index',      'match'=>'waiter.*',          'icon'=>'chef-hat',        'label'=>'ক্যাপ্টেন ও ওয়েটার'],
                         ['route'=>'menu.index',        'match'=>'menu.*',            'icon'=>'utensils',        'label'=>'মেনু ও খাবার আইটেম'],
                         ['route'=>'tables.index',      'match'=>'tables.*',          'icon'=>'layout-grid',     'label'=>'টেবিল ও ফ্লোরপ্ল্যান'],
@@ -134,7 +135,6 @@
                         ['route'=>'delivery.index',    'match'=>'delivery.*',        'icon'=>'bike',            'label'=>'অনলাইন ডেলিভারি'],
                         ['route'=>'transfers.index',   'match'=>'transfers.*',       'icon'=>'truck',           'label'=>'ব্রাঞ্চ স্টক ট্রান্সফার'],
                         ['route'=>'inventory.index',   'match'=>'inventory.*',       'icon'=>'boxes',           'label'=>'ইনভেন্টরি ও BOM'],
-                        ['route'=>'reports.mushak',    'match'=>'reports.mushak',    'icon'=>'file-badge-2',    'label'=>'NBR মূসক ৬.৩ চালান'],
                     ];
 
                     if (auth()->user()?->isSuperAdmin()) {
@@ -309,8 +309,8 @@
         @php
             $mobileTabs = [
                 ['route'=>'pos.index',         'match'=>'pos.*',             'icon'=>'home',          'label'=>'Home'],
-                ['route'=>'waiter.index',      'match'=>'waiter.*',          'icon'=>'clipboard-list','label'=>'Orders'],
-                ['route'=>'reports.dashboard', 'match'=>'reports.*',         'icon'=>'bar-chart-3',   'label'=>'Reports'],
+                ['route'=>'reports.mushak',    'match'=>'reports.mushak',    'icon'=>'clipboard-list','label'=>'Orders'],
+                ['route'=>'reports.dashboard', 'match'=>'reports.dashboard', 'icon'=>'bar-chart-3',   'label'=>'Reports'],
                 ['route'=>'menu.index',        'match'=>'menu.*',            'icon'=>'utensils',      'label'=>'Menu'],
                 ['route'=>'settings.index',    'match'=>'settings.*',        'icon'=>'settings',      'label'=>'Settings'],
             ];

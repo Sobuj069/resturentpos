@@ -8,11 +8,11 @@
         <div>
             <div class="flex items-center gap-3 mb-1">
                 <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(139,26,44,0.1); border:1.5px solid rgba(139,26,44,0.25);">
-                    <i data-lucide="file-badge-2" class="w-5 h-5" style="color:#8B1A2C;"></i>
+                    <i data-lucide="clipboard-list" class="w-5 h-5" style="color:#8B1A2C;"></i>
                 </div>
-                <h1 class="text-lg font-extrabold" style="color:#1A0A0C;">মূসক-৬.৩ কর চালানপত্র রেজিস্টার</h1>
+                <h1 class="text-lg font-extrabold" style="color:#1A0A0C;">অর্ডার ও বিক্রয় চালান তালিকা (Order List)</h1>
             </div>
-            <p class="text-xs" style="color:#9B7A7E;">জাতীয় রাজস্ব বোর্ড (NBR) বিধিমালা অনুযায়ী বিক্রয় কর চালানপত্র তালিকা · BIN: {{ $currentBranch->bin_number ?? '001928374-0102' }}</p>
+            <p class="text-xs" style="color:#9B7A7E;">সকল বিক্রির অর্ডার ও জাতীয় রাজস্ব বোর্ড (NBR) মূসক-৬.৩ কর চালানপত্র তালিকা · BIN: {{ $currentBranch->bin_number ?? '001928374-0102' }}</p>
         </div>
 
         <form method="GET" action="{{ route('reports.mushak') }}" class="flex items-center gap-2">
