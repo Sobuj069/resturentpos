@@ -337,6 +337,11 @@
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end gap-1.5">
+                                <a href="{{ route('expenses.index', ['staff_id' => $u->id]) }}"
+                                   class="px-2 py-1 rounded-lg text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 flex items-center gap-1">
+                                    <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                                    <span>বেতন লেজার</span>
+                                </a>
                                 <button @click="editUser({{ json_encode($u) }})"
                                         class="px-2.5 py-1 rounded-lg text-xs font-bold"
                                         style="background:#FBF1F3; color:#8B1A2C; border:1px solid rgba(139,26,44,0.25);">

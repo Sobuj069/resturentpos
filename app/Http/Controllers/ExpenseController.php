@@ -32,11 +32,21 @@ class ExpenseController extends Controller
         $categories = ExpenseCategory::withCount('expenses')->get();
         $staffList = User::where('is_active', true)->orderBy('name')->get();
 
-        $expenses = Expense::with(['category', 'user', 'staffUser'])
-            ->whereBetween('expense_date', [$startDate, $endDate])
-            ->latest('expense_date')
-            ->paginate(15)
-            ->withQueryString();
+        $selectedStaffId = $request->input('staff_id');
+        $selectedCategoryId = $request->input('category_id');
+
+        $query = Expense::with(['category', 'user', 'staffUser'])
+            ->whereBetween('expense_date', [$startDate, $endDate]);
+
+        if ($selectedStaffId) {
+            $query->where('staff_user_id', $selectedStaffId);
+        }
+
+        if ($selectedCategoryId) {
+            $query->where('category_id', $selectedCategoryId);
+        }
+
+        $expenses = $query->latest('expense_date')->paginate(15)->withQueryString();
 
         // 1. Total Operating Expenses in period
         $totalExpenses = Expense::whereBetween('expense_date', [$startDate, $endDate])->sum('amount');
@@ -69,6 +79,8 @@ class ExpenseController extends Controller
             'staffList',
             'startDate',
             'endDate',
+            'selectedStaffId',
+            'selectedCategoryId',
             'totalExpenses',
             'totalSales',
             'totalCogs',
@@ -76,6 +88,50 @@ class ExpenseController extends Controller
             'netProfit',
             'netProfitMargin'
         ));
+    }
+
+    /**
+     * Get Staff Salary Ledger & Payout Statement
+     */
+    public function staffLedger(User $user): JsonResponse
+    {
+        $payouts = Expense::where('staff_user_id', $user->id)
+            ->with(['user', 'branch'])
+            ->latest('expense_date')
+            ->get();
+
+        $totalPaid = $payouts->sum('amount');
+        $thisMonthPaid = $payouts->filter(fn($p) => Carbon::parse($p->expense_date)->isCurrentMonth())->sum('amount');
+        $advances = $payouts->where('salary_period', 'advance')->sum('amount');
+
+        return response()->json([
+            'success' => true,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'role' => $user->role,
+                'phone' => $user->phone,
+                'salary_type' => $user->salary_type,
+                'base_salary' => (float)$user->base_salary,
+            ],
+            'summary' => [
+                'total_paid' => $totalPaid,
+                'this_month_paid' => $thisMonthPaid,
+                'total_advances' => $advances,
+                'total_payout_count' => $payouts->count(),
+            ],
+            'payouts' => $payouts->map(fn($p) => [
+                'id' => $p->id,
+                'title' => $p->title,
+                'amount' => (float)$p->amount,
+                'salary_period' => $p->salary_period ?? 'salary',
+                'payment_method' => strtoupper($p->payment_method),
+                'expense_date' => $p->expense_date->format('d M, Y'),
+                'issued_by' => $p->user->name ?? 'Admin',
+                'receipt_number' => $p->receipt_number ?? ('PAY-' . $p->id),
+                'notes' => $p->notes ?? '—',
+            ]),
+        ]);
     }
 
     /**

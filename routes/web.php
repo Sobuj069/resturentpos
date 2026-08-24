@@ -108,6 +108,7 @@ Route::prefix('waiter')->name('waiter.')->group(function () {
 Route::prefix('expenses')->name('expenses.')->group(function () {
     Route::get('/', [ExpenseController::class, 'index'])->name('index');
     Route::post('/', [ExpenseController::class, 'store'])->name('store');
+    Route::get('/staff-ledger/{user}', [ExpenseController::class, 'staffLedger'])->name('staffLedger');
     Route::post('/category', [ExpenseController::class, 'storeCategory'])->name('category.store');
     Route::delete('/{expense}', [ExpenseController::class, 'destroy'])->name('destroy');
 });
