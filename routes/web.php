@@ -147,6 +147,7 @@ Route::prefix('inventory')->name('inventory.')->group(function () {
 // 12. Reports & NBR Mushak 6.3 Register
 Route::prefix('reports')->name('reports.')->group(function () {
     Route::get('/dashboard', [ReportController::class, 'dashboard'])->name('dashboard');
+    Route::get('/shifts', [ReportController::class, 'shiftReport'])->name('shifts');
     Route::get('/mushak-6-3', [ReportController::class, 'mushakRegister'])->name('mushak');
     Route::get('/ai-insight', [ReportController::class, 'getAiInsight'])->name('ai.insight');
 });

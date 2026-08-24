@@ -124,6 +124,7 @@
                 @php
                     $navLinks = [
                         ['route'=>'reports.dashboard', 'match'=>'reports.dashboard', 'icon'=>'bar-chart-3',     'label'=>'ড্যাশবোর্ড ও অ্যানালিটিক্স'],
+                        ['route'=>'reports.shifts',    'match'=>'reports.shifts',    'icon'=>'history',         'label'=>'শিফট অডিট ও ক্যাশ রিপোর্ট'],
                         ['route'=>'pos.index',         'match'=>'pos.*',             'icon'=>'shopping-cart',   'label'=>'POS বিলিং টার্মিনাল'],
                         ['route'=>'reports.mushak',    'match'=>'reports.mushak',    'icon'=>'clipboard-list',  'label'=>'অর্ডার তালিকা (Order List)'],
                         ['route'=>'waiter.index',      'match'=>'waiter.*',          'icon'=>'chef-hat',        'label'=>'ক্যাপ্টেন ও ওয়েটার'],

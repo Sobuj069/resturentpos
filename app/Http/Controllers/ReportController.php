@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\Shift;
+use App\Models\User;
 use App\Models\Wastage;
 use App\Services\GeminiService;
 use App\Services\MushakService;
@@ -136,5 +137,45 @@ class ReportController extends Controller
             'stats' => $stats,
             'insight' => $insight,
         ]);
+    }
+
+    /**
+     * Cashier Shift Opening & Closing Audit Report
+     */
+    public function shiftReport(Request $request): View
+    {
+        $startDate = $request->query('start_date', now()->startOfMonth()->format('Y-m-d'));
+        $endDate = $request->query('end_date', now()->format('Y-m-d'));
+        $userId = $request->query('user_id');
+
+        $query = Shift::with('user')
+            ->whereDate('opened_at', '>=', $startDate)
+            ->whereDate('opened_at', '<=', $endDate);
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        $shifts = $query->latest('opened_at')->paginate(20)->withQueryString();
+
+        // Summary Stats
+        $totalShifts = Shift::whereDate('opened_at', '>=', $startDate)->whereDate('opened_at', '<=', $endDate)->count();
+        $totalOpeningFloat = Shift::whereDate('opened_at', '>=', $startDate)->whereDate('opened_at', '<=', $endDate)->sum('opening_float');
+        $totalCashSales = Shift::whereDate('opened_at', '>=', $startDate)->whereDate('opened_at', '<=', $endDate)->sum('cash_sales');
+        $totalVariance = Shift::whereDate('opened_at', '>=', $startDate)->whereDate('opened_at', '<=', $endDate)->sum('cash_difference');
+
+        $cashiers = User::whereIn('role', ['cashier', 'admin', 'manager'])->orderBy('name')->get();
+
+        return view('reports.shifts', compact(
+            'shifts',
+            'startDate',
+            'endDate',
+            'userId',
+            'totalShifts',
+            'totalOpeningFloat',
+            'totalCashSales',
+            'totalVariance',
+            'cashiers'
+        ));
     }
 }
