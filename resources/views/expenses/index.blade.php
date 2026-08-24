@@ -16,10 +16,16 @@
         </div>
 
         <div class="flex items-center gap-2">
+            <button @click="openStaffSalaryModal()"
+                    class="px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 border shadow-xs"
+                    style="background:#FEF3C7; border-color:#FDE68A; color:#92400E;">
+                <i data-lucide="banknote" class="w-4 h-4 text-amber-700"></i>
+                <span>+ স্টাফ বেতন / দৈনিক মজুরি প্রদান</span>
+            </button>
             <button @click="openExpenseModal = true; resetExpenseForm();"
                     class="btn-maroon px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5">
                 <i data-lucide="plus" class="w-4 h-4"></i>
-                <span>+ নতুন খরচ এন্ট্রি</span>
+                <span>+ নতুন সাধারণ খরচ এন্ট্রি</span>
             </button>
         </div>
     </div>
@@ -162,6 +168,84 @@
         </div>
     </div>
 
+    <!-- ════ MODAL 2: STAFF SALARY & WAGE PAYOUT ════ -->
+    <div x-show="openSalaryModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+        <div @click.outside="openSalaryModal = false"
+             class="w-full max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl border"
+             style="border-color:#E0D4CF;">
+            <div class="p-4 border-b flex items-center justify-between" style="background: linear-gradient(135deg, #70101E, #92400E);">
+                <div class="flex items-center gap-2 text-white">
+                    <i data-lucide="banknote" class="w-5 h-5" style="color:#FDE68A;"></i>
+                    <h3 class="text-sm font-bold">স্টাফ বেতন ও মজুরি পরিশোধ</h3>
+                </div>
+                <button @click="openSalaryModal = false" style="color:rgba(255,255,255,0.7);"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="p-5 space-y-4">
+                <!-- Select Staff Member -->
+                <div>
+                    <label class="section-heading">স্টাফ সদস্য নির্বাচন করুন *</label>
+                    <select x-model="selectedStaffId" @change="onStaffSelect()" class="pos-input w-full px-3 py-2.5 text-xs font-bold rounded-xl">
+                        <option value="">-- স্টাফ নির্বাচন করুন --</option>
+                        @foreach($staffList as $st)
+                            <option value="{{ $st->id }}" data-type="{{ $st->salary_type }}" data-salary="{{ $st->base_salary }}">
+                                {{ $st->name }} ({{ ucfirst($st->role) }}) — {{ $st->salary_type === 'daily' ? 'দৈনিক ৳'.$st->base_salary : ($st->salary_type === 'weekly' ? 'সাপ্তাহিক ৳'.$st->base_salary : 'মাসিক ৳'.$st->base_salary) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Salary Period -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="section-heading">পরিশোধের ধরন *</label>
+                        <select x-model="expenseForm.salary_period" @change="updateSalaryTitle()" class="pos-input w-full px-3 py-2 text-xs rounded-xl font-bold">
+                            <option value="daily">দৈনিক মজুরি (Daily Wage)</option>
+                            <option value="weekly">সাপ্তাহিক বেতন (Weekly Salary)</option>
+                            <option value="monthly">মাসিক বেতন (Monthly Salary)</option>
+                            <option value="advance">অ্যাডভান্স / অগ্রিম (Advance)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="section-heading">টাকার পরিমাণ (৳) *</label>
+                        <input type="number" step="0.01" x-model.number="expenseForm.amount" placeholder="500" class="pos-input w-full px-3 py-2 text-xs pos-nums font-black price-maroon rounded-xl">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="section-heading">পেমেন্ট মাধ্যম</label>
+                        <select x-model="expenseForm.payment_method" class="pos-input w-full px-3 py-2 text-xs rounded-xl">
+                            <option value="cash">ক্যাশ (Cash)</option>
+                            <option value="bkash">বিকাশ (bKash)</option>
+                            <option value="nagad">নগদ (Nagad)</option>
+                            <option value="bank">ব্যাংক ট্রান্সফার</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="section-heading">তারিখ *</label>
+                        <input type="date" x-model="expenseForm.expense_date" class="pos-input w-full px-3 py-2 text-xs rounded-xl">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="section-heading">খরচের বিবরণ / টাইটেল *</label>
+                    <input type="text" x-model="expenseForm.title" class="pos-input w-full px-3 py-2 text-xs font-bold rounded-xl">
+                </div>
+
+                <div>
+                    <label class="section-heading">নোট (ঐচ্ছিক)</label>
+                    <input type="text" x-model="expenseForm.notes" placeholder="উদাঃ ২৪শে আগস্টের দৈনিক হাজিরা মজুরি" class="pos-input w-full px-3 py-2 text-xs rounded-xl">
+                </div>
+            </div>
+
+            <div class="p-4 border-t flex justify-between items-center" style="background:#FBF8F5; border-color:#E0D4CF;">
+                <button @click="openSalaryModal = false" class="px-4 py-2 text-xs font-bold" style="color:#9B7A7E;">বাতিল</button>
+                <button @click="saveExpense()" class="btn-maroon px-6 py-2.5 text-xs font-bold">বেতন পরিশোধ সংরক্ষণ</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @push('scripts')
@@ -169,12 +253,62 @@
 function expenseManager() {
     return {
         openExpenseModal: false,
-        expenseForm: { title: '', category_id: '', amount: 0, payment_method: 'cash', expense_date: '{{ now()->toDateString() }}', notes: '' },
+        openSalaryModal: false,
+        selectedStaffId: '',
+        staffList: @json($staffList),
+        salaryCategoryId: '{{ $categories->firstWhere('name', 'Staff Salary & Wages')?->id ?? ($categories->first()?->id ?? 1) }}',
+
+        expenseForm: {
+            id: null,
+            title: '',
+            category_id: '',
+            staff_user_id: null,
+            salary_period: 'daily',
+            amount: 0,
+            payment_method: 'cash',
+            expense_date: '{{ now()->toDateString() }}',
+            notes: ''
+        },
 
         init() { this.$nextTick(() => window.initLucideIcons()); },
 
         resetExpenseForm() {
-            this.expenseForm = { title: '', category_id: '', amount: 0, payment_method: 'cash', expense_date: '{{ now()->toDateString() }}', notes: '' };
+            this.selectedStaffId = '';
+            this.expenseForm = {
+                id: null,
+                title: '',
+                category_id: this.categories && this.categories.length > 0 ? this.categories[0].id : '',
+                staff_user_id: null,
+                salary_period: null,
+                amount: 0,
+                payment_method: 'cash',
+                expense_date: '{{ now()->toDateString() }}',
+                notes: ''
+            };
+        },
+
+        openStaffSalaryModal() {
+            this.resetExpenseForm();
+            this.expenseForm.category_id = this.salaryCategoryId;
+            this.openSalaryModal = true;
+            this.$nextTick(() => window.initLucideIcons());
+        },
+
+        onStaffSelect() {
+            const st = this.staffList.find(x => x.id == this.selectedStaffId);
+            if (st) {
+                this.expenseForm.staff_user_id = st.id;
+                this.expenseForm.salary_period = st.salary_type || 'daily';
+                this.expenseForm.amount = parseFloat(st.base_salary) || 0;
+                this.updateSalaryTitle();
+            }
+        },
+
+        updateSalaryTitle() {
+            const st = this.staffList.find(x => x.id == this.selectedStaffId);
+            const periodNames = { daily: 'দৈনিক মজুরি', weekly: 'সাপ্তাহিক বেতন', monthly: 'মাসিক বেতন', advance: 'অ্যাডভান্স' };
+            const p = periodNames[this.expenseForm.salary_period] || 'বেতন';
+            this.expenseForm.title = st ? `${st.name} (${st.role}) - ${p}` : `স্টাফ ${p}`;
         },
 
         async saveExpense() {

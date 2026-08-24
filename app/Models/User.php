@@ -48,6 +48,11 @@ class User extends Authenticatable
         return $this->hasMany(Shift::class);
     }
 
+    public function staffExpenses(): HasMany
+    {
+        return $this->hasMany(Expense::class, 'staff_user_id');
+    }
+
     public function isSuperAdmin(): bool
     {
         return $this->role === 'superadmin' 

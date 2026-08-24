@@ -23,9 +23,16 @@ class ExpenseController extends Controller
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
 
-        $categories = ExpenseCategory::withCount('expenses')->get();
+        // Ensure Staff Salary category exists
+        ExpenseCategory::firstOrCreate(
+            ['name' => 'Staff Salary & Wages'],
+            ['bangla_name' => 'স্টাফ বেতন ও দৈনিক মজুরি', 'icon' => 'users', 'is_active' => true]
+        );
 
-        $expenses = Expense::with(['category', 'user'])
+        $categories = ExpenseCategory::withCount('expenses')->get();
+        $staffList = User::where('is_active', true)->orderBy('name')->get();
+
+        $expenses = Expense::with(['category', 'user', 'staffUser'])
             ->whereBetween('expense_date', [$startDate, $endDate])
             ->latest('expense_date')
             ->paginate(15)
@@ -59,6 +66,7 @@ class ExpenseController extends Controller
         return view('expenses.index', compact(
             'expenses',
             'categories',
+            'staffList',
             'startDate',
             'endDate',
             'totalExpenses',
@@ -78,6 +86,8 @@ class ExpenseController extends Controller
         $validated = $request->validate([
             'id' => 'nullable|exists:expenses,id',
             'category_id' => 'required|exists:expense_categories,id',
+            'staff_user_id' => 'nullable|exists:users,id',
+            'salary_period' => 'nullable|in:daily,weekly,monthly,advance',
             'title' => 'required|string|max:150',
             'amount' => 'required|numeric|min:0.01',
             'payment_method' => 'required|in:cash,bkash,nagad,bank',
@@ -99,8 +109,8 @@ class ExpenseController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'খরচ সফলভাবে এন্ট্রি করা হয়েছে!',
-            'expense' => $expense->load('category'),
+            'message' => 'খরচ/বেতন এন্ট্রি সফলভাবে সম্পন্ন হয়েছে!',
+            'expense' => $expense->load(['category', 'staffUser']),
         ]);
     }
 

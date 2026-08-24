@@ -435,6 +435,21 @@
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
+                        <label class="section-heading">বেতন টাইপ (Salary Type) *</label>
+                        <select x-model="userForm.salary_type" class="pos-input w-full px-3 py-2 text-xs rounded-xl font-bold">
+                            <option value="daily">দৈনিক মজুরি (Daily Wage)</option>
+                            <option value="weekly">সাপ্তাহিক বেতন (Weekly Salary)</option>
+                            <option value="monthly">মাসিক বেতন (Monthly Salary)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="section-heading">বেতন / মজুরি পরিমাণ (৳) *</label>
+                        <input type="number" step="0.01" x-model.number="userForm.base_salary" placeholder="500" class="pos-input w-full px-3 py-2 text-xs pos-nums font-bold price-maroon rounded-xl">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
                         <label class="section-heading">মোবাইল নম্বর</label>
                         <input type="text" x-model="userForm.phone" placeholder="01711000000" class="pos-input w-full px-3 py-2 text-xs pos-nums rounded-xl">
                     </div>
@@ -465,7 +480,7 @@ function settingsManager() {
         branchForm: @json($branch),
         logoFile: null,
         logoPreview: null,
-        userForm: { id: null, name: '', email: '', role: 'cashier', pin_code: '1234', phone: '' },
+        userForm: { id: null, name: '', email: '', role: 'cashier', salary_type: 'monthly', base_salary: 0, pin_code: '1234', phone: '' },
 
         init() { this.$nextTick(() => window.initLucideIcons()); },
 
@@ -505,11 +520,20 @@ function settingsManager() {
         },
 
         resetUserForm() {
-            this.userForm = { id: null, name: '', email: '', role: 'cashier', pin_code: '1234', phone: '' };
+            this.userForm = { id: null, name: '', email: '', role: 'waiter', salary_type: 'daily', base_salary: 500, pin_code: '1234', phone: '' };
         },
 
         editUser(u) {
-            this.userForm = { id: u.id, name: u.name, email: u.email, role: u.role, pin_code: u.pin_code || '1234', phone: u.phone || '' };
+            this.userForm = {
+                id: u.id,
+                name: u.name,
+                email: u.email,
+                role: u.role,
+                salary_type: u.salary_type || 'monthly',
+                base_salary: u.base_salary || 0,
+                pin_code: u.pin_code || '1234',
+                phone: u.phone || ''
+            };
             this.openUserModal = true;
             this.$nextTick(() => window.initLucideIcons());
         },
