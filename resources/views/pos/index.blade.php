@@ -674,7 +674,9 @@
     </div>
 
     <!-- ════ MODAL 3: QUICK PAYMENT (Pixel-Perfect Stitch Design) ════ -->
-    <div x-show="openPaymentModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 modal-backdrop">
+    <div x-show="openPaymentModal" x-cloak
+         @keydown.enter.window="if(openPaymentModal && !isProcessing) { $event.preventDefault(); processPaymentAndPrint(); }"
+         class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 modal-backdrop">
         <div @click.outside="openPaymentModal = false"
              class="w-full max-w-sm sm:max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl border flex flex-col max-h-[98vh]"
              style="border-color:#D1D5DB;">
@@ -738,7 +740,9 @@
                 <div class="p-3 bg-[#F8FAFC] rounded-2xl border border-gray-200 flex items-center justify-between shadow-2xs">
                     <div class="flex-1">
                         <span class="text-[10px] font-bold text-gray-500 uppercase block tracking-wider mb-0.5">GIVEN AMOUNT</span>
-                        <input type="number" x-model.number="paidAmount" class="w-full text-lg font-bold text-gray-900 bg-transparent border-b border-gray-300 focus:outline-none pb-0.5">
+                        <input type="number" x-model.number="paidAmount"
+                               @keydown.enter.prevent="processPaymentAndPrint()"
+                               class="w-full text-lg font-bold text-gray-900 bg-transparent border-b border-gray-300 focus:outline-none pb-0.5">
                     </div>
                     <div class="text-right shrink-0 pl-4">
                         <span class="text-[10px] font-bold text-gray-500 uppercase block tracking-wider mb-0.5">CHANGE</span>
@@ -767,7 +771,7 @@
                     <!-- Blank button matching Stitch Reference 1 -->
                     <button @click="appendKeypadDigit('00')" class="py-3 bg-white rounded-2xl border border-gray-200 text-sm font-bold text-gray-400 shadow-2xs active:bg-gray-100 transition-all">00</button>
                     <button @click="appendKeypadDigit('0')" class="py-3 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">0</button>
-                    <button @click="paidAmount = grandTotal" class="py-3 bg-white rounded-2xl border border-gray-200 text-base font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all">OK</button>
+                    <button @click="processPaymentAndPrint()" class="py-3 bg-[#16A34A] hover:bg-[#15803D] text-white rounded-2xl border border-emerald-600 text-base font-extrabold shadow-xs active:scale-95 transition-all">OK</button>
                 </div>
             </div>
 
@@ -1640,6 +1644,7 @@ function posTerminal() {
             }
         },
         async processPaymentAndPrint() {
+            if (this.isProcessing) return;
             this.isProcessing=true;
             const targetTableId = this.selectedTable?.id || null;
             try {
