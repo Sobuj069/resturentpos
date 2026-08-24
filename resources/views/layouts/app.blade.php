@@ -308,20 +308,20 @@
          style="border-color:#E0D4CF;">
         @php
             $mobileTabs = [
-                ['route'=>'pos.index',         'match'=>'pos.*',             'icon'=>'shopping-cart', 'label'=>'POS'],
-                ['route'=>'kds.index',         'match'=>'kds.*',             'icon'=>'flame',         'label'=>'KDS'],
-                ['route'=>'menu.index',        'match'=>'menu.*',            'icon'=>'utensils',      'label'=>'মেনু'],
-                ['route'=>'tables.index',      'match'=>'tables.*',          'icon'=>'layout-grid',   'label'=>'টেবিল'],
-                ['route'=>'reports.dashboard', 'match'=>'reports.dashboard', 'icon'=>'bar-chart-3',   'label'=>'রিপোর্ট'],
+                ['route'=>'pos.index',         'match'=>'pos.*',             'icon'=>'home',          'label'=>'Home'],
+                ['route'=>'waiter.index',      'match'=>'waiter.*',          'icon'=>'clipboard-list','label'=>'Orders'],
+                ['route'=>'reports.dashboard', 'match'=>'reports.*',         'icon'=>'bar-chart-3',   'label'=>'Reports'],
+                ['route'=>'menu.index',        'match'=>'menu.*',            'icon'=>'utensils',      'label'=>'Menu'],
+                ['route'=>'settings.index',    'match'=>'settings.*',        'icon'=>'settings',      'label'=>'Settings'],
             ];
         @endphp
         @foreach($mobileTabs as $mt)
             @php $active = request()->routeIs($mt['match']); @endphp
             <a href="{{ route($mt['route']) }}"
                class="flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all"
-               style="{{ $active ? 'color:#8B1A2C;' : 'color:#9B7A7E;' }}">
+               style="{{ $active ? 'color:#801424; font-weight:800;' : 'color:#9B7A7E;' }}">
                 <i data-lucide="{{ $mt['icon'] }}" class="w-5 h-5 {{ $active ? 'stroke-[2.5]' : '' }}"></i>
-                <span class="text-[10px] font-bold mt-0.5">{{ $mt['label'] }}</span>
+                <span class="text-[10px] font-extrabold mt-0.5">{{ $mt['label'] }}</span>
             </a>
         @endforeach
     </nav>

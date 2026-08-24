@@ -673,92 +673,117 @@
         </div>
     </div>
 
-    <!-- ════ MODAL 3: PAYMENT ════ -->
+    <!-- ════ MODAL 3: QUICK PAYMENT (Stitch Design) ════ -->
     <div x-show="openPaymentModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop">
         <div @click.outside="openPaymentModal = false"
-             class="w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border bg-white max-h-[90vh] flex flex-col"
+             class="w-full max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl border flex flex-col max-h-[95vh]"
              style="border-color:#E0D4CF;">
-            <div class="p-4 border-b shrink-0" style="background: linear-gradient(135deg, #5C0F1B, #8B1A2C); border-color: transparent;">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-sm font-bold text-white">পেমেন্ট ও চালান জেনারেশন</h3>
-                        <p class="text-xs" style="color:rgba(255,255,255,0.7);">মোট প্রদেয়: <span class="pos-nums font-black text-white">৳<span x-text="formatNumber(grandTotal)"></span></span></p>
-                    </div>
-                    <button @click="openPaymentModal = false" style="color:rgba(255,255,255,0.7);">
-                        <i data-lucide="x" class="w-5 h-5"></i>
+
+            <!-- Header -->
+            <div class="px-4 py-3.5 border-b flex items-center justify-between shrink-0 bg-white" style="border-color:#E5E7EB;">
+                <button @click="openPaymentModal = false" class="text-gray-700 hover:text-black p-1">
+                    <i data-lucide="chevron-left" class="w-6 h-6 stroke-[2.5]"></i>
+                </button>
+                <h3 class="text-base font-extrabold text-gray-900">Quick Payment</h3>
+                <button @click="openPaymentModal = false" class="text-gray-700 hover:text-black p-1">
+                    <i data-lucide="menu" class="w-6 h-6 stroke-[2]"></i>
+                </button>
+            </div>
+
+            <div class="p-4 space-y-4 overflow-y-auto flex-1 bg-[#FAFAFA]">
+
+                <!-- Total Amount Card -->
+                <div class="bg-white rounded-2xl p-4 border border-gray-200 text-center shadow-2xs space-y-1">
+                    <p class="text-xs font-extrabold text-gray-600">Total Amount</p>
+                    <p class="text-3xl font-black text-gray-900 pos-nums">৳ <span x-text="formatNumber(grandTotal)"></span></p>
+                </div>
+
+                <!-- Payment Methods Grid (4 Cards in a Row) -->
+                <div class="grid grid-cols-4 gap-2">
+                    <!-- Cash Card -->
+                    <button @click="paymentMethod = 'cash'; paidAmount = grandTotal;"
+                            class="p-2.5 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all text-center"
+                            :class="paymentMethod === 'cash' ? 'bg-[#F0F4FF] border-[#2563EB] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
+                        <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-emerald-50 text-emerald-700">
+                            <i data-lucide="banknote" class="w-5 h-5 stroke-[2]"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-800">Cash</span>
+                    </button>
+
+                    <!-- Card -->
+                    <button @click="paymentMethod = 'card'; paidAmount = grandTotal;"
+                            class="p-2.5 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all text-center"
+                            :class="paymentMethod === 'card' ? 'bg-[#F0F4FF] border-[#2563EB] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
+                        <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-indigo-50 text-indigo-700">
+                            <i data-lucide="credit-card" class="w-5 h-5 stroke-[2]"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-800">Card</span>
+                    </button>
+
+                    <!-- Bkash -->
+                    <button @click="paymentMethod = 'bkash'; paidAmount = grandTotal;"
+                            class="p-2.5 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all text-center"
+                            :class="paymentMethod === 'bkash' ? 'bg-[#FDF2F8] border-[#DB2777] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
+                        <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-pink-50 text-pink-600">
+                            <i data-lucide="smartphone" class="w-5 h-5 stroke-[2]"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-800">Bkash</span>
+                    </button>
+
+                    <!-- Nagad -->
+                    <button @click="paymentMethod = 'nagad'; paidAmount = grandTotal;"
+                            class="p-2.5 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all text-center"
+                            :class="paymentMethod === 'nagad' ? 'bg-[#FFFBEB] border-[#D97706] shadow-xs' : 'bg-white border-gray-200 hover:border-gray-300'">
+                        <div class="w-8 h-8 rounded-xl flex items-center justify-center bg-amber-50 text-amber-600">
+                            <i data-lucide="wallet" class="w-5 h-5 stroke-[2]"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-800">Nagad</span>
                     </button>
                 </div>
-            </div>
-            <!-- Payment Method Tabs -->
-            <div class="p-2.5 sm:p-3 border-b flex items-center gap-1 shrink-0 overflow-x-auto" style="border-color:#E0D4CF; background:#FBF8F5;">
-                @foreach([['cash','banknote','ক্যাশ','#2E7D52'],['bkash','smartphone','বিকাশ','#e2136e'],['nagad','zap','নগদ','#f7931e'],['card','credit-card','কার্ড','#8B1A2C']] as $pm)
-                <button @click="paymentMethod = '{{ $pm[0] }}'; paidAmount = grandTotal;"
-                        class="flex-1 py-2 px-1 rounded-xl text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 transition-all border shrink-0"
-                        :style="paymentMethod === '{{ $pm[0] }}' ? 'background:{{ $pm[3] }}; color:#fff; border-color:{{ $pm[3] }}; box-shadow:0 2px 8px rgba(0,0,0,0.2);' : 'background:#FFFFFF; color:#5C3840; border-color:#E8DDD9;'">
-                    <i data-lucide="{{ $pm[1] }}" class="w-3.5 h-3.5"></i>
-                    <span>{{ $pm[2] }}</span>
-                </button>
-                @endforeach
-            </div>
-            <div class="p-4 space-y-4 overflow-y-auto flex-1">
-                <!-- Cash -->
-                <div x-show="paymentMethod === 'cash'" class="space-y-3">
-                    <label class="section-heading">কাস্টমার প্রদত্ত টাকা:</label>
-                    <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold pos-nums" style="color:#9B7A7E;">৳</span>
-                        <input type="number" x-model.number="paidAmount"
-                               class="pos-input w-full pl-8 pr-4 py-2.5 text-lg pos-nums font-black rounded-xl" style="color:#1A0A0C;">
+
+                <!-- Input Amount Display & Change Row -->
+                <div class="p-3 bg-white rounded-2xl border border-gray-200 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold text-gray-500 uppercase block">Given Amount</span>
+                        <input type="number" x-model.number="paidAmount" class="w-28 text-lg font-black text-gray-900 pos-nums border-b border-gray-300 focus:outline-none">
                     </div>
-                    <div class="grid grid-cols-4 gap-1.5 sm:gap-2">
-                        <button @click="paidAmount = grandTotal" class="py-2 rounded-xl text-xs font-bold border transition-all"
-                                style="background:#FBF1F3; color:#8B1A2C; border-color:rgba(139,26,44,0.25);">সঠিক</button>
-                        @foreach([500,1000,2000] as $amt)
-                        <button @click="paidAmount = {{ $amt }}" class="py-2 rounded-xl text-xs font-bold border transition-all"
-                                style="background:#F8F5F2; color:#5C3840; border-color:#E8DDD9;">৳{{ number_format($amt) }}</button>
-                        @endforeach
-                    </div>
-                    <div class="p-3 rounded-2xl flex items-center justify-between border" style="background:#F8F5F2; border-color:#E8DDD9;">
-                        <span class="text-xs font-bold" style="color:#9B7A7E;">ভাঙতি ফেরত (Change):</span>
-                        <span class="text-lg pos-nums font-black"
-                              :style="changeAmount >= 0 ? 'color:#2E7D52;' : 'color:#C02020;'">
-                            ৳<span x-text="formatNumber(Math.max(0, changeAmount))"></span>
+                    <div class="text-right">
+                        <span class="text-[10px] font-bold text-gray-500 uppercase block">Change</span>
+                        <span class="text-base font-black pos-nums" :class="changeAmount >= 0 ? 'text-emerald-600' : 'text-rose-600'">
+                            ৳ <span x-text="formatNumber(Math.max(0, changeAmount))"></span>
                         </span>
                     </div>
                 </div>
-                <!-- bKash -->
-                <div x-show="paymentMethod === 'bkash'" class="space-y-3">
-                    <div class="p-3 rounded-2xl text-center" style="background:#FCE7F3; border:1px solid #FBCFE8;">
-                        <p class="text-xs font-bold" style="color:#be185d;">মার্চেন্ট বিকাশ নাম্বার: {{ $currentBranch->bkash_number ?? '01711-223344' }}</p>
-                    </div>
-                    <div>
-                        <label class="section-heading">bKash TrxID:</label>
-                        <input type="text" x-model="trxId" placeholder="উদাঃ BKH8927492" class="pos-input w-full rounded-xl px-3 py-2 text-xs pos-nums uppercase">
-                    </div>
-                </div>
-                <!-- Nagad -->
-                <div x-show="paymentMethod === 'nagad'" class="space-y-3">
-                    <div class="p-3 rounded-2xl text-center" style="background:#FEF3C7; border:1px solid #FDE68A;">
-                        <p class="text-xs font-bold" style="color:#b45309;">নগদ মার্চেন্ট নাম্বার: {{ $currentBranch->nagad_number ?? '01711-223344' }}</p>
-                    </div>
-                    <div>
-                        <label class="section-heading">Nagad TrxID:</label>
-                        <input type="text" x-model="trxId" placeholder="উদাঃ NGD8927492" class="pos-input w-full rounded-xl px-3 py-2 text-xs pos-nums uppercase">
-                    </div>
-                </div>
-                <!-- Card -->
-                <div x-show="paymentMethod === 'card'" class="space-y-3">
-                    <div>
-                        <label class="section-heading">POS মেশিন কার্ড রেফারেন্স:</label>
-                        <input type="text" x-model="trxId" placeholder="উদাঃ Ref: 9942, Card 4281" class="pos-input w-full rounded-xl px-3 py-2 text-xs pos-nums">
-                    </div>
+
+                <!-- 3x4 On-Screen Keypad Grid -->
+                <div class="grid grid-cols-3 gap-2">
+                    <button @click="appendKeypadDigit('1')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">1</button>
+                    <button @click="appendKeypadDigit('2')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">2</button>
+                    <button @click="appendKeypadDigit('3')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">3</button>
+
+                    <button @click="appendKeypadDigit('4')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">4</button>
+                    <button @click="appendKeypadDigit('5')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">5</button>
+                    <button @click="appendKeypadDigit('6')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">6</button>
+
+                    <button @click="appendKeypadDigit('7')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">7</button>
+                    <button @click="appendKeypadDigit('8')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">8</button>
+                    <button @click="deleteKeypadDigit()" class="py-3.5 bg-white rounded-2xl border border-gray-200 flex items-center justify-center text-gray-800 shadow-2xs active:bg-gray-100 transition-all">
+                        <i data-lucide="delete" class="w-6 h-6"></i>
+                    </button>
+
+                    <button @click="appendKeypadDigit('00')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">00</button>
+                    <button @click="appendKeypadDigit('0')" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-xl font-bold text-gray-900 shadow-2xs active:bg-gray-100 transition-all pos-nums">0</button>
+                    <button @click="paidAmount = grandTotal" class="py-3.5 bg-white rounded-2xl border border-gray-200 text-base font-extrabold text-gray-800 shadow-2xs active:bg-gray-100 transition-all">OK</button>
                 </div>
             </div>
-            <div class="p-4 border-t flex items-center justify-between shrink-0" style="border-color:#E0D4CF; background:#FBF8F5;">
-                <button @click="openPaymentModal = false" class="px-4 py-2 rounded-xl text-xs font-bold" style="color:#9B7A7E;">বাতিল</button>
+
+            <!-- Complete Payment Green Button -->
+            <div class="p-4 bg-white border-t shrink-0 border-gray-200">
                 <button @click="processPaymentAndPrint()" :disabled="isProcessing"
-                        class="btn-maroon px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl text-xs font-bold flex items-center gap-2 disabled:opacity-50">
-                    <i data-lucide="check-circle" class="w-4 h-4 stroke-[3]"></i>
-                    <span x-text="isProcessing ? 'প্রসেসিং...' : 'পেমেন্ট ও মূসক ৬.৩ চালান'"></span>
+                        class="w-full py-4 rounded-2xl text-base font-extrabold text-white flex items-center justify-center gap-2 shadow-lg cursor-pointer transition-all active:scale-[0.98] disabled:opacity-50"
+                        style="background-color: #25A25A;">
+                    <i data-lucide="check-circle-2" class="w-5 h-5 stroke-[2.5]"></i>
+                    <span x-text="isProcessing ? 'Processing Payment...' : 'Complete Payment'"></span>
                 </button>
             </div>
         </div>
@@ -1234,6 +1259,17 @@ function posTerminal() {
             } catch(e) {}
         },
         closeAllModals() { this.openModifierModal=this.openTableModal=this.openPaymentModal=this.openMushakModal=this.openKotModal=this.openAiModal=this.openSplitModal=false; },
+        appendKeypadDigit(digit) {
+            let str = (this.paidAmount || 0).toString();
+            if (str === '0') str = '';
+            str += digit;
+            this.paidAmount = parseFloat(str) || 0;
+        },
+        deleteKeypadDigit() {
+            let str = (this.paidAmount || 0).toString();
+            str = str.slice(0, -1);
+            this.paidAmount = parseFloat(str) || 0;
+        },
         get filteredItems() {
             return this.allItems.filter(item=>{
                 const mc = this.selectedCategory===null||item.category_id===this.selectedCategory;
