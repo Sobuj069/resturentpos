@@ -64,7 +64,7 @@ html, body {
 
 /* ─── SIDEBAR ─────────────────────────────────────── */
 .sidebar { background: linear-gradient(180deg, #2D050B 0%, #1A0206 100%) !important; }
-.sidebar-brand { background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.sidebar-brand { background: #250308 !important; border-bottom: 1px solid rgba(255,255,255,0.08); }
 .sidebar-bottom { background: rgba(0,0,0,0.35); border-top: 1px solid rgba(255,255,255,0.08); }
 
 .nav-item {

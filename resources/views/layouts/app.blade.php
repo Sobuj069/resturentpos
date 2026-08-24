@@ -178,27 +178,29 @@
     <aside class="hidden md:flex sidebar h-screen flex-col justify-between shrink-0 z-40 transition-all duration-200 ease-in-out select-none"
            :class="collapsed ? 'w-[64px]' : 'w-[245px]'">
 
-        <!-- Brand Header -->
+        <!-- Brand Header (Fixed Top Header) -->
+        <div class="sidebar-brand h-[60px] px-4 flex items-center justify-between shrink-0 z-20">
+            <a href="{{ route('pos.index') }}" class="flex items-center gap-3 overflow-hidden min-w-0">
+                <div class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shrink-0 shadow-xs"
+                     style="background: rgba(255,255,255,0.08); border: 1.5px solid rgba(212,172,80,0.5);">
+                    <img src="{{ $currentBranch->logo ?? '/images/logo.svg' }}" alt="Logo" class="w-full h-full object-contain p-0.5">
+                </div>
+                <div x-show="!collapsed" class="min-w-0 leading-tight">
+                    <p class="text-sm font-black tracking-tight text-white truncate">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
+                    <p class="text-[10px] font-bold uppercase tracking-widest truncate" style="color:#D4AC50;">{{ $currentBranch->name ?? "Main Branch" }}</p>
+                </div>
+            </a>
+            <button @click="collapsed = !collapsed"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center transition-colors shrink-0"
+                    style="color: rgba(255,255,255,0.45);"
+                    onmouseover="this.style.color='#fff'; this.style.background='rgba(255,255,255,0.1)'"
+                    onmouseout="this.style.color='rgba(255,255,255,0.45)'; this.style.background='transparent'">
+                <i :data-lucide="collapsed ? 'chevrons-right' : 'chevrons-left'" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- Scrollable Navigation Items -->
         <div class="flex-1 overflow-y-auto">
-            <div class="sidebar-brand h-[60px] px-4 flex items-center justify-between sticky top-0 z-10">
-                <a href="{{ route('pos.index') }}" class="flex items-center gap-3 overflow-hidden min-w-0">
-                    <div class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center shrink-0 shadow-xs"
-                         style="background: rgba(255,255,255,0.08); border: 1.5px solid rgba(212,172,80,0.5);">
-                        <img src="{{ $currentBranch->logo ?? '/images/logo.svg' }}" alt="Logo" class="w-full h-full object-contain p-0.5">
-                    </div>
-                    <div x-show="!collapsed" class="min-w-0 leading-tight">
-                        <p class="text-sm font-black tracking-tight text-white truncate">{{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</p>
-                        <p class="text-[10px] font-bold uppercase tracking-widest truncate" style="color:#D4AC50;">{{ $currentBranch->name ?? "Main Branch" }}</p>
-                    </div>
-                </a>
-                <button @click="collapsed = !collapsed"
-                        class="w-7 h-7 rounded-lg flex items-center justify-center transition-colors shrink-0"
-                        style="color: rgba(255,255,255,0.45);"
-                        onmouseover="this.style.color='#fff'; this.style.background='rgba(255,255,255,0.1)'"
-                        onmouseout="this.style.color='rgba(255,255,255,0.45)'; this.style.background='transparent'">
-                    <i :data-lucide="collapsed ? 'chevrons-right' : 'chevrons-left'" class="w-4 h-4"></i>
-                </button>
-            </div>
 
             <!-- Dynamic Active Cashier / Shift Widget -->
             <div x-show="!collapsed" class="mx-3 mt-3 p-2.5 rounded-xl cursor-pointer transition-all"
