@@ -92,21 +92,21 @@
             </div>
         </div>
 
-        <!-- Items Grid (Responsive 3-4 Products Per Row Layout) -->
+        <!-- Items Grid (Exact 3 Products Per Row Layout) -->
         <div class="flex-1 p-3 sm:p-4 overflow-y-auto min-h-0 pb-24 md:pb-4">
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-3.5">
                 <template x-for="item in filteredItems" :key="item.id">
                     <button @click="handleItemClick(item)"
-                            class="pos-card group relative flex flex-col justify-between p-2.5 text-left active:scale-[0.97] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md h-full select-none"
-                            style="min-height: 220px;">
+                            class="pos-card group relative flex flex-col justify-between p-3 text-left active:scale-[0.97] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md h-full select-none"
+                            style="min-height: 235px;">
                         
                         <!-- Fixed Height Square Food Image Container -->
                         <div class="relative w-full rounded-xl overflow-hidden mb-2 bg-[#F3ECE8] flex items-center justify-center shrink-0 border border-black/5"
-                             style="height: 125px;">
+                             style="height: 135px;">
                             <!-- Image if exists -->
                             <template x-if="item.image">
                                 <img :src="item.image" :alt="item.name"
-                                     style="width: 100%; height: 125px; object-fit: cover; object-position: center;"
+                                     style="width: 100%; height: 135px; object-fit: cover; object-position: center;"
                                      class="block group-hover:scale-105 transition-transform duration-300">
                             </template>
                             <!-- Fallback Icon if no image -->
@@ -196,9 +196,9 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════ -->
-    <!-- RIGHT: Desktop Cart Panel (Side-by-side, 340px-410px)   -->
+    <!-- RIGHT: Desktop Cart Panel (Wider Layout: 460px-540px)   -->
     <!-- ════════════════════════════════════════════════════════ -->
-    <div class="hidden sm:flex w-[340px] md:w-[370px] lg:w-[390px] xl:w-[410px] h-full flex-col shrink-0 bg-white border-l z-20 overflow-hidden"
+    <div class="hidden sm:flex w-[420px] md:w-[460px] lg:w-[490px] xl:w-[520px] 2xl:w-[540px] h-full flex-col shrink-0 bg-white border-l z-20 overflow-hidden"
          style="border-color:#E0D4CF;">
         @include('pos.partials.cart_panel')
     </div>
