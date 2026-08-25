@@ -92,39 +92,37 @@
             </div>
         </div>
 
-        <!-- Items Grid (Exact 3 Products Per Row Layout) -->
-        <div class="flex-1 p-3 sm:p-4 overflow-y-auto min-h-0 pb-24 md:pb-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-3.5">
+        <!-- Items Grid (Mobile: 2-3 per row, Desktop: 3 per row) -->
+        <div class="flex-1 p-2 sm:p-4 overflow-y-auto min-h-0 pb-24 md:pb-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-2 sm:gap-3.5">
                 <template x-for="item in filteredItems" :key="item.id">
                     <button @click="handleItemClick(item)"
-                            class="pos-card group relative flex flex-col justify-between p-3 text-left active:scale-[0.97] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md h-full select-none"
-                            style="min-height: 235px;">
+                            class="pos-card group relative flex flex-col justify-between p-2 sm:p-3 text-left active:scale-[0.97] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md h-full select-none"
+                            style="min-height: 190px;">
                         
-                        <!-- Fixed Height Square Food Image Container -->
-                        <div class="relative w-full rounded-xl overflow-hidden mb-2 bg-[#F3ECE8] flex items-center justify-center shrink-0 border border-black/5"
-                             style="height: 135px;">
+                        <!-- Fixed Height Food Image Container -->
+                        <div class="relative w-full rounded-xl overflow-hidden mb-1.5 sm:mb-2 bg-[#F3ECE8] flex items-center justify-center shrink-0 border border-black/5 h-[105px] sm:h-[135px]">
                             <!-- Image if exists -->
                             <template x-if="item.image">
                                 <img :src="item.image" :alt="item.name"
-                                     style="width: 100%; height: 135px; object-fit: cover; object-position: center;"
-                                     class="block group-hover:scale-105 transition-transform duration-300">
+                                     class="w-full h-full object-cover object-center block group-hover:scale-105 transition-transform duration-300">
                             </template>
                             <!-- Fallback Icon if no image -->
                             <template x-if="!item.image">
-                                <div class="w-full h-full flex flex-col items-center justify-center text-center p-2 bg-gradient-to-br from-[#8B1A2C]/10 to-[#B8922A]/10">
-                                    <div class="w-9 h-9 rounded-full bg-white/90 shadow-xs flex items-center justify-center mb-1">
-                                        <i data-lucide="utensils" class="w-4 h-4 text-[#8B1A2C]"></i>
+                                <div class="w-full h-full flex flex-col items-center justify-center text-center p-1.5 bg-gradient-to-br from-[#8B1A2C]/10 to-[#B8922A]/10">
+                                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-white/90 shadow-xs flex items-center justify-center mb-1">
+                                        <i data-lucide="utensils" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#8B1A2C]"></i>
                                     </div>
-                                    <span class="text-[9px] font-bold text-[#8B1A2C] line-clamp-1" x-text="item.name"></span>
+                                    <span class="text-[8px] sm:text-[9px] font-bold text-[#8B1A2C] line-clamp-1" x-text="item.name"></span>
                                 </div>
                             </template>
 
                             <!-- Badges Floating on Image -->
                             <div class="absolute top-1.5 left-1.5 z-10 pointer-events-none">
-                                <span class="text-[9px] font-black px-1.5 py-0.5 rounded-md pos-nums shadow-xs bg-black/80 text-white tracking-wider" x-text="item.sku || 'ITEM'"></span>
+                                <span class="text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded-md pos-nums shadow-xs bg-black/80 text-white tracking-wider" x-text="item.sku || 'ITEM'"></span>
                             </div>
                             <div class="absolute top-1.5 right-1.5 z-10 pointer-events-none" x-show="item.has_variants">
-                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs bg-[#8B1A2C] text-white">
+                                <span class="text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs bg-[#8B1A2C] text-white">
                                     ভ্যারিয়েন্ট
                                 </span>
                             </div>
@@ -132,15 +130,15 @@
 
                         <!-- Card Content (Uniform layout) -->
                         <div class="flex-1 flex flex-col justify-between w-full">
-                            <div class="mb-2">
+                            <div class="mb-1.5 sm:mb-2">
                                 <h3 class="text-xs sm:text-[13px] font-extrabold line-clamp-1 leading-tight text-[#1A0A0C]" x-text="item.name"></h3>
-                                <p class="text-[10px] sm:text-[11px] font-medium line-clamp-1 mt-0.5 text-[#825E64]" x-text="item.bangla_name || ''"></p>
+                                <p class="text-[9px] sm:text-[11px] font-medium line-clamp-1 mt-0.5 text-[#825E64]" x-text="item.bangla_name || ''"></p>
                             </div>
 
                             <!-- Price & Plus Button -->
-                            <div class="flex items-center justify-between pt-2 border-t border-[#F0E8E5] mt-auto">
+                            <div class="flex items-center justify-between pt-1.5 sm:pt-2 border-t border-[#F0E8E5] mt-auto">
                                 <div>
-                                    <span class="text-[9px] font-medium block text-[#9B7A7E] leading-none mb-0.5">মূল্য:</span>
+                                    <span class="text-[8px] sm:text-[9px] font-medium block text-[#9B7A7E] leading-none mb-0.5">মূল্য:</span>
                                     <span class="text-xs sm:text-sm font-black text-[#8B1A2C] pos-nums">৳<span x-text="formatNumber(item.selling_price)"></span></span>
                                 </div>
                                 <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center transition-all bg-[#8B1A2C] text-white shadow-xs group-hover:scale-105 group-hover:bg-[#680C1B] shrink-0">
@@ -196,10 +194,10 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════ -->
-    <!-- RIGHT: Desktop Cart Panel (Wider Layout: 460px-540px)   -->
+    <!-- RIGHT: Desktop Cart Panel (Forced Width 530px)           -->
     <!-- ════════════════════════════════════════════════════════ -->
-    <div class="hidden sm:flex w-[420px] md:w-[460px] lg:w-[490px] xl:w-[520px] 2xl:w-[540px] h-full flex-col shrink-0 bg-white border-l z-20 overflow-hidden"
-         style="border-color:#E0D4CF;">
+    <div class="hidden sm:flex h-full flex-col shrink-0 bg-white border-l z-20 overflow-hidden"
+         style="width: 530px; min-width: 480px; max-width: 45vw; border-color:#E0D4CF;">
         @include('pos.partials.cart_panel')
     </div>
 
