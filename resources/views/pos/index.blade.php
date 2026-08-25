@@ -211,13 +211,13 @@
         @include('pos.partials.cart_panel')
     </div>
 
-    <!-- ════ FLOATING INCOMING WAITER ORDER BANNER ════ -->
+    <!-- ════ FLOATING INCOMING ORDER BANNER (QR SELF-ORDER & WAITER) ════ -->
     <div x-show="incomingWaiterOrder" x-cloak x-transition
-         class="fixed top-4 right-4 z-50 bg-white border-2 border-emerald-500 rounded-3xl shadow-2xl p-4 max-w-sm flex flex-col gap-2.5">
+         class="fixed top-4 right-4 z-50 bg-white border-2 border-emerald-500 rounded-3xl shadow-2xl p-4 max-w-sm flex flex-col gap-2.5 animate-bounce-subtle">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2 text-emerald-800 font-black text-xs">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                <span>🔔 ওয়েটার থেকে নতুন অর্ডার এসেছে!</span>
+                <span x-text="incomingWaiterOrder?.waiter_name?.includes('QR') ? '📱 টেবিল QR থেকে নতুন সেলফ-অর্ডার!' : '🔔 নতুন খাবার অর্ডার এসেছে!'"></span>
             </div>
             <button @click="incomingWaiterOrder = null" class="text-gray-400 hover:text-gray-600">
                 <i data-lucide="x" class="w-4 h-4"></i>
@@ -225,12 +225,13 @@
         </div>
         <div class="bg-emerald-50/80 p-3 rounded-2xl border border-emerald-100 text-xs space-y-0.5">
             <p class="font-bold text-gray-900">টেবিল: <span class="font-black text-rose-900" x-text="incomingWaiterOrder?.table_name"></span></p>
-            <p class="text-[11px] text-gray-600 font-medium">অর্ডার গ্রহণকারী: <span class="font-bold text-gray-800" x-text="incomingWaiterOrder?.waiter_name || 'ওয়েটার'"></span></p>
+            <p class="text-[11px] text-gray-600 font-medium">অর্ডার সোর্স: <span class="font-bold text-emerald-800" x-text="incomingWaiterOrder?.waiter_name || 'কাস্টমার সেলফ-অর্ডার'"></span></p>
             <p class="text-[11px] text-gray-600 font-medium">অর্ডার নং: <span class="font-mono font-bold text-gray-900" x-text="incomingWaiterOrder?.order?.order_number"></span></p>
+            <p class="text-[11px] text-gray-600 font-medium">মোট মূল্য: <span class="font-black price-maroon pos-nums">৳<span x-text="formatNumber(incomingWaiterOrder?.order?.grand_total || 0)"></span></span></p>
         </div>
         <div class="flex items-center gap-2 pt-1">
-            <button @click="loadIncomingOrder()" class="btn-maroon flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md">
-                <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
+            <button @click="loadIncomingOrder()" class="btn-maroon flex-1 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 shadow-md">
+                <i data-lucide="printer" class="w-4 h-4 text-amber-300"></i>
                 <span>কার্টে লোড ও KOT প্রিন্ট</span>
             </button>
         </div>
@@ -904,11 +905,40 @@ function posTerminal() {
 
         applyLiveTables(newTables) {
             if (!Array.isArray(newTables)) return;
+
+            // Detect new incoming orders from QR Self-Orders or Waiter App
+            newTables.forEach(newT => {
+                const oldT = this.tables.find(t => t.id === newT.id);
+                const newOrder = newT.current_order || (newT.active_orders && newT.active_orders[0]);
+                const oldOrder = oldT ? (oldT.current_order || (oldT.active_orders && oldT.active_orders[0])) : null;
+
+                if (newOrder && (!oldOrder || oldOrder.id !== newOrder.id || (newOrder.items && oldOrder.items && newOrder.items.length > oldOrder.items.length))) {
+                    if (this.currentLoadedOrderId !== newOrder.id) {
+                        const isQr = (newOrder.customer_name && newOrder.customer_name.includes('QR')) || (!newOrder.waiter_id && newOrder.order_type === 'dine_in');
+                        const sourceLabel = isQr ? '📱 কাস্টমার QR সেলফ-অর্ডার' : (newOrder.waiter?.name ? ('ওয়েটার: ' + newOrder.waiter.name) : 'সেলফ-অর্ডার');
+                        this.incomingWaiterOrder = {
+                            table_id: newT.id,
+                            table_name: newT.name,
+                            waiter_name: sourceLabel,
+                            order: newOrder
+                        };
+                        window.playBeep(1200, 300);
+                    }
+                }
+            });
+
             this.tables = newTables;
             if (this.selectedTable) {
                 const updated = this.tables.find(t => t.id === this.selectedTable.id);
                 if (updated) {
                     this.selectedTable = updated;
+                    // If current order was updated remotely, refresh cart
+                    if (this.currentLoadedOrderId) {
+                        const liveOrd = (updated.active_orders || []).find(o => o.id === this.currentLoadedOrderId) || updated.current_order;
+                        if (liveOrd && liveOrd.items && liveOrd.items.length !== this.cart.length) {
+                            this.loadExistingOrder(liveOrd);
+                        }
+                    }
                 }
             }
             this.$nextTick(() => window.initLucideIcons());
