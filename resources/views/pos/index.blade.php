@@ -454,56 +454,64 @@
             </div>
         </div>
 
-        <!-- Cart Footer -->
-        <div class="p-3 border-t shrink-0 space-y-1.5 text-xs bg-white" style="border-color:#E0D4CF;">
-            <div class="flex justify-between">
-                <span style="color:#9B7A7E;">সাবটোটাল:</span>
-                <span class="pos-nums font-bold" style="color:#1A0A0C;">৳<span x-text="formatNumber(subtotal)"></span></span>
+        <!-- Cart Footer (Larger & Bolder Financial Summary) -->
+        <div class="p-3.5 sm:p-4 border-t shrink-0 space-y-2 text-xs bg-white" style="border-color:#E0D4CF;">
+            <div class="flex justify-between items-center">
+                <span class="text-xs sm:text-sm font-semibold text-gray-600">Subtotal / সাবটোটাল:</span>
+                <span class="text-sm sm:text-base pos-nums font-extrabold text-gray-900">৳ <span x-text="formatNumber(subtotal)"></span></span>
             </div>
+
             <!-- Discounts -->
-            <div class="flex items-center justify-between gap-2 py-1">
-                <span style="color:#9B7A7E;">ডিসকাউন্ট:</span>
+            <div class="flex items-center justify-between gap-2 py-0.5">
+                <span class="text-xs sm:text-sm font-semibold text-gray-600">Discount / ডিসকাউন্ট:</span>
                 <div class="flex items-center gap-1.5">
                     <input type="number" x-model.number="discountValue" min="0" placeholder="0"
-                           class="pos-input w-16 px-1.5 py-0.5 text-xs pos-nums font-bold text-right rounded">
-                    <select x-model="discountType" class="pos-input text-[11px] py-0.5 px-1 rounded">
-                        <option value="fixed">৳ নির্দিষ্ট</option>
-                        <option value="percentage">% শতকরা</option>
+                           class="pos-input w-20 px-2 py-1 text-xs sm:text-sm pos-nums font-bold text-right rounded-xl border-gray-300">
+                    <select x-model="discountType" class="pos-input text-xs font-bold py-1 px-2 rounded-xl border-gray-300">
+                        <option value="fixed">৳ Fixed</option>
+                        <option value="percentage">% Percent</option>
                     </select>
-                    <span class="pos-nums font-bold price-maroon">- ৳<span x-text="formatNumber(discountAmount)"></span></span>
+                    <span class="text-xs sm:text-sm pos-nums font-black price-maroon shrink-0">- ৳ <span x-text="formatNumber(discountAmount)"></span></span>
                 </div>
             </div>
-            <div class="flex justify-between">
-                <span style="color:#9B7A7E;">NBR মূসক ভ্যাট ({{ $currentBranch->default_vat_rate ?? 5 }}%):</span>
-                <span class="pos-nums font-bold" style="color:#1A0A0C;">৳<span x-text="formatNumber(vatAmount)"></span></span>
+
+            <div class="flex justify-between items-center">
+                <span class="text-xs sm:text-sm font-semibold text-gray-600">NBR VAT ({{ $currentBranch->default_vat_rate ?? 5 }}%):</span>
+                <span class="text-sm sm:text-base pos-nums font-extrabold text-gray-900">৳ <span x-text="formatNumber(vatAmount)"></span></span>
             </div>
-            <div class="flex justify-between items-baseline pt-2 border-t" style="border-color:#E0D4CF;">
-                <span class="text-sm font-black" style="color:#1A0A0C;">সর্বমোট:</span>
-                <span class="text-xl font-black pos-nums price-maroon">৳<span x-text="formatNumber(grandTotal)"></span></span>
+
+            <!-- Total Amount Highlight Box -->
+            <div class="p-3 sm:p-3.5 rounded-2xl border flex items-center justify-between mt-2 shadow-2xs"
+                 style="background: #FDFBF7; border-color: #E8DDD9;">
+                <span class="text-base sm:text-lg font-black tracking-tight text-gray-900">Total / সর্বমোট:</span>
+                <span class="text-2xl sm:text-3xl font-black pos-nums price-maroon tracking-tight">৳ <span x-text="formatNumber(grandTotal)"></span></span>
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="p-3 border-t shrink-0 space-y-2 bg-white" style="border-color:#E0D4CF;">
-            <div class="grid grid-cols-2 gap-2">
+        <!-- Action Buttons (Larger & Taller Action Bar) -->
+        <div class="p-3.5 sm:p-4 border-t shrink-0 space-y-2.5 bg-white" style="border-color:#E0D4CF;">
+            <div class="grid grid-cols-2 gap-2.5">
                 <button @click="handleKotButtonClick()" :disabled="cart.length === 0"
-                        class="btn-outline py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs"
-                        :style="cart.length === 0 ? 'opacity:0.5;' : (isAllKotPrinted ? 'background:#ECFDF5; color:#065F46; border-color:#A7F3D0; font-weight:700;' : 'background:#FFFBEB; color:#92400E; border-color:#FDE68A; font-weight:800;')">
-                    <i :data-lucide="isAllKotPrinted ? 'check-circle' : 'printer'" class="w-4 h-4"
+                        class="btn-outline py-3 rounded-2xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all shadow-xs"
+                        :style="cart.length === 0 ? 'opacity:0.5;' : (isAllKotPrinted ? 'background:#ECFDF5; color:#065F46; border-color:#A7F3D0;' : 'background:#FFFBEB; color:#92400E; border-color:#FDE68A;')">
+                    <i :data-lucide="isAllKotPrinted ? 'check-circle' : 'printer'" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[2]"
                        :style="isAllKotPrinted ? 'color:#059669;' : 'color:#B8922A;'"></i>
                     <span x-text="isAllKotPrinted ? '✓ KOT প্রিন্ট সম্পন্ন (F8)' : ((isOccupiedTable && newItemsCount > 0) ? '+ নতুন (' + newItemsCount + 'টি) KOT (F8)' : '🖨️ কিচেন KOT (F8)')"></span>
                 </button>
+
                 <button @click="openSplitBillModal()" :disabled="cart.length === 0"
-                        class="py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 disabled:opacity-50 transition-all border"
+                        class="py-3 rounded-2xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 disabled:opacity-50 transition-all border shadow-2xs"
                         style="background:#F8F5F2; color:#5C3840; border-color:#D0BDB8;">
-                    <i data-lucide="split" class="w-4 h-4" style="color:#8B1A2C;"></i>
-                    স্প্লিট বিল (F9)
+                    <i data-lucide="split" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[2]" style="color:#8B1A2C;"></i>
+                    <span>স্প্লিট বিল (F9)</span>
                 </button>
             </div>
+
+            <!-- Complete Payment Prominent Main Button -->
             <button @click="openPaymentModal = true; mobileCartOpen = false;" :disabled="cart.length === 0 || isProcessing"
-                    class="btn-maroon w-full py-3 rounded-2xl text-sm flex items-center justify-center gap-2 disabled:opacity-50">
-                <i data-lucide="credit-card" class="w-5 h-5 stroke-[2.5]"></i>
-                <span>বিল ও পেমেন্ট (F4) — ৳<span x-text="formatNumber(grandTotal)"></span></span>
+                    class="btn-maroon w-full py-3.5 sm:py-4 rounded-2xl text-base sm:text-lg font-black flex items-center justify-center gap-2.5 shadow-lg active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer">
+                <i data-lucide="credit-card" class="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]"></i>
+                <span>Bills & Payments (F4) — ৳ <span x-text="formatNumber(grandTotal)"></span></span>
             </button>
         </div>
     </div>
