@@ -92,21 +92,21 @@
             </div>
         </div>
 
-        <!-- Items Grid -->
+        <!-- Items Grid (4 Products Per Row Layout) -->
         <div class="flex-1 p-3 sm:p-4 overflow-y-auto min-h-0 pb-24 md:pb-4">
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-3.5">
                 <template x-for="item in filteredItems" :key="item.id">
                     <button @click="handleItemClick(item)"
-                            class="pos-card group relative flex flex-col justify-between p-2.5 text-left active:scale-[0.97] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md h-full select-none"
-                            style="min-height: 220px;">
+                            class="pos-card group relative flex flex-col justify-between p-3 text-left active:scale-[0.97] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md h-full select-none"
+                            style="min-height: 235px;">
                         
                         <!-- Fixed Height Square Food Image Container -->
                         <div class="relative w-full rounded-xl overflow-hidden mb-2 bg-[#F3ECE8] flex items-center justify-center shrink-0 border border-black/5"
-                             style="height: 120px;">
+                             style="height: 140px;">
                             <!-- Image if exists -->
                             <template x-if="item.image">
                                 <img :src="item.image" :alt="item.name"
-                                     style="width: 100%; height: 120px; object-fit: cover; object-position: center;"
+                                     style="width: 100%; height: 140px; object-fit: cover; object-position: center;"
                                      class="block group-hover:scale-105 transition-transform duration-300">
                             </template>
                             <!-- Fallback Icon if no image -->
@@ -196,9 +196,9 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════ -->
-    <!-- RIGHT: Cart Panel (Desktop + Mobile Slide-up Drawer)     -->
+    <!-- RIGHT: Cart Panel (Wider Layout: 440px-460px)            -->
     <!-- ════════════════════════════════════════════════════════ -->
-    <div class="w-full md:w-96 lg:w-[390px] h-full flex flex-col shrink-0 bg-white border-l z-40 transition-transform duration-300"
+    <div class="w-full md:w-[410px] lg:w-[440px] xl:w-[460px] h-full flex flex-col shrink-0 bg-white border-l z-40 transition-transform duration-300"
          :class="mobileCartOpen ? 'fixed inset-0 md:relative' : 'hidden md:flex'"
          style="border-color:#E0D4CF;">
 
