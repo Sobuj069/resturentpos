@@ -200,22 +200,14 @@
     <!-- ════════════════════════════════════════════════════════ -->
     <div class="hidden sm:flex w-[340px] md:w-[370px] lg:w-[390px] xl:w-[410px] h-full flex-col shrink-0 bg-white border-l z-20 overflow-hidden"
          style="border-color:#E0D4CF;">
+        @include('pos.partials.cart_panel')
+    </div>
 
-                <button @click="openSplitBillModal()" :disabled="cart.length === 0"
-                        class="py-2.5 rounded-2xl text-xs font-extrabold flex items-center justify-center gap-1.5 disabled:opacity-50 transition-all border shadow-2xs"
-                        style="background:#F8F5F2; color:#5C3840; border-color:#D0BDB8;">
-                    <i data-lucide="split" class="w-4 h-4 stroke-[2]" style="color:#8B1A2C;"></i>
-                    <span>স্প্লিট বিল (F9)</span>
-                </button>
-            </div>
-
-            <!-- Complete Payment Prominent Main Button -->
-            <button @click="openPaymentModal = true; mobileCartOpen = false;" :disabled="cart.length === 0 || isProcessing"
-                    class="btn-maroon w-full py-3 sm:py-3.5 rounded-2xl text-base font-black flex items-center justify-center gap-2.5 shadow-lg active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer">
-                <i data-lucide="credit-card" class="w-5 h-5 stroke-[2.5]"></i>
-                <span>Bills & Payments (F4) — ৳ <span x-text="formatNumber(grandTotal)"></span></span>
-            </button>
-        </div>
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- MOBILE: Smartphone Slide-Up Cart Drawer (< 640px)        -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div x-show="mobileCartOpen" x-cloak class="sm:hidden fixed inset-0 z-50 flex flex-col bg-white overflow-hidden">
+        @include('pos.partials.cart_panel')
     </div>
 
     <!-- ════ FLOATING INCOMING WAITER ORDER BANNER ════ -->
