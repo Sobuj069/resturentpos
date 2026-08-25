@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Category;
+use App\Models\Item;
+use App\Models\ItemVariant;
+use App\Models\Modifier;
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\OrderItemModifier;
 use App\Models\RestaurantTable;
 use App\Services\MushakService;
 use Illuminate\Http\JsonResponse;
@@ -65,12 +70,45 @@ class QrOrderController extends Controller
         return DB::transaction(function () use ($validated, $table) {
             $branch = Branch::first();
             $subtotal = 0;
+            $itemsToCreate = [];
 
-            foreach ($validated['items'] as $item) {
-                $subtotal += $item['unit_price'] * $item['quantity'];
+            foreach ($validated['items'] as $it) {
+                $item = Item::find($it['item_id']);
+                if (!$item) continue;
+
+                $variant = !empty($it['variant_id']) ? ItemVariant::find($it['variant_id']) : null;
+                $unitPrice = (float)($it['unit_price'] ?? ($variant ? $variant->price : $item->selling_price));
+                $qty = max(1, (int)($it['quantity'] ?? 1));
+                $lineSubtotal = $unitPrice * $qty;
+
+                // Modifiers
+                $modTotal = 0;
+                $modsToAttach = [];
+                if (!empty($it['modifiers'])) {
+                    foreach ($it['modifiers'] as $modId) {
+                        $mod = Modifier::find($modId);
+                        if ($mod) {
+                            $modTotal += ($mod->price * $qty);
+                            $modsToAttach[] = $mod;
+                        }
+                    }
+                }
+
+                $totalLine = $lineSubtotal + $modTotal;
+                $subtotal += $totalLine;
+
+                $itemsToCreate[] = [
+                    'item' => $item,
+                    'variant' => $variant,
+                    'unit_price' => $unitPrice,
+                    'quantity' => $qty,
+                    'subtotal' => $totalLine,
+                    'notes' => $it['notes'] ?? null,
+                    'modifiers' => $modsToAttach,
+                ];
             }
 
-            $vatRate = $branch->default_vat_rate ?? 5.0;
+            $vatRate = (float)($branch->default_vat_rate ?? 5.0);
             $vatAmount = ($subtotal * $vatRate) / 100;
             $grandTotal = round($subtotal + $vatAmount);
 
@@ -78,37 +116,52 @@ class QrOrderController extends Controller
                 'branch_id' => $branch->id ?? 1,
                 'table_id' => $table->id,
                 'order_number' => Order::generateOrderNumber(),
+                'invoice_number' => 'INV-' . strtoupper(substr(uniqid(), 7)),
                 'mushak_number' => Order::generateMushakNumber($branch),
                 'order_type' => 'dine_in',
-                'customer_name' => $validated['customer_name'] ?? 'QR Guest (' . $table->name . ')',
+                'customer_name' => $validated['customer_name'] ?? ('QR Guest (' . $table->name . ')'),
                 'customer_phone' => $validated['customer_phone'] ?? null,
                 'subtotal' => $subtotal,
                 'vat_percent' => $vatRate,
                 'vat_amount' => $vatAmount,
                 'grand_total' => $grandTotal,
+                'paid_amount' => 0,
+                'change_amount' => 0,
                 'payment_status' => 'unpaid',
                 'status' => 'confirmed',
                 'kitchen_status' => 'pending',
-                'token_number' => rand(10, 99),
+                'token_number' => (string)rand(10, 99),
+                'billed_at' => now(),
             ]);
 
-            foreach ($validated['items'] as $it) {
-                $orderItem = $order->items()->create([
-                    'item_id' => $it['item_id'],
-                    'variant_id' => $it['variant_id'] ?? null,
-                    'quantity' => $it['quantity'],
-                    'unit_price' => $it['unit_price'],
-                    'subtotal' => $it['unit_price'] * $it['quantity'],
-                    'notes' => $it['notes'] ?? null,
+            foreach ($itemsToCreate as $data) {
+                $item = $data['item'];
+                $variant = $data['variant'];
+                $itemVat = ($data['subtotal'] * $vatRate) / 100;
+
+                $orderItem = OrderItem::create([
+                    'order_id' => $order->id,
+                    'item_id' => $item->id,
+                    'variant_id' => $variant?->id,
+                    'item_name' => $item->name,
+                    'variant_name' => $variant?->name,
+                    'unit_price' => $data['unit_price'],
+                    'quantity' => $data['quantity'],
+                    'subtotal' => $data['subtotal'],
+                    'vat_amount' => $itemVat,
+                    'total_price' => $data['subtotal'] + $itemVat,
+                    'notes' => $data['notes'],
+                    'kitchen_station' => $item->kitchen_station ?? 'main_kitchen',
                     'kitchen_status' => 'pending',
                 ]);
 
-                if (!empty($it['modifiers'])) {
-                    foreach ($it['modifiers'] as $modId) {
-                        $orderItem->modifiers()->create([
-                            'modifier_id' => $modId,
-                            'unit_price' => 0,
-                            'subtotal' => 0,
+                if (!empty($data['modifiers'])) {
+                    foreach ($data['modifiers'] as $mod) {
+                        OrderItemModifier::create([
+                            'order_item_id' => $orderItem->id,
+                            'modifier_id' => $mod->id,
+                            'name' => $mod->name,
+                            'price' => $mod->price,
                         ]);
                     }
                 }
