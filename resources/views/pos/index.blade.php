@@ -94,26 +94,29 @@
 
         <!-- Items Grid (Mobile: 2-3 per row, Desktop: 3 per row) -->
         <div class="flex-1 p-2 sm:p-4 overflow-y-auto min-h-0 pb-24 md:pb-4">
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-2 sm:gap-3.5">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-2.5 sm:gap-3.5">
                 <template x-for="item in filteredItems" :key="item.id">
                     <button @click="handleItemClick(item)"
-                            class="pos-card group relative flex flex-col justify-between p-2 sm:p-3 text-left active:scale-[0.97] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md h-full select-none"
-                            style="min-height: 190px;">
+                            class="pos-card group relative flex flex-col justify-between p-2.5 sm:p-3 text-left active:scale-[0.97] transition-all duration-200 rounded-2xl bg-white border border-[#E0D4CF] hover:border-[#8B1A2C] shadow-xs hover:shadow-md select-none overflow-hidden"
+                            style="height: 235px; min-height: 235px; max-height: 235px;">
                         
-                        <!-- Fixed Height Food Image Container -->
-                        <div class="relative w-full rounded-xl overflow-hidden mb-1.5 sm:mb-2 bg-[#F3ECE8] flex items-center justify-center shrink-0 border border-black/5 h-[105px] sm:h-[135px]">
+                        <!-- Fixed Height Food Image Container (Always 130px) -->
+                        <div class="relative w-full rounded-xl overflow-hidden mb-2 bg-[#F3ECE8] flex items-center justify-center shrink-0 border border-black/5"
+                             style="height: 130px; min-height: 130px; max-height: 130px;">
                             <!-- Image if exists -->
                             <template x-if="item.image">
                                 <img :src="item.image" :alt="item.name"
-                                     class="w-full h-full object-cover object-center block group-hover:scale-105 transition-transform duration-300">
+                                     style="width: 100%; height: 130px; object-fit: cover; object-position: center; display: block;"
+                                     class="group-hover:scale-105 transition-transform duration-300">
                             </template>
                             <!-- Fallback Icon if no image -->
                             <template x-if="!item.image">
-                                <div class="w-full h-full flex flex-col items-center justify-center text-center p-1.5 bg-gradient-to-br from-[#8B1A2C]/10 to-[#B8922A]/10">
-                                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-white/90 shadow-xs flex items-center justify-center mb-1">
-                                        <i data-lucide="utensils" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#8B1A2C]"></i>
+                                <div class="w-full h-full flex flex-col items-center justify-center text-center p-2 bg-gradient-to-br from-[#8B1A2C]/10 to-[#B8922A]/10"
+                                     style="height: 130px;">
+                                    <div class="w-8 h-8 rounded-full bg-white/90 shadow-xs flex items-center justify-center mb-1">
+                                        <i data-lucide="utensils" class="w-4 h-4 text-[#8B1A2C]"></i>
                                     </div>
-                                    <span class="text-[8px] sm:text-[9px] font-bold text-[#8B1A2C] line-clamp-1" x-text="item.name"></span>
+                                    <span class="text-[9px] font-bold text-[#8B1A2C] line-clamp-1" x-text="item.name"></span>
                                 </div>
                             </template>
 
@@ -129,14 +132,14 @@
                         </div>
 
                         <!-- Card Content (Uniform layout) -->
-                        <div class="flex-1 flex flex-col justify-between w-full">
-                            <div class="mb-1.5 sm:mb-2">
+                        <div class="flex-1 flex flex-col justify-between w-full min-h-0">
+                            <div>
                                 <h3 class="text-xs sm:text-[13px] font-extrabold line-clamp-1 leading-tight text-[#1A0A0C]" x-text="item.name"></h3>
-                                <p class="text-[9px] sm:text-[11px] font-medium line-clamp-1 mt-0.5 text-[#825E64]" x-text="item.bangla_name || ''"></p>
+                                <p class="text-[10px] sm:text-[11px] font-medium line-clamp-1 mt-0.5 text-[#825E64]" x-text="item.bangla_name || ''"></p>
                             </div>
 
-                            <!-- Price & Plus Button -->
-                            <div class="flex items-center justify-between pt-1.5 sm:pt-2 border-t border-[#F0E8E5] mt-auto">
+                            <!-- Price & Plus Button (Pinned to Bottom) -->
+                            <div class="flex items-center justify-between pt-1.5 border-t border-[#F0E8E5] mt-auto">
                                 <div>
                                     <span class="text-[8px] sm:text-[9px] font-medium block text-[#9B7A7E] leading-none mb-0.5">মূল্য:</span>
                                     <span class="text-xs sm:text-sm font-black text-[#8B1A2C] pos-nums">৳<span x-text="formatNumber(item.selling_price)"></span></span>
