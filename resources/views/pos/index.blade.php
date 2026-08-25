@@ -1427,7 +1427,11 @@ function posTerminal() {
                         this.applyLiveTables(d.tables);
                     }
 
-                    this.$nextTick(()=>{ const q=document.getElementById('qrcodeCanvas'); if(q){q.innerHTML=''; new QRCode(q,{text:d.mushak.qr_string,width:85,height:85,correctLevel:QRCode.CorrectLevel.M});} });
+                    this.$nextTick(()=>{ 
+                        const q=document.getElementById('qrcodeCanvas'); 
+                        if(q){q.innerHTML=''; new QRCode(q,{text:d.mushak.qr_string,width:85,height:85,correctLevel:QRCode.CorrectLevel.M});} 
+                        setTimeout(() => this.printReceipt(), 250);
+                    });
 
                     // Check if table still has other remaining active guest orders
                     const upTable = d.tables ? d.tables.find(t => t.id == tableId) : null;
