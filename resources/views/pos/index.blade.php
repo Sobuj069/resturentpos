@@ -515,7 +515,17 @@
                     <p class="text-[9px]" x-text="mushakData?.branch?.address"></p>
                     <p class="text-[10px] font-bold mt-0.5">BIN: <span x-text="mushakData?.branch?.bin"></span></p>
                 </div>
+
+                <!-- Big Bold Customer Token Box (Auto Token for Pay-First & Counter Pick-up) -->
+                <div class="text-center py-2 px-2 bg-gray-50 border-2 border-dashed border-gray-800 rounded-xl my-1">
+                    <p class="text-[9px] font-extrabold uppercase text-gray-600">টোকেন নম্বর / TOKEN NO</p>
+                    <p class="text-2xl font-black pos-nums text-black my-0.5">#<span x-text="mushakData?.invoice?.token_number || tokenNumber"></span></p>
+                    <p class="text-[10px] font-black text-black"
+                       x-text="mushakData?.invoice?.table_name ? ('টেবিল: ' + mushakData.invoice.table_name) : (mushakData?.invoice?.order_type === 'TAKEAWAY' ? 'পার্সেল (TAKEAWAY)' : 'সেলফ-সার্ভিস / ডাইন-ইন')"></p>
+                </div>
+
                 <div class="pb-2 border-b border-dashed border-gray-300 space-y-0.5 text-[10px]">
+                    <div class="flex justify-between"><span>টোকেন নং:</span><span class="font-black text-xs pos-nums" x-text="'#' + (mushakData?.invoice?.token_number || tokenNumber)"></span></div>
                     <div class="flex justify-between"><span>চালান নং:</span><span class="font-bold" x-text="mushakData?.invoice?.mushak_no"></span></div>
                     <div class="flex justify-between"><span>অর্ডার নং:</span><span x-text="mushakData?.invoice?.order_no"></span></div>
                     <div class="flex justify-between"><span>তারিখ:</span><span x-text="mushakData?.invoice?.date + ' ' + mushakData?.invoice?.time"></span></div>
