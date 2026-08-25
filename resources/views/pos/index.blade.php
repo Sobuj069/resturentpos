@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title', 'POS Billing Terminal')
 @section('content')
-<div x-data="posTerminal()" x-init="init()" class="h-full flex flex-col md:flex-row overflow-hidden relative">
+<div x-data="posTerminal()" x-init="init()" class="h-full flex flex-row overflow-hidden relative">
 
     <!-- ════════════════════════════════════════════════════════ -->
-    <!-- LEFT: Catalog & Item Grid                                -->
+    <!-- LEFT: Catalog & Item Grid (Flex-1)                       -->
     <!-- ════════════════════════════════════════════════════════ -->
-    <div class="flex-1 flex flex-col min-w-0 h-full border-r" style="background:#F8F5F2; border-color:#E0D4CF;">
+    <div class="flex-1 flex flex-col min-w-0 h-full border-r overflow-hidden" style="background:#F8F5F2; border-color:#E0D4CF;">
 
         <!-- Toolbar -->
         <div class="px-3 sm:px-4 py-2.5 sm:py-3 border-b shrink-0 bg-white" style="border-color:#E0D4CF;">
@@ -158,7 +158,7 @@
         </div>
 
         <!-- Desktop Hotkeys Bar (Hidden on mobile) -->
-        <div class="hidden md:flex h-9 px-4 items-center justify-between text-[11px] shrink-0 border-t bg-white"
+        <div class="hidden sm:flex h-9 px-4 items-center justify-between text-[11px] shrink-0 border-t bg-white"
              style="border-color:#E0D4CF; color:#9B7A7E;">
             <div class="flex items-center gap-4">
                 @foreach([['F2','নতুন'],['F3','টেবিল'],['F4','পে'],['F8','KOT'],['F9','স্প্লিট']] as $hk)
@@ -174,9 +174,9 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════ -->
-    <!-- MOBILE STICKY FLOATING CART BAR (Mobile Only: < md)     -->
+    <!-- MOBILE STICKY FLOATING CART BAR (Mobile Only: < sm)     -->
     <!-- ════════════════════════════════════════════════════════ -->
-    <div x-show="cart.length > 0" x-cloak class="md:hidden fixed bottom-[60px] left-3 right-3 z-30">
+    <div x-show="cart.length > 0" x-cloak class="sm:hidden fixed bottom-[60px] left-3 right-3 z-30">
         <button @click="mobileCartOpen = true"
                 class="btn-maroon w-full p-3 rounded-2xl flex items-center justify-between shadow-2xl animate-bounce-subtle">
             <div class="flex items-center gap-2">
@@ -196,13 +196,14 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════ -->
-    <!-- RIGHT: Cart Panel (Fixed width, perfectly side by side) -->
-    <div class="w-full md:w-[350px] lg:w-[380px] xl:w-[400px] h-full flex flex-col shrink-0 bg-white border-l z-40 transition-all duration-300"
-         :class="mobileCartOpen ? 'fixed inset-0 z-50 flex md:relative md:inset-auto md:z-auto' : 'hidden md:flex'"
+    <!-- RIGHT: Cart Panel (Fixed width side-by-side)            -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div class="w-full sm:w-[330px] md:w-[365px] lg:w-[385px] xl:w-[400px] h-full flex flex-col shrink-0 bg-white border-l z-30 transition-all duration-300"
+         :class="mobileCartOpen ? 'fixed inset-0 z-50 flex sm:relative sm:inset-auto sm:z-auto' : 'hidden sm:flex'"
          style="border-color:#E0D4CF;">
 
         <!-- Mobile Drawer Close Header -->
-        <div class="md:hidden p-3 border-b flex items-center justify-between" style="background: linear-gradient(135deg, #5C0F1B, #8B1A2C);">
+        <div class="sm:hidden p-3 border-b flex items-center justify-between" style="background: linear-gradient(135deg, #5C0F1B, #8B1A2C);">
             <div class="flex items-center gap-2 text-white">
                 <i data-lucide="shopping-cart" class="w-4 h-4" style="color:#D4AC50;"></i>
                 <span class="text-xs font-bold">কার্ট ও চেকআউট (<span x-text="cart.length"></span>)</span>
