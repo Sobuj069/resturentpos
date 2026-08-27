@@ -8,6 +8,7 @@ use App\Http\Controllers\DeliveryHubController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\KdsController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\QrOrderController;
@@ -17,6 +18,10 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\WaiterController;
 use Illuminate\Support\Facades\Route;
+
+// Public Luxury Restaurant Landing Page & Table Reservation
+Route::get('/', [LandingController::class, 'index'])->name('home');
+Route::post('/reservation', [LandingController::class, 'storeReservation'])->name('reservation.store');
 
 // Authentication & SaaS Registration
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -43,11 +48,6 @@ Route::prefix('saas')->name('saas.')->group(function () {
 
 // Leave Impersonation (Return to SuperAdmin)
 Route::get('/leave-impersonation', [SaaSController::class, 'leaveImpersonation'])->name('impersonate.leave');
-
-// Redirect root to POS
-Route::get('/', function () {
-    return redirect()->route('pos.index');
-});
 
 // 1. POS Billing Terminal
 Route::prefix('pos')->name('pos.')->group(function () {
