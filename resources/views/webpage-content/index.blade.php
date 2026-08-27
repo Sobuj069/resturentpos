@@ -2,8 +2,88 @@
 
 @section('title', 'ওয়েবপেজ কনটেন্ট ম্যানেজমেন্ট (Webpage Content CMS)')
 
+@push('styles')
+<style>
+    .cms-layout-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    @media (min-width: 1024px) {
+        .cms-layout-grid {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+        .cms-sidebar-col {
+            width: 290px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 1rem;
+        }
+        .cms-editor-col {
+            flex: 1;
+            min-width: 0;
+        }
+    }
+    .cms-tab-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        font-size: 0.8125rem;
+        font-weight: 700;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+        background: transparent;
+        color: #4B5563;
+        cursor: pointer;
+        text-align: left;
+    }
+    .cms-tab-btn:hover {
+        background: #F3F4F6;
+        color: #111827;
+    }
+    .cms-tab-btn.active {
+        background: #801424 !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 12px rgba(128, 20, 36, 0.35);
+        border-color: #D4AC50 !important;
+    }
+    .cms-tab-btn.active i {
+        color: #D4AC50 !important;
+    }
+    .cms-save-btn {
+        background: linear-gradient(135deg, #801424 0%, #A01B2E 100%) !important;
+        color: #FFFFFF !important;
+        border: 1.5px solid #D4AC50 !important;
+        box-shadow: 0 4px 15px rgba(128, 20, 36, 0.35);
+        padding: 0.625rem 1.25rem;
+        border-radius: 0.75rem;
+        font-weight: 800;
+        font-size: 0.8125rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .cms-save-btn:hover {
+        background: linear-gradient(135deg, #630C19 0%, #801424 100%) !important;
+        box-shadow: 0 6px 20px rgba(128, 20, 36, 0.5);
+        transform: translateY(-1px);
+    }
+    .cms-save-btn:active {
+        transform: scale(0.98);
+    }
+</style>
+@endpush
+
 @section('content')
-<div x-data="webpageCmsApp()" x-init="init()" class="p-4 sm:p-6 max-w-[1600px] mx-auto space-y-6">
+<div x-data="webpageCmsApp()" x-init="init()" class="p-4 sm:p-6 max-w-[1600px] mx-auto cms-layout-wrapper">
 
     <!-- Top Header Bar -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-[#E5E0DC] shadow-xs">
@@ -49,19 +129,19 @@
         <span x-text="toast.message"></span>
     </div>
 
-    <!-- Main Tabbed Interface -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <!-- Main Tabbed Layout -->
+    <div class="cms-layout-grid">
         
-        <!-- Left Tab Navigation Menu (3 Cols) -->
-        <div class="lg:col-span-3 bg-white p-3 rounded-2xl border border-[#E5E0DC] shadow-xs space-y-1 sticky top-4">
+        <!-- Left Tab Navigation Menu (Sidebar) -->
+        <div class="cms-sidebar-col bg-white p-3 rounded-2xl border border-[#E5E0DC] shadow-xs space-y-1">
             <p class="px-3 py-2 text-[10px] font-extrabold uppercase tracking-widest text-gray-400">সেকশন নির্বাচন করুন</p>
             
             <template x-for="tab in tabList" :key="tab.id">
                 <button type="button" @click="activeTab = tab.id"
-                        class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all text-left"
-                        :class="activeTab === tab.id ? 'bg-[#801424] text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'">
+                        class="cms-tab-btn"
+                        :class="activeTab === tab.id ? 'active' : ''">
                     <div class="flex items-center gap-2.5 truncate">
-                        <i :data-lucide="tab.icon" class="w-4 h-4 shrink-0" :class="activeTab === tab.id ? 'text-[#D4AC50]' : 'text-gray-400'"></i>
+                        <i :data-lucide="tab.icon" class="w-4 h-4 shrink-0"></i>
                         <span x-text="tab.label" class="truncate"></span>
                     </div>
                     <i data-lucide="chevron-right" class="w-3.5 h-3.5 opacity-60"></i>
@@ -69,8 +149,8 @@
             </template>
         </div>
 
-        <!-- Right Content Editor Panels (9 Cols) -->
-        <div class="lg:col-span-9 bg-white p-6 sm:p-8 rounded-2xl border border-[#E5E0DC] shadow-xs">
+        <!-- Right Content Editor Panels -->
+        <div class="cms-editor-col bg-white p-6 sm:p-8 rounded-2xl border border-[#E5E0DC] shadow-xs">
             
             <!-- ════════════════════════════════════════════════════ -->
             <!-- TAB 1: HERO & GENERAL SECTION                       -->
@@ -81,10 +161,9 @@
                         <h2 class="text-base font-bold text-gray-900">🏠 হিরো ব্যানার ও ব্র্যান্ড ইনফো</h2>
                         <p class="text-xs text-gray-500">হোম পেজের প্রধান ব্যানার, টাইটেল, বাটন এবং ৪টি ফুড কোলাজ ছবি</p>
                     </div>
-                    <button type="button" @click="saveSection('hero', sections.hero)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('hero', sections.hero)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -152,10 +231,9 @@
                         <h2 class="text-base font-bold text-gray-900">🍽️ স্পেশাল কুইজিন ও ফ্যাসিলিটিজ</h2>
                         <p class="text-xs text-gray-500">Discover Our Specialist Cuisine (৪টি কার্ড)</p>
                     </div>
-                    <button type="button" @click="saveSection('cuisines', sections.cuisines)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('cuisines', sections.cuisines)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -188,10 +266,9 @@
                         <h2 class="text-base font-bold text-gray-900">📖 অ্যাবাউট আস, হিস্ট্রি ও ফাউন্ডার</h2>
                         <p class="text-xs text-gray-500">রেস্তোরাঁর গল্প, ইতিহাস এবং প্রতিষ্ঠাতার তথ্য</p>
                     </div>
-                    <button type="button" @click="saveSection('about', sections.about)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('about', sections.about)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -252,10 +329,9 @@
                         <h2 class="text-base font-bold text-gray-900">📊 কাউন্টার ও স্ট্যাটিস্টিকস</h2>
                         <p class="text-xs text-gray-500">রেস্তোরাঁর মোট ব্রাঞ্চ, অভিজ্ঞতা, অ্যাওয়ার্ড ও মেনুর সংখ্যা</p>
                     </div>
-                    <button type="button" @click="saveSection('stats', sections.stats)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('stats', sections.stats)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -301,10 +377,9 @@
                         <h2 class="text-base font-bold text-gray-900">⭐ হট অফার (Sunday Offers - 20% OFF)</h2>
                         <p class="text-xs text-gray-500">মেনু পেজের স্পেশাল রবিবারের অফার আইটেমসমূহ</p>
                     </div>
-                    <button type="button" @click="saveSection('sunday_offers', sections.sunday_offers)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('sunday_offers', sections.sunday_offers)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -339,10 +414,9 @@
                         <h2 class="text-base font-bold text-gray-900">📋 ডটেড মেনু তালিকা (Dotted Menus)</h2>
                         <p class="text-xs text-gray-500">Appetizer, Main Course, Dessert ও Specials তালিকার আইটেম ও ডটেড প্রাইস</p>
                     </div>
-                    <button type="button" @click="saveSection('dotted_menus', sections.dotted_menus)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('dotted_menus', sections.dotted_menus)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -412,10 +486,9 @@
                         <h2 class="text-base font-bold text-gray-900">👨‍🍳 মাস্টার শেফ প্রোফাইলস (Meet Our Chefs)</h2>
                         <p class="text-xs text-gray-500">৬ জন আন্তর্জাতিক শেফের নাম, পদবি, ছবি এবং সোশ্যাল মিডিয়া লিংক</p>
                     </div>
-                    <button type="button" @click="saveSection('chefs', sections.chefs)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('chefs', sections.chefs)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -452,10 +525,9 @@
                         <h2 class="text-base font-bold text-gray-900">💎 ডাইনিং প্যাকেজ ও প্রাইসিং (Single, Couple, Family)</h2>
                         <p class="text-xs text-gray-500">স্পেশাল কাস্টমার প্যাকেজের মূল্য এবং বুলেট পয়েন্ট সুবিধাসমূহ</p>
                     </div>
-                    <button type="button" @click="saveSection('packages', sections.packages)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('packages', sections.packages)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -492,10 +564,9 @@
                         <h2 class="text-base font-bold text-gray-900">💬 কাস্টমার রিভিউ ও টেস্টমোনিয়াল</h2>
                         <p class="text-xs text-gray-500">ওয়েবসাইটের প্রশংসাসূচক রিভিউ ও ক্লায়েন্ট তথ্য</p>
                     </div>
-                    <button type="button" @click="saveSection('testimonials', sections.testimonials)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('testimonials', sections.testimonials)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -530,10 +601,9 @@
                         <h2 class="text-base font-bold text-gray-900">❓ সচরাচর জিজ্ঞাসিত প্রশ্ন (FAQs)</h2>
                         <p class="text-xs text-gray-500">FAQ পেজ এবং একর্ডিয়ন এর প্রশ্ন ও উত্তর</p>
                     </div>
-                    <button type="button" @click="saveSection('faqs', sections.faqs)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                    <button type="button" @click="saveSection('faqs', sections.faqs)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -557,10 +627,9 @@
                         <h2 class="text-base font-bold text-gray-900">🕒 যোগাযোগ, খোলার সময় ও সোশ্যাল মিডিয়া</h2>
                         <p class="text-xs text-gray-500">হটলাইন নম্বর, ইমেইল, রেস্তোরাঁর ঠিকানা এবং সোশ্যাল লিংক</p>
                     </div>
-                    <button type="button" @click="saveSection('contact', sections.contact)" :disabled="saving"
-                            class="px-5 py-2.5 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-sm transition-all">
+                    <button type="button" @click="saveSection('contact', sections.contact)" :disabled="saving" class="cms-save-btn">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : '💾 সেভ পরিবর্তন (Save Changes)'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -629,10 +698,9 @@
                     <span>বর্তমান নির্বাচিত সেকশন: <strong class="text-[#801424]" x-text="getCurrentTabName()"></strong></span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button type="button" @click="saveCurrentTab()" :disabled="saving"
-                            class="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-[#801424] to-[#9C182C] hover:from-[#66101D] hover:to-[#801424] text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-md hover:shadow-xl transition-all cursor-pointer active:scale-98">
+                    <button type="button" @click="saveCurrentTab()" :disabled="saving" class="cms-save-btn w-full sm:w-auto px-7 py-3">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : '💾 সেভ পরিবর্তন (Save Changes)'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
             </div>
