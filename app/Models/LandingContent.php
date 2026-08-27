@@ -348,6 +348,38 @@ class LandingContent extends Model
                     'youtube' => 'https://youtube.com',
                     'whatsapp' => 'https://wa.me/62898245124'
                 ]
+            ],
+            'testimonials' => [
+                [
+                    'quote' => 'The royal taste of their delicacies and aromatic platters is unmatched. The luxury ambience, gold dining aesthetic, and swift table service make every visit unforgettable!',
+                    'name' => 'Jonathan Xander',
+                    'role' => 'Food Connoisseur & Guest',
+                    'rating' => 5
+                ],
+                [
+                    'quote' => 'Remarkable experience! From the instant table reservation to the warm hospitality and gourmet delights, Lezzatos sets the gold standard for luxury dining.',
+                    'name' => 'Farhana Ahmed',
+                    'role' => 'Executive Director',
+                    'rating' => 5
+                ],
+                [
+                    'quote' => 'The presentation of each signature dish is pure art. Perfectly balanced spices, premium cuts of meat, and an intoxicating royal aroma. Truly a 5-star experience!',
+                    'name' => 'Ashfaqul Karim',
+                    'role' => 'Lifestyle Critic',
+                    'rating' => 5
+                ],
+                [
+                    'quote' => 'An absolute culinary paradise! The ambience is regal, the servers are attentive and polite, and the signature dum biryani and grilled kebabs are to die for.',
+                    'name' => 'Sarah Jenkins',
+                    'role' => 'Gourmet Traveler',
+                    'rating' => 5
+                ],
+                [
+                    'quote' => 'Exquisite taste and opulent atmosphere! We hosted our company anniversary dinner here, and every single guest was blown away by the service and culinary artistry.',
+                    'name' => 'Tariqul Islam',
+                    'role' => 'Tech Entrepreneur',
+                    'rating' => 5
+                ]
             ]
         ];
     }

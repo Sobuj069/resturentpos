@@ -265,20 +265,50 @@
         </div>
     </section>
 
-    <!-- ════ 7. CUSTOMER REVIEWS ════ -->
-    <section class="py-20 bg-[#0E0E0E] border-t border-[#C5A880]/15">
-        <div class="max-w-3xl mx-auto px-6 text-center space-y-4" data-aos="fade-up">
+    <!-- ════ 7. CUSTOMER REVIEWS (AUTO-SLIDING SLIDER) ════ -->
+    <section class="py-24 bg-[#0E0E0E] border-t border-[#C5A880]/15 relative overflow-hidden">
+        <div class="max-w-3xl mx-auto px-6 text-center space-y-4 relative z-10" data-aos="fade-up">
             <p class="font-script text-3xl text-[#C5A880]">Testimonials</p>
             <h2 class="font-serif text-3xl font-bold text-white tracking-tight">Customer Reviews</h2>
+            
             <div class="pt-6 relative">
-                <div class="flex items-center justify-between">
-                    <button @click="prevTestimonial()" class="text-[#C5A880] hover:text-white transition-colors p-2 hover:scale-125 transform"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
-                    <div class="max-w-xl mx-auto px-4">
-                        <p class="text-xs sm:text-sm text-[#A8988D] italic leading-relaxed transition-opacity duration-300" x-text="testimonials[activeTestimonial].quote"></p>
-                        <div class="text-[#C5A880] text-4xl font-serif mt-3 mb-1">“</div>
-                        <p class="font-bold text-xs uppercase tracking-wider text-white" x-text="testimonials[activeTestimonial].name"></p>
+                <div class="flex items-center justify-between gap-4">
+                    <button @click="prevTestimonial()" class="text-[#C5A880] hover:text-white transition-all p-2 hover:scale-125 transform cursor-pointer shrink-0">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                    
+                    <div class="max-w-xl mx-auto px-4 min-h-[160px] flex flex-col justify-center items-center">
+                        <template x-if="testimonials.length > 0 && testimonials[activeTestimonial]">
+                            <div class="space-y-3 transition-all duration-500 ease-in-out">
+                                <p class="text-xs sm:text-sm text-[#D8CDC4] italic leading-relaxed" 
+                                   x-text="'“' + testimonials[activeTestimonial].quote + '”'"></p>
+                                
+                                <div class="text-[#C5A880] text-sm tracking-widest">
+                                    ★★★★★
+                                </div>
+
+                                <div>
+                                    <p class="font-serif font-bold text-sm uppercase tracking-widest text-white" 
+                                       x-text="testimonials[activeTestimonial].name"></p>
+                                    <p class="text-[11px] text-[#C5A880] font-medium mt-0.5" 
+                                       x-text="testimonials[activeTestimonial].role || 'Guest & Connoisseur'"></p>
+                                </div>
+                            </div>
+                        </template>
                     </div>
-                    <button @click="nextTestimonial()" class="text-[#C5A880] hover:text-white transition-colors p-2 hover:scale-125 transform"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
+
+                    <button @click="nextTestimonial()" class="text-[#C5A880] hover:text-white transition-all p-2 hover:scale-125 transform cursor-pointer shrink-0">
+                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Slide Dots Indicators -->
+                <div class="flex items-center justify-center gap-2 mt-6">
+                    <template x-for="(item, idx) in testimonials" :key="idx">
+                        <button @click="activeTestimonial = idx" 
+                                class="h-2 rounded-full transition-all duration-300 cursor-pointer"
+                                :class="activeTestimonial === idx ? 'bg-[#C5A880] w-7' : 'bg-white/25 hover:bg-white/50 w-2'"></button>
+                    </template>
                 </div>
             </div>
         </div>

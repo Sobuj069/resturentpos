@@ -381,7 +381,7 @@
             isScrolled: false,
             mobileMenuOpen: false,
             activeTestimonial: 0,
-            testimonials: @json($testimonials ?? []),
+            testimonials: @json($testimonials),
             videoModalOpen: false,
             reservationSuccessModal: false,
             isSubmitting: false,
@@ -401,6 +401,12 @@
                 window.addEventListener('scroll', () => {
                     this.isScrolled = window.scrollY > 40;
                 });
+                
+                // Automatic Auto-slide every 4 seconds
+                setInterval(() => {
+                    this.nextTestimonial();
+                }, 4000);
+
                 this.$nextTick(() => {
                     if (window.lucide) window.lucide.createIcons();
                     if (typeof AOS !== 'undefined') {
