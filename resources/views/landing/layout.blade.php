@@ -203,13 +203,20 @@
         }
 
         .partner-logo-item {
-            transition: all 0.3s ease;
-            filter: grayscale(1) opacity(0.65);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0.65;
+            filter: grayscale(100%) brightness(1.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1.25rem;
         }
 
         .partner-logo-item:hover {
-            filter: grayscale(0) opacity(1);
-            transform: scale(1.08);
+            opacity: 1;
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.18);
         }
 
         /* Custom Scrollbar */
