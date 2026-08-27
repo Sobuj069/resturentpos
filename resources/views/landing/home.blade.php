@@ -159,14 +159,17 @@
                 <!-- Group 1: Dynamic Brand Logos -->
                 <div class="flex items-center gap-12 sm:gap-16 shrink-0">
                     @foreach($partners['items'] as $partner)
+                    @php
+                        $logoUrl = !empty($partner['logo']) ? (\Illuminate\Support\Str::startsWith($partner['logo'], ['http://', 'https://']) ? $partner['logo'] : asset(ltrim($partner['logo'], '/'))) : null;
+                    @endphp
                     <div class="partner-logo-item">
-                        @if(!empty($partner['logo']))
+                        @if($logoUrl)
                             @if(!empty($partner['url']) && $partner['url'] !== '#')
                                 <a href="{{ $partner['url'] }}" target="_blank" rel="noopener noreferrer" class="inline-block transition-transform hover:scale-105">
-                                    <img src="{{ $partner['logo'] }}" alt="{{ $partner['name'] ?? 'Brand Logo' }}" class="h-8 sm:h-9 w-auto max-w-[140px] object-contain drop-shadow-md">
+                                    <img src="{{ $logoUrl }}" alt="{{ $partner['name'] ?? 'Brand Logo' }}" class="h-8 sm:h-9 w-auto max-w-[140px] object-contain drop-shadow-md">
                                 </a>
                             @else
-                                <img src="{{ $partner['logo'] }}" alt="{{ $partner['name'] ?? 'Brand Logo' }}" class="h-8 sm:h-9 w-auto max-w-[140px] object-contain drop-shadow-md">
+                                <img src="{{ $logoUrl }}" alt="{{ $partner['name'] ?? 'Brand Logo' }}" class="h-8 sm:h-9 w-auto max-w-[140px] object-contain drop-shadow-md">
                             @endif
                         @elseif(!empty($partner['name']))
                             <span class="font-serif font-extrabold text-sm sm:text-base text-white tracking-widest">{{ $partner['name'] }}</span>
@@ -178,9 +181,12 @@
                 <!-- Group 2: Seamless Infinite Marquee Loop Duplicate -->
                 <div class="flex items-center gap-12 sm:gap-16 shrink-0" aria-hidden="true">
                     @foreach($partners['items'] as $partner)
+                    @php
+                        $logoUrl = !empty($partner['logo']) ? (\Illuminate\Support\Str::startsWith($partner['logo'], ['http://', 'https://']) ? $partner['logo'] : asset(ltrim($partner['logo'], '/'))) : null;
+                    @endphp
                     <div class="partner-logo-item">
-                        @if(!empty($partner['logo']))
-                            <img src="{{ $partner['logo'] }}" alt="{{ $partner['name'] ?? 'Brand Logo' }}" class="h-8 sm:h-9 w-auto max-w-[140px] object-contain drop-shadow-md">
+                        @if($logoUrl)
+                            <img src="{{ $logoUrl }}" alt="{{ $partner['name'] ?? 'Brand Logo' }}" class="h-8 sm:h-9 w-auto max-w-[140px] object-contain drop-shadow-md">
                         @elseif(!empty($partner['name']))
                             <span class="font-serif font-extrabold text-sm sm:text-base text-white tracking-widest">{{ $partner['name'] }}</span>
                         @endif
