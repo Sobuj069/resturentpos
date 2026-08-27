@@ -19,9 +19,15 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\WaiterController;
 use Illuminate\Support\Facades\Route;
 
-// Public Luxury Restaurant Landing Page & Table Reservation
-Route::get('/', [LandingController::class, 'index'])->name('home');
-Route::post('/reservation', [LandingController::class, 'storeReservation'])->name('reservation.store');
+// Public Luxury Restaurant Multi-Page Platform
+Route::get('/', [LandingController::class, 'home'])->name('home');
+Route::get('/our-menu', [LandingController::class, 'menu'])->name('our-menu');
+Route::get('/about-us', [LandingController::class, 'about'])->name('about-us');
+Route::get('/our-chef', [LandingController::class, 'chefs'])->name('our-chef');
+Route::get('/reservation', [LandingController::class, 'reservation'])->name('reservation');
+Route::get('/contact-us', [LandingController::class, 'contact'])->name('contact-us');
+Route::post('/api/reservation', [LandingController::class, 'storeReservation'])->name('reservation.store');
+Route::post('/api/contact', [LandingController::class, 'storeContact'])->name('contact.store');
 
 // Authentication & SaaS Registration
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

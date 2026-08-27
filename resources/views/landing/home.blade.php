@@ -1,0 +1,391 @@
+@extends('landing.layout')
+
+@section('title', 'Lezzatos — The Authentic Restaurant & Cafe')
+
+@section('content')
+
+    <!-- ════ HERO SECTION ════ -->
+    <section id="home" class="relative min-h-[92vh] pt-36 pb-20 flex items-center bg-[#0B0B0B] overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 w-full relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left 50% Text Column -->
+                <div class="lg:col-span-6 space-y-6 text-left">
+                    <p class="font-script text-3xl sm:text-4xl text-[#C5A880]">
+                        Welcome to Lezzatos
+                    </p>
+                    
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.18] tracking-tight">
+                        The Authentic <br>
+                        Restaurant & Cafe
+                    </h1>
+
+                    <p class="text-xs sm:text-sm text-[#8C7D73] max-w-md font-light leading-relaxed">
+                        Experience royal culinary craftsmanship with our timeless gourmet delicacies, signature dum biryanis, sizzling kebabs, and enchanting fine dining ambiance.
+                    </p>
+
+                    <div class="pt-4">
+                        <a href="{{ route('our-menu') }}" class="gold-underline-btn text-xs uppercase tracking-[0.25em] font-bold text-white hover:text-[#C5A880] transition-colors">
+                            EXPLORE MENU
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right 50% Food Feast Visual Collage -->
+                <div class="lg:col-span-6">
+                    <div class="relative w-full max-w-lg mx-auto bg-[#090909] rounded-3xl p-3 border border-[#C5A880]/30 shadow-2xl overflow-hidden">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20">
+                                <img src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=600&q=80" 
+                                     alt="Curry Platter" class="w-full h-44 sm:h-52 object-cover hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20">
+                                <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80" 
+                                     alt="Dum Biryani" class="w-full h-44 sm:h-52 object-cover hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20">
+                                <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80" 
+                                     alt="Dessert" class="w-full h-44 sm:h-52 object-cover hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20">
+                                <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80" 
+                                     alt="Naan Bread" class="w-full h-44 sm:h-52 object-cover hover:scale-105 transition-transform duration-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ════ 2. SPECIALIST CUISINES ════ -->
+    <section class="py-24 bg-[#0E0E0E] relative border-t border-[#C5A880]/15">
+        <div class="absolute top-4 right-4 w-28 h-28 gold-diagonal-lines opacity-40 pointer-events-none hidden md:block"></div>
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="text-center space-y-1 mb-16">
+                <p class="font-script text-3xl text-[#C5A880]">Discover</p>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
+                    Our Specialist Cuisine
+                </h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-[#141414] p-7 rounded-2xl border border-[#C5A880]/25 relative group hover:border-[#C5A880] transition-all">
+                    <div class="absolute top-0 right-0 w-16 h-16 gold-diagonal-lines opacity-20 group-hover:opacity-50"></div>
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[#C5A880]/30" style="background: rgba(197, 168, 128, 0.08);">
+                        <i data-lucide="utensils" class="w-5 h-5 text-[#C5A880]"></i>
+                    </div>
+                    <h3 class="font-serif text-base font-bold text-white mb-2">Middle East Food</h3>
+                    <p class="text-xs text-[#8C7D73] leading-relaxed">Authentic arabic mandi, tender kebabs & fragrant biryanis infused with saffron & spices.</p>
+                </div>
+                <div class="bg-[#141414] p-7 rounded-2xl border border-[#C5A880]/25 relative group hover:border-[#C5A880] transition-all">
+                    <div class="absolute top-0 right-0 w-16 h-16 gold-diagonal-lines opacity-20 group-hover:opacity-50"></div>
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[#C5A880]/30" style="background: rgba(197, 168, 128, 0.08);">
+                        <i data-lucide="soup" class="w-5 h-5 text-[#C5A880]"></i>
+                    </div>
+                    <h3 class="font-serif text-base font-bold text-white mb-2">Gourmet Food</h3>
+                    <p class="text-xs text-[#8C7D73] leading-relaxed">Masterfully prepared gourmet recipes crafted by award-winning international chefs.</p>
+                </div>
+                <div class="bg-[#141414] p-7 rounded-2xl border border-[#C5A880]/25 relative group hover:border-[#C5A880] transition-all">
+                    <div class="absolute top-0 right-0 w-16 h-16 gold-diagonal-lines opacity-20 group-hover:opacity-50"></div>
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[#C5A880]/30" style="background: rgba(197, 168, 128, 0.08);">
+                        <i data-lucide="chef-hat" class="w-5 h-5 text-[#C5A880]"></i>
+                    </div>
+                    <h3 class="font-serif text-base font-bold text-white mb-2">Delicious Food</h3>
+                    <p class="text-xs text-[#8C7D73] leading-relaxed">Sizzling grills, slow-cooked royal delicacies & hand-crafted artisan desserts.</p>
+                </div>
+                <div class="bg-[#141414] p-7 rounded-2xl border border-[#C5A880]/25 relative group hover:border-[#C5A880] transition-all">
+                    <div class="absolute top-0 right-0 w-16 h-16 gold-diagonal-lines opacity-20 group-hover:opacity-50"></div>
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[#C5A880]/30" style="background: rgba(197, 168, 128, 0.08);">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-[#C5A880]"></i>
+                    </div>
+                    <h3 class="font-serif text-base font-bold text-white mb-2">Fresh Natural</h3>
+                    <p class="text-xs text-[#8C7D73] leading-relaxed">100% farm-fresh, organic ingredients and pure herbs sourced daily from local farmers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════ 3. ABOUT US & STORY ════ -->
+    <section class="py-24 bg-[#0B0B0B] relative">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+                    <div class="rounded-2xl overflow-hidden border border-[#C5A880]/30 shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" 
+                             alt="Restaurant Dining Room" class="w-full h-80 object-cover hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="rounded-2xl overflow-hidden border border-[#C5A880]/30 shadow-2xl mt-8">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=600&q=80" 
+                             alt="Grand Lobby Setting" class="w-full h-80 object-cover hover:scale-105 transition-transform duration-500">
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6">
+                    <div class="bg-white text-[#1A1A1A] p-8 sm:p-12 chamfer-top-right shadow-2xl relative">
+                        <p class="font-script text-2xl text-[#C5A880] mb-1">About Us</p>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#111111] mb-4 leading-tight">Our Story Make History</h2>
+                        <p class="text-xs sm:text-sm text-[#665D56] leading-relaxed mb-4">Founded with a passion for preserving imperial gastronomy, Lezzatos combines time-honored royal cooking methods with contemporary culinary finesse.</p>
+                        <p class="text-xs sm:text-sm text-[#665D56] leading-relaxed mb-8">Every marinade is aged to perfection, every biryani pot is slow-cooked over low embers, and every guest is treated like royalty with our warm hospitality and bespoke dining reservations.</p>
+                        <a href="{{ route('about-us') }}" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#C5A880] hover:text-[#111] transition-colors border-b border-[#C5A880] pb-0.5">
+                            <span>Discover More</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════ 4. STATS COUNTER ════ -->
+    <section class="py-14 bg-[#111111] border-t border-b border-[#C5A880]/15 relative">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="space-y-1">
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">12</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Restaurants</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">8</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Years Experience</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">50+</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Award Winner</p>
+                </div>
+                <div class="space-y-1">
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">200+</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Food Menus</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════ 5. SPECIAL DISH & BEST RECOMMENDATION ════ -->
+    <section class="py-24 bg-[#0B0B0B] relative">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="text-center space-y-1 mb-16">
+                <p class="font-script text-3xl text-[#C5A880]">Special Dish</p>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">Best Recommendation Menu</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80" alt="Greek Salad" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-6 bg-white text-[#1A1A1A] chamfer-top-right -mt-6 relative z-10 m-3 rounded-xl shadow-2xl">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="font-serif font-bold text-sm text-[#111]">Royal Greek Salad</h3>
+                            <span class="font-bold text-xs text-[#C5A880]">$12.00</span>
+                        </div>
+                        <p class="text-[11px] text-[#665D56] mb-3">Fresh feta cheese, Kalamata olives & crisp romaine</p>
+                        <a href="{{ route('reservation') }}" class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#C5A880]"><span>Order Dish</span><i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+                    </div>
+                </div>
+
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?auto=format&fit=crop&w=600&q=80" alt="Fettuccine Pasta" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-6 bg-white text-[#1A1A1A] chamfer-top-right -mt-6 relative z-10 m-3 rounded-xl shadow-2xl">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="font-serif font-bold text-sm text-[#111]">Fettuccine Alfredo</h3>
+                            <span class="font-bold text-xs text-[#C5A880]">$18.00</span>
+                        </div>
+                        <p class="text-[11px] text-[#665D56] mb-3">Rich parmesan cream sauce, truffle oil & herbs</p>
+                        <a href="{{ route('reservation') }}" class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#C5A880]"><span>Order Dish</span><i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+                    </div>
+                </div>
+
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" alt="Pancakes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-6 bg-white text-[#1A1A1A] chamfer-top-right -mt-6 relative z-10 m-3 rounded-xl shadow-2xl">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="font-serif font-bold text-sm text-[#111]">Berry Pancakes</h3>
+                            <span class="font-bold text-xs text-[#C5A880]">$14.00</span>
+                        </div>
+                        <p class="text-[11px] text-[#665D56] mb-3">Fluffy buttermilk stack, raspberry glaze & walnuts</p>
+                        <a href="{{ route('reservation') }}" class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#C5A880]"><span>Order Dish</span><i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom 2-Column: Left Dotted Menu List, Right Chicken Dish Photo -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#111111] p-6 sm:p-10 rounded-3xl border border-[#C5A880]/20 relative">
+                <div class="absolute top-2 left-2 w-20 h-20 gold-diagonal-lines opacity-20 hidden md:block"></div>
+                <div class="lg:col-span-6 bg-white text-[#1A1A1A] p-6 sm:p-8 rounded-2xl shadow-2xl space-y-4">
+                    <div class="border-b border-gray-100 pb-2">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Greek Salad</span>
+                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
+                            <span class="font-bold text-xs text-[#C5A880]">$12</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500">Fresh lettuce, cucumber, kalamata olives & feta</p>
+                    </div>
+                    <div class="border-b border-gray-100 pb-2">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Chicken Spring Soup</span>
+                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
+                            <span class="font-bold text-xs text-[#C5A880]">$15</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500">Slow-simmered chicken broth with fragrant herbs</p>
+                    </div>
+                    <div class="border-b border-gray-100 pb-2">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Salmon Salad</span>
+                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
+                            <span class="font-bold text-xs text-[#C5A880]">$18</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500">Smoked Norwegian salmon slices over tossed greens</p>
+                    </div>
+                    <div class="border-b border-gray-100 pb-2">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Classic Roast Chicken</span>
+                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
+                            <span class="font-bold text-xs text-[#C5A880]">$22</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500">Oven roasted quarter chicken with herb butter glaze</p>
+                    </div>
+                    <div>
+                        <div class="flex items-baseline justify-between gap-2">
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Bitter Ball</span>
+                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
+                            <span class="font-bold text-xs text-[#C5A880]">$09</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500">Crispy dutch-style savoury croquettes with mustard dip</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6">
+                    <div class="rounded-2xl overflow-hidden border border-[#C5A880]/30 shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" 
+                             alt="Signature Meat Platter" class="w-full h-80 sm:h-96 object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════ 6. TABLE RESERVATION FORM ════ -->
+    <section class="py-24 bg-[#090909] relative border-t border-[#C5A880]/15">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-5 space-y-4 text-left">
+                    <p class="font-script text-3xl text-[#C5A880]">Reservation</p>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white leading-tight">Feel Happiness by Making a Reservation</h2>
+                    <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed">Reserve your royal dining table in advance for birthdays, family gatherings, corporate dinners, or intimate romantic evenings.</p>
+                </div>
+
+                <div class="lg:col-span-7">
+                    <div class="bg-[#D1A568] p-8 sm:p-10 chamfer-top-right shadow-2xl text-[#1A1105]">
+                        <div class="text-center mb-6">
+                            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white">Book Table</h3>
+                        </div>
+                        <form @submit.prevent="submitReservation()" class="space-y-3.5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div><input type="text" x-model="form.customer_name" required placeholder="Name" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none"></div>
+                                <div><input type="text" x-model="form.customer_phone" required placeholder="Phone / Email" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none"></div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div><input type="date" x-model="form.reservation_date" required min="{{ date('Y-m-d') }}" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] focus:outline-none"></div>
+                                <div>
+                                    <select x-model="form.reservation_time" required class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] focus:outline-none">
+                                        <option value="01:00 PM">01:00 PM (Lunch)</option>
+                                        <option value="02:00 PM">02:00 PM (Lunch)</option>
+                                        <option value="07:30 PM">07:30 PM (Dinner)</option>
+                                        <option value="08:30 PM" selected>08:30 PM (Prime Dinner)</option>
+                                        <option value="09:30 PM">09:30 PM (Late Dinner)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <select x-model.number="form.guest_count" required class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] focus:outline-none">
+                                        <option value="1">1 Person</option>
+                                        <option value="2" selected>2 Persons</option>
+                                        <option value="4">4 Persons</option>
+                                        <option value="6">6 Persons</option>
+                                        <option value="8">8 Persons</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <select x-model="form.table_id" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] focus:outline-none">
+                                        <option value="">Select Table</option>
+                                        @foreach($tables as $t)
+                                        <option value="{{ $t->id }}">{{ $t->name }} ({{ $t->floor_name }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" :disabled="isSubmitting" class="w-full py-3.5 rounded bg-white hover:bg-gray-100 text-[#111] font-bold text-xs uppercase tracking-widest transition-all shadow-xl active:scale-98">
+                                    <span x-text="isSubmitting ? 'RESERVING...' : 'BOOK A TABLE'"></span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════ 7. CUSTOMER REVIEWS ════ -->
+    <section class="py-20 bg-[#0E0E0E] border-t border-[#C5A880]/15">
+        <div class="max-w-3xl mx-auto px-6 text-center space-y-4">
+            <p class="font-script text-3xl text-[#C5A880]">Testimonials</p>
+            <h2 class="font-serif text-3xl font-bold text-white tracking-tight">Customer Reviews</h2>
+            <div class="pt-6 relative">
+                <div class="flex items-center justify-between">
+                    <button @click="prevTestimonial()" class="text-[#C5A880] hover:text-white transition-colors p-2"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
+                    <div class="max-w-xl mx-auto px-4">
+                        <p class="text-xs sm:text-sm text-[#A8988D] italic leading-relaxed" x-text="testimonials[activeTestimonial].quote"></p>
+                        <div class="text-[#C5A880] text-4xl font-serif mt-3 mb-1">“</div>
+                        <p class="font-bold text-xs uppercase tracking-wider text-white" x-text="testimonials[activeTestimonial].name"></p>
+                    </div>
+                    <button @click="nextTestimonial()" class="text-[#C5A880] hover:text-white transition-colors p-2"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════ 8. VIDEO AMBIENCE ════ -->
+    <section class="relative h-80 sm:h-96 flex items-center justify-center overflow-hidden border-t border-b border-[#C5A880]/20">
+        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1600&q=80" alt="Ambience" class="absolute inset-0 w-full h-full object-cover brightness-50">
+        <div class="relative z-10 text-center space-y-3 px-4">
+            <button @click="videoModalOpen = true" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#C5A880] flex items-center justify-center text-[#C5A880] hover:scale-110 hover:bg-[#C5A880] hover:text-black transition-all shadow-[0_0_30px_rgba(197,168,128,0.4)] mx-auto">
+                <i data-lucide="play" class="w-6 h-6 fill-current ml-1"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- ════ 9. BLOG / TIPS & TRICKS ════ -->
+    <section class="py-24 bg-[#0B0B0B]">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10">
+            <div class="text-center space-y-1 mb-16">
+                <p class="font-script text-3xl text-[#C5A880]">Blog Post</p>
+                <h2 class="font-serif text-3xl font-bold text-white tracking-tight">Tips & Tricks</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @foreach($blogs as $blog)
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group hover:border-[#C5A880] transition-all">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="{{ $blog['image'] }}" alt="{{ $blog['title'] }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-5 chamfer-top-right bg-[#181818] -mt-4 relative z-10 m-2.5 rounded-xl border border-[#C5A880]/15">
+                        <h3 class="font-serif text-sm font-bold text-white mb-2 line-clamp-1">{{ $blog['title'] }}</h3>
+                        <p class="text-[11px] text-[#8C7D73] line-clamp-2 mb-4 leading-relaxed">{{ $blog['excerpt'] }}</p>
+                        <div class="flex items-center gap-2 text-[10px] text-[#C5A880]">
+                            <div class="w-5 h-5 rounded-full bg-[#C5A880]/20 flex items-center justify-center font-bold">{{ substr($blog['author'], 0, 1) }}</div>
+                            <span>By {{ $blog['author'] }}</span>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+@endsection

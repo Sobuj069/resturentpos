@@ -13,19 +13,16 @@ use Illuminate\View\View;
 
 class LandingController extends Controller
 {
-    /**
-     * Display the Luxury Restaurant Landing & Reservation Page
-     */
-    public function index(): View
+    private function getCommonData(): array
     {
         $branch = Branch::first() ?? (object)[
-            'restaurant_name' => "Lazzat Luxury Dine",
+            'restaurant_name' => "Lezzatos",
             'branch_name' => 'Main Outlet',
-            'phone' => '+880 1700-000000',
-            'email' => 'info@lazzatdine.com',
-            'address' => 'Gulshan Avenue, Dhaka, Bangladesh',
-            'currency_symbol' => '৳',
-            'opening_hours' => '11:00 AM - 11:30 PM (Daily)'
+            'phone' => '+62 898245124',
+            'email' => 'lezzatos@restaurant.com',
+            'address' => 'Braga St 28, Bandung, West Java',
+            'currency_symbol' => '$',
+            'opening_hours' => '08:00 - 23:00 (Daily)'
         ];
 
         $categories = Category::where('is_active', true)
@@ -49,48 +46,26 @@ class LandingController extends Controller
             'restaurants' => 12,
             'experience_years' => 8,
             'awards_won' => '50+',
-            'food_menus' => '200+'
-        ];
-
-        $specialistCuisines = [
-            [
-                'icon' => 'utensils',
-                'title' => 'Middle East Food',
-                'description' => 'Authentic Arabic mandi, kebabs & fragrant biryanis infused with saffron & spices.'
-            ],
-            [
-                'icon' => 'soup',
-                'title' => 'Gourmet Food',
-                'description' => 'Masterfully prepared gourmet recipes crafted by award-winning international chefs.'
-            ],
-            [
-                'icon' => 'chef-hat',
-                'title' => 'Delicious Food',
-                'description' => 'Sizzling grills, slow-cooked royal delicacies & hand-crafted artisan desserts.'
-            ],
-            [
-                'icon' => 'sparkles',
-                'title' => 'Fresh Natural',
-                'description' => '100% farm-fresh, organic ingredients and pure herbs sourced daily.'
-            ],
+            'food_menus' => '200+',
+            'customers' => '200+'
         ];
 
         $testimonials = [
             [
-                'quote' => '“The royal taste of their Mutton Kacchi and aromatic platters is unmatched. The luxury ambience, gold dining aesthetic, and swift table service make every visit unforgettable!”',
-                'name' => 'Dr. Farhana Ahmed',
+                'quote' => '“The royal taste of their delicacies and aromatic platters is unmatched. The luxury ambience, gold dining aesthetic, and swift table service make every visit unforgettable!”',
+                'name' => 'Jonathan Xander',
                 'role' => 'Food Connoisseur & Guest',
                 'rating' => 5
             ],
             [
-                'quote' => '“Remarkable experience! From the instant table reservation to the warm hospitality and gourmet delights, Lazzat sets the gold standard for luxury dining in the city.”',
-                'name' => 'Ashfaqul Karim',
+                'quote' => '“Remarkable experience! From the instant table reservation to the warm hospitality and gourmet delights, Lezzatos sets the gold standard for luxury dining.”',
+                'name' => 'Farhana Ahmed',
                 'role' => 'Executive Director',
                 'rating' => 5
             ],
             [
                 'quote' => '“The presentation of each signature dish is pure art. Perfectly balanced spices, premium cuts of meat, and an intoxicating royal aroma. Truly 5-star experience!”',
-                'name' => 'Tahsin Chowdhury',
+                'name' => 'Ashfaqul Karim',
                 'role' => 'Lifestyle Critic',
                 'rating' => 5
             ],
@@ -101,18 +76,18 @@ class LandingController extends Controller
                 'title' => 'Salad Fresh with Master Dressing Secrets',
                 'excerpt' => 'Discover the secret olive glaze and aromatic herb blend used by our master chefs.',
                 'image' => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
-                'author' => 'Chef Tanveer',
+                'author' => 'Chef Dany',
                 'date' => '24 Aug 2026'
             ],
             [
-                'title' => 'Secret Behind Perfectly Aged Prime Steak',
+                'title' => 'How to keep meat always fresh & juicy',
                 'excerpt' => 'The art of dry-aging and flame grilling to lock in maximum tenderness and rich juiciness.',
                 'image' => 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80',
-                'author' => 'Chef Al-Mansoor',
+                'author' => 'Chef William',
                 'date' => '22 Aug 2026'
             ],
             [
-                'title' => 'Spaghetti with Seafood & Saffron Infusion',
+                'title' => 'Spaghetti with seafood and saffron infusion',
                 'excerpt' => 'How Mediterranean seafood pairs with royal saffron for a rich culinary symphony.',
                 'image' => 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80',
                 'author' => 'Chef Antonio',
@@ -120,16 +95,61 @@ class LandingController extends Controller
             ],
         ];
 
-        return view('landing.index', compact(
-            'branch',
-            'categories',
-            'featuredItems',
-            'tables',
-            'stats',
-            'specialistCuisines',
-            'testimonials',
-            'blogs'
-        ));
+        return compact('branch', 'categories', 'featuredItems', 'tables', 'stats', 'testimonials', 'blogs');
+    }
+
+    /**
+     * 1. Home Page
+     */
+    public function home(): View
+    {
+        $data = $this->getCommonData();
+        return view('landing.home', $data);
+    }
+
+    /**
+     * 2. Our Menu Page
+     */
+    public function menu(): View
+    {
+        $data = $this->getCommonData();
+        return view('landing.menu', $data);
+    }
+
+    /**
+     * 3. About Us Page
+     */
+    public function about(): View
+    {
+        $data = $this->getCommonData();
+        return view('landing.about', $data);
+    }
+
+    /**
+     * 4. Our Chef Page
+     */
+    public function chefs(): View
+    {
+        $data = $this->getCommonData();
+        return view('landing.chefs', $data);
+    }
+
+    /**
+     * 5. Reservation Page
+     */
+    public function reservation(): View
+    {
+        $data = $this->getCommonData();
+        return view('landing.reservation', $data);
+    }
+
+    /**
+     * 6. Contact Us Page
+     */
+    public function contact(): View
+    {
+        $data = $this->getCommonData();
+        return view('landing.contact', $data);
     }
 
     /**
@@ -167,7 +187,7 @@ class LandingController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'আপনার টেবিল রিজার্ভেশন সফলভাবে কনফার্ম করা হয়েছে!',
+            'message' => 'Your reservation has been booked successfully!',
             'reservation' => [
                 'id' => $reservation->id,
                 'customer_name' => $reservation->customer_name,
@@ -176,6 +196,25 @@ class LandingController extends Controller
                 'time' => $reservation->reservation_time,
                 'table_name' => $table ? $table->name : 'Royal Dining Area',
             ]
+        ]);
+    }
+
+    /**
+     * Handle Contact Us Form Submission
+     */
+    public function storeContact(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'phone' => 'nullable|string|max:20',
+            'subject' => 'nullable|string|max:150',
+            'message' => 'required|string|max:1000',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Thank you for reaching out! Our team will contact you shortly.',
         ]);
     }
 }
