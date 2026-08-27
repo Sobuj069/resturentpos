@@ -1,6 +1,6 @@
 @extends('landing.layout')
 
-@section('title', 'About Us — Lezzatos Luxury Dining')
+@section('title', 'About Us — ' . ($branch->restaurant_name ?? 'Lezzatos'))
 
 @section('content')
 
@@ -19,14 +19,14 @@
             
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12" data-aos="fade-up">
                 <div class="lg:col-span-6 space-y-1">
-                    <p class="font-script text-3xl text-[#C5A880]">About Us</p>
+                    <p class="font-script text-3xl text-[#C5A880]">{{ $about['tagline'] ?? 'About Us' }}</p>
                     <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white leading-tight">
                         High Service for All Customer
                     </h2>
                 </div>
                 <div class="lg:col-span-6">
                     <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                        {{ $about['story_p1'] ?? 'Founded with a passion for preserving imperial gastronomy, Lezzatos combines time-honored royal cooking methods with contemporary culinary finesse.' }}
                     </p>
                 </div>
             </div>
@@ -40,20 +40,20 @@
             <!-- Stats Counter Bar -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center border-t border-b border-[#C5A880]/15 py-10 bg-[#0E0E0E] rounded-2xl" data-aos="fade-up">
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">12</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Restaurants</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['restaurants'] ?? '12' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['restaurants_label'] ?? 'Restaurants' }}</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">8</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Years Experience</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['experience_years'] ?? '8' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['experience_label'] ?? 'Years Experience' }}</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">50+</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Award Winner</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['awards_won'] ?? '50+' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['awards_label'] ?? 'Award Winner' }}</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">200+</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Customers</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['customers'] ?? '200+' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['customers_label'] ?? 'Customers' }}</p>
                 </div>
             </div>
 
@@ -68,7 +68,7 @@
                 <!-- Left: Founder Image -->
                 <div class="lg:col-span-6 relative" data-aos="fade-right">
                     <div class="rounded-3xl overflow-hidden border border-[#C5A880]/30 shadow-2xl luxury-img-zoom">
-                        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80" 
+                        <img src="{{ $about['founder_image'] ?? 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80' }}" 
                              alt="Founder" class="w-full h-[450px] object-cover">
                     </div>
                 </div>
@@ -80,9 +80,9 @@
                         <p class="font-script text-2xl text-[#C5A880] mb-1">Quotes</p>
                         <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#111] mb-4">Our Founder</h2>
                         <p class="text-xs sm:text-sm text-[#665D56] leading-relaxed mb-6">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                            {{ $about['founder_quote'] ?? 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.' }}
                         </p>
-                        <p class="font-script text-2xl text-[#C5A880]">Antonio Lezzato</p>
+                        <p class="font-script text-2xl text-[#C5A880]">{{ $about['founder_name'] ?? 'Antonio Lezzato' }}</p>
                     </div>
                 </div>
 
@@ -155,26 +155,13 @@
                 
                 <!-- Left: 2x2 Grid -->
                 <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4" data-aos="fade-right">
+                    @foreach($cuisines as $idx => $item)
                     <div class="bg-[#141414] p-6 rounded-2xl border border-[#C5A880]/20 text-center luxury-card">
-                        <i data-lucide="soup" class="w-6 h-6 text-[#C5A880] mx-auto mb-3"></i>
-                        <h4 class="font-serif text-sm font-bold text-white mb-1">Gourmet Food</h4>
-                        <p class="text-[11px] text-[#8C7D73]">Curated fine dining specialties</p>
+                        <i data-lucide="{{ $item['icon'] ?? 'utensils' }}" class="w-6 h-6 text-[#C5A880] mx-auto mb-3"></i>
+                        <h4 class="font-serif text-sm font-bold text-white mb-1">{{ $item['title'] }}</h4>
+                        <p class="text-[11px] text-[#8C7D73]">{{ $item['description'] }}</p>
                     </div>
-                    <div class="bg-[#141414] p-6 rounded-2xl border border-[#C5A880]/20 text-center luxury-card">
-                        <i data-lucide="utensils" class="w-6 h-6 text-[#C5A880] mx-auto mb-3"></i>
-                        <h4 class="font-serif text-sm font-bold text-white mb-1">Western Food</h4>
-                        <p class="text-[11px] text-[#8C7D73]">Pastas, steaks & artisan burgers</p>
-                    </div>
-                    <div class="bg-[#141414] p-6 rounded-2xl border border-[#C5A880]/20 text-center luxury-card">
-                        <i data-lucide="chef-hat" class="w-6 h-6 text-[#C5A880] mx-auto mb-3"></i>
-                        <h4 class="font-serif text-sm font-bold text-white mb-1">Delicious Food</h4>
-                        <p class="text-[11px] text-[#8C7D73]">Slow-cooked royal recipes</p>
-                    </div>
-                    <div class="bg-[#141414] p-6 rounded-2xl border border-[#C5A880]/20 text-center luxury-card">
-                        <i data-lucide="sparkles" class="w-6 h-6 text-[#C5A880] mx-auto mb-3"></i>
-                        <h4 class="font-serif text-sm font-bold text-white mb-1">Middle East Food</h4>
-                        <p class="text-[11px] text-[#8C7D73]">Fragrant dum biryanis & mandi</p>
-                    </div>
+                    @endforeach
                 </div>
 
                 <!-- Right: Text & CTA -->
@@ -184,7 +171,7 @@
                         Our Specialist Cuisine
                     </h2>
                     <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.
+                        Explore our world of imperial dishes, spiced roasts, and signature recipes perfected by our master chefs.
                     </p>
                     <div class="pt-2">
                         <a href="{{ route('our-menu') }}" class="inline-block px-8 py-3 rounded bg-[#D1A568] hover:bg-[#C5A880] text-black font-bold text-xs uppercase tracking-wider transition-all gold-glow-btn">

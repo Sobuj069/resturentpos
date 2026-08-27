@@ -1,6 +1,6 @@
 @extends('landing.layout')
 
-@section('title', 'Lezzatos — The Authentic Restaurant & Cafe')
+@section('title', ($branch->restaurant_name ?? 'Lezzatos') . ' — The Authentic Restaurant & Cafe')
 
 @section('content')
 
@@ -12,21 +12,21 @@
                 <!-- Left 50% Text Column -->
                 <div class="lg:col-span-6 space-y-6 text-left" data-aos="fade-right" data-aos-duration="900">
                     <p class="font-script text-3xl sm:text-4xl text-[#C5A880] tracking-wide" data-aos="fade-down" data-aos-delay="100">
-                        Welcome to Lezzatos
+                        {{ $hero['tagline'] ?? 'Welcome to Lezzatos' }}
                     </p>
                     
                     <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.18] tracking-tight" data-aos="fade-up" data-aos-delay="200">
-                        The Authentic <br>
-                        Restaurant & Cafe
+                        {{ $hero['title_line1'] ?? 'The Authentic' }} <br>
+                        {{ $hero['title_line2'] ?? 'Restaurant & Cafe' }}
                     </h1>
 
                     <p class="text-xs sm:text-sm text-[#8C7D73] max-w-md font-light leading-relaxed" data-aos="fade-up" data-aos-delay="300">
-                        Experience royal culinary craftsmanship with our timeless gourmet delicacies, signature dum biryanis, sizzling kebabs, and enchanting fine dining ambiance.
+                        {{ $hero['description'] ?? 'Experience royal culinary craftsmanship with our timeless gourmet delicacies, signature dum biryanis, sizzling kebabs, and enchanting fine dining ambiance.' }}
                     </p>
 
                     <div class="pt-4" data-aos="fade-up" data-aos-delay="400">
-                        <a href="{{ route('our-menu') }}" class="gold-underline-btn text-xs uppercase tracking-[0.25em] font-bold text-white hover:text-[#C5A880] transition-all inline-block">
-                            EXPLORE MENU
+                        <a href="{{ $hero['btn_url'] ?? route('our-menu') }}" class="gold-underline-btn text-xs uppercase tracking-[0.25em] font-bold text-white hover:text-[#C5A880] transition-all inline-block">
+                            {{ $hero['btn_text'] ?? 'EXPLORE MENU' }}
                         </a>
                     </div>
                 </div>
@@ -36,20 +36,20 @@
                     <div class="relative w-full max-w-lg mx-auto bg-[#090909] rounded-3xl p-3 border border-[#C5A880]/30 shadow-2xl overflow-hidden floating-element">
                         <div class="grid grid-cols-2 gap-3">
                             <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20 luxury-img-zoom">
-                                <img src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=600&q=80" 
-                                     alt="Curry Platter" class="w-full h-44 sm:h-52 object-cover">
+                                <img src="{{ $hero['image1'] ?? 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=600&q=80' }}" 
+                                     alt="Food 1" class="w-full h-44 sm:h-52 object-cover">
                             </div>
                             <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20 luxury-img-zoom">
-                                <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80" 
-                                     alt="Dum Biryani" class="w-full h-44 sm:h-52 object-cover">
+                                <img src="{{ $hero['image2'] ?? 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80' }}" 
+                                     alt="Food 2" class="w-full h-44 sm:h-52 object-cover">
                             </div>
                             <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20 luxury-img-zoom">
-                                <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80" 
-                                     alt="Dessert" class="w-full h-44 sm:h-52 object-cover">
+                                <img src="{{ $hero['image3'] ?? 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80' }}" 
+                                     alt="Food 3" class="w-full h-44 sm:h-52 object-cover">
                             </div>
                             <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20 luxury-img-zoom">
-                                <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80" 
-                                     alt="Naan Bread" class="w-full h-44 sm:h-52 object-cover">
+                                <img src="{{ $hero['image4'] ?? 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80' }}" 
+                                     alt="Food 4" class="w-full h-44 sm:h-52 object-cover">
                             </div>
                         </div>
                     </div>
@@ -70,38 +70,16 @@
                 </h2>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-[#141414] p-7 rounded-2xl border border-[#C5A880]/25 relative group luxury-card" data-aos="fade-up" data-aos-delay="100">
+                @foreach($cuisines as $idx => $item)
+                <div class="bg-[#141414] p-7 rounded-2xl border border-[#C5A880]/25 relative group luxury-card" data-aos="fade-up" data-aos-delay="{{ ($idx + 1) * 100 }}">
                     <div class="absolute top-0 right-0 w-16 h-16 gold-diagonal-lines opacity-20 group-hover:opacity-50 transition-opacity"></div>
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[#C5A880]/30 group-hover:scale-110 transition-transform" style="background: rgba(197, 168, 128, 0.08);">
-                        <i data-lucide="utensils" class="w-5 h-5 text-[#C5A880]"></i>
+                        <i data-lucide="{{ $item['icon'] ?? 'utensils' }}" class="w-5 h-5 text-[#C5A880]"></i>
                     </div>
-                    <h3 class="font-serif text-base font-bold text-white mb-2">Middle East Food</h3>
-                    <p class="text-xs text-[#8C7D73] leading-relaxed">Authentic arabic mandi, tender kebabs & fragrant biryanis infused with saffron & spices.</p>
+                    <h3 class="font-serif text-base font-bold text-white mb-2">{{ $item['title'] }}</h3>
+                    <p class="text-xs text-[#8C7D73] leading-relaxed">{{ $item['description'] }}</p>
                 </div>
-                <div class="bg-[#141414] p-7 rounded-2xl border border-[#C5A880]/25 relative group luxury-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="absolute top-0 right-0 w-16 h-16 gold-diagonal-lines opacity-20 group-hover:opacity-50 transition-opacity"></div>
-                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[#C5A880]/30 group-hover:scale-110 transition-transform" style="background: rgba(197, 168, 128, 0.08);">
-                        <i data-lucide="soup" class="w-5 h-5 text-[#C5A880]"></i>
-                    </div>
-                    <h3 class="font-serif text-base font-bold text-white mb-2">Gourmet Food</h3>
-                    <p class="text-xs text-[#8C7D73] leading-relaxed">Masterfully prepared gourmet recipes crafted by award-winning international chefs.</p>
-                </div>
-                <div class="bg-[#141414] p-7 rounded-2xl border border-[#C5A880]/25 relative group luxury-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="absolute top-0 right-0 w-16 h-16 gold-diagonal-lines opacity-20 group-hover:opacity-50 transition-opacity"></div>
-                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[#C5A880]/30 group-hover:scale-110 transition-transform" style="background: rgba(197, 168, 128, 0.08);">
-                        <i data-lucide="chef-hat" class="w-5 h-5 text-[#C5A880]"></i>
-                    </div>
-                    <h3 class="font-serif text-base font-bold text-white mb-2">Delicious Food</h3>
-                    <p class="text-xs text-[#8C7D73] leading-relaxed">Sizzling grills, slow-cooked royal delicacies & hand-crafted artisan desserts.</p>
-                </div>
-                <div class="bg-[#141414] p-7 rounded-2xl border border-[#C5A880]/25 relative group luxury-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="absolute top-0 right-0 w-16 h-16 gold-diagonal-lines opacity-20 group-hover:opacity-50 transition-opacity"></div>
-                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[#C5A880]/30 group-hover:scale-110 transition-transform" style="background: rgba(197, 168, 128, 0.08);">
-                        <i data-lucide="sparkles" class="w-5 h-5 text-[#C5A880]"></i>
-                    </div>
-                    <h3 class="font-serif text-base font-bold text-white mb-2">Fresh Natural</h3>
-                    <p class="text-xs text-[#8C7D73] leading-relaxed">100% farm-fresh, organic ingredients and pure herbs sourced daily from local farmers.</p>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -112,21 +90,21 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 <div class="lg:col-span-6 grid grid-cols-2 gap-4" data-aos="fade-right">
                     <div class="rounded-2xl overflow-hidden border border-[#C5A880]/30 shadow-2xl luxury-img-zoom">
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" 
+                        <img src="{{ $about['image1'] ?? 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80' }}" 
                              alt="Restaurant Dining Room" class="w-full h-80 object-cover">
                     </div>
                     <div class="rounded-2xl overflow-hidden border border-[#C5A880]/30 shadow-2xl mt-8 luxury-img-zoom">
-                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=600&q=80" 
+                        <img src="{{ $about['image2'] ?? 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=600&q=80' }}" 
                              alt="Grand Lobby Setting" class="w-full h-80 object-cover">
                     </div>
                 </div>
 
                 <div class="lg:col-span-6" data-aos="fade-left">
                     <div class="bg-white text-[#1A1A1A] p-8 sm:p-12 chamfer-top-right shadow-2xl relative luxury-card">
-                        <p class="font-script text-2xl text-[#C5A880] mb-1">About Us</p>
-                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#111111] mb-4 leading-tight">Our Story Make History</h2>
-                        <p class="text-xs sm:text-sm text-[#665D56] leading-relaxed mb-4">Founded with a passion for preserving imperial gastronomy, Lezzatos combines time-honored royal cooking methods with contemporary culinary finesse.</p>
-                        <p class="text-xs sm:text-sm text-[#665D56] leading-relaxed mb-8">Every marinade is aged to perfection, every biryani pot is slow-cooked over low embers, and every guest is treated like royalty with our warm hospitality and bespoke dining reservations.</p>
+                        <p class="font-script text-2xl text-[#C5A880] mb-1">{{ $about['tagline'] ?? 'About Us' }}</p>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#111111] mb-4 leading-tight">{{ $about['title'] ?? 'Our Story Make History' }}</h2>
+                        <p class="text-xs sm:text-sm text-[#665D56] leading-relaxed mb-4">{{ $about['story_p1'] ?? '' }}</p>
+                        <p class="text-xs sm:text-sm text-[#665D56] leading-relaxed mb-8">{{ $about['story_p2'] ?? '' }}</p>
                         <a href="{{ route('about-us') }}" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#C5A880] hover:text-[#111] transition-colors border-b border-[#C5A880] pb-0.5">
                             <span>Discover More</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
@@ -142,20 +120,20 @@
         <div class="max-w-7xl mx-auto px-6 sm:px-10">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="fade-up">
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">12</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Restaurants</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['restaurants'] ?? '12' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['restaurants_label'] ?? 'Restaurants' }}</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">8</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Years Experience</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['experience_years'] ?? '8' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['experience_label'] ?? 'Years Experience' }}</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">50+</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Award Winner</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['awards_won'] ?? '50+' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['awards_label'] ?? 'Award Winner' }}</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">200+</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Food Menus</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['food_menus'] ?? '200+' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['menus_label'] ?? 'Food Menus' }}</p>
                 </div>
             </div>
         </div>
@@ -170,93 +148,37 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group luxury-card" data-aos="fade-up" data-aos-delay="100">
+                @foreach($recommendedDishes as $idx => $dish)
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group luxury-card" data-aos="fade-up" data-aos-delay="{{ ($idx + 1) * 100 }}">
                     <div class="relative h-64 overflow-hidden luxury-img-zoom">
-                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80" alt="Greek Salad" class="w-full h-full object-cover">
+                        <img src="{{ $dish['image'] }}" alt="{{ $dish['name'] }}" class="w-full h-full object-cover">
                     </div>
                     <div class="p-6 bg-white text-[#1A1A1A] chamfer-top-right -mt-6 relative z-10 m-3 rounded-xl shadow-2xl">
                         <div class="flex items-center justify-between mb-1">
-                            <h3 class="font-serif font-bold text-sm text-[#111]">Royal Greek Salad</h3>
-                            <span class="font-bold text-xs text-[#C5A880]">$12.00</span>
+                            <h3 class="font-serif font-bold text-sm text-[#111]">{{ $dish['name'] }}</h3>
+                            <span class="font-bold text-xs text-[#C5A880]">{{ $dish['price'] }}</span>
                         </div>
-                        <p class="text-[11px] text-[#665D56] mb-3">Fresh feta cheese, Kalamata olives & crisp romaine</p>
+                        <p class="text-[11px] text-[#665D56] mb-3">{{ $dish['description'] }}</p>
                         <a href="{{ route('reservation') }}" class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#C5A880] hover:translate-x-1 transition-transform"><span>Order Dish</span><i data-lucide="arrow-right" class="w-3 h-3"></i></a>
                     </div>
                 </div>
-
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group luxury-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative h-64 overflow-hidden luxury-img-zoom">
-                        <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?auto=format&fit=crop&w=600&q=80" alt="Fettuccine Pasta" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6 bg-white text-[#1A1A1A] chamfer-top-right -mt-6 relative z-10 m-3 rounded-xl shadow-2xl">
-                        <div class="flex items-center justify-between mb-1">
-                            <h3 class="font-serif font-bold text-sm text-[#111]">Fettuccine Alfredo</h3>
-                            <span class="font-bold text-xs text-[#C5A880]">$18.00</span>
-                        </div>
-                        <p class="text-[11px] text-[#665D56] mb-3">Rich parmesan cream sauce, truffle oil & herbs</p>
-                        <a href="{{ route('reservation') }}" class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#C5A880] hover:translate-x-1 transition-transform"><span>Order Dish</span><i data-lucide="arrow-right" class="w-3 h-3"></i></a>
-                    </div>
-                </div>
-
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group luxury-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="relative h-64 overflow-hidden luxury-img-zoom">
-                        <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" alt="Pancakes" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6 bg-white text-[#1A1A1A] chamfer-top-right -mt-6 relative z-10 m-3 rounded-xl shadow-2xl">
-                        <div class="flex items-center justify-between mb-1">
-                            <h3 class="font-serif font-bold text-sm text-[#111]">Berry Pancakes</h3>
-                            <span class="font-bold text-xs text-[#C5A880]">$14.00</span>
-                        </div>
-                        <p class="text-[11px] text-[#665D56] mb-3">Fluffy buttermilk stack, raspberry glaze & walnuts</p>
-                        <a href="{{ route('reservation') }}" class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#C5A880] hover:translate-x-1 transition-transform"><span>Order Dish</span><i data-lucide="arrow-right" class="w-3 h-3"></i></a>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <!-- Bottom 2-Column: Left Dotted Menu List, Right Chicken Dish Photo -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#111111] p-6 sm:p-10 rounded-3xl border border-[#C5A880]/20 relative" data-aos="fade-up">
                 <div class="absolute top-2 left-2 w-20 h-20 gold-diagonal-lines opacity-20 hidden md:block"></div>
                 <div class="lg:col-span-6 bg-white text-[#1A1A1A] p-6 sm:p-8 rounded-2xl shadow-2xl space-y-4">
+                    @foreach($dottedMenus['specials'] ?? [] as $spec)
                     <div class="border-b border-gray-100 pb-2">
                         <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Greek Salad</span>
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">{{ $spec['name'] }}</span>
                             <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$12</span>
+                            <span class="font-bold text-xs text-[#C5A880]">{{ $spec['price'] }}</span>
                         </div>
-                        <p class="text-[10px] text-gray-500">Fresh lettuce, cucumber, kalamata olives & feta</p>
+                        <p class="text-[10px] text-gray-500">{{ $spec['desc'] }}</p>
                     </div>
-                    <div class="border-b border-gray-100 pb-2">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Chicken Spring Soup</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$15</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Slow-simmered chicken broth with fragrant herbs</p>
-                    </div>
-                    <div class="border-b border-gray-100 pb-2">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Salmon Salad</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$18</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Smoked Norwegian salmon slices over tossed greens</p>
-                    </div>
-                    <div class="border-b border-gray-100 pb-2">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Classic Roast Chicken</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$22</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Oven roasted quarter chicken with herb butter glaze</p>
-                    </div>
-                    <div>
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Bitter Ball</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$09</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Crispy dutch-style savoury croquettes with mustard dip</p>
-                    </div>
+                    @endforeach
                 </div>
 
                 <div class="lg:col-span-6">

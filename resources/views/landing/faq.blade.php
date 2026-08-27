@@ -1,6 +1,6 @@
 @extends('landing.layout')
 
-@section('title', 'FAQ — Frequently Asked Questions | Lezzatos')
+@section('title', 'FAQ — Frequently Asked Questions | ' . ($branch->restaurant_name ?? 'Lezzatos'))
 
 @section('content')
 
@@ -14,92 +14,32 @@
     </section>
 
     <!-- ════ 1. FAQ ACCORDION / TABS SECTION ════ -->
-    <section class="py-24 bg-[#0B0B0B] relative" x-data="{ activeTab: 1 }">
+    <section class="py-24 bg-[#0B0B0B] relative" x-data="{ activeTab: 0 }">
         <div class="max-w-7xl mx-auto px-6 sm:px-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                 
                 <!-- Left: Question Tabs List -->
                 <div class="lg:col-span-4 space-y-3" data-aos="fade-right">
-                    
-                    <button @click="activeTab = 1" 
+                    @foreach($faqs as $idx => $faq)
+                    <button @click="activeTab = {{ $idx }}" 
                             class="w-full text-left p-4 rounded-xl text-xs font-bold transition-all chamfer-top-right flex items-center justify-between cursor-pointer"
-                            :class="activeTab === 1 ? 'bg-[#D1A568] text-black shadow-lg scale-102' : 'bg-[#141414] text-[#A8988D] border border-[#C5A880]/20 hover:border-[#C5A880]'">
-                        <span>What is Lezzatos ?</span>
+                            :class="activeTab === {{ $idx }} ? 'bg-[#D1A568] text-black shadow-lg scale-102' : 'bg-[#141414] text-[#A8988D] border border-[#C5A880]/20 hover:border-[#C5A880]'">
+                        <span>{{ $faq['question'] }}</span>
                         <i data-lucide="chevron-right" class="w-4 h-4"></i>
                     </button>
-
-                    <button @click="activeTab = 2" 
-                            class="w-full text-left p-4 rounded-xl text-xs font-bold transition-all chamfer-top-right flex items-center justify-between cursor-pointer"
-                            :class="activeTab === 2 ? 'bg-[#D1A568] text-black shadow-lg scale-102' : 'bg-[#141414] text-[#A8988D] border border-[#C5A880]/20 hover:border-[#C5A880]'">
-                        <span>How to make a food reservation?</span>
-                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                    </button>
-
-                    <button @click="activeTab = 3" 
-                            class="w-full text-left p-4 rounded-xl text-xs font-bold transition-all chamfer-top-right flex items-center justify-between cursor-pointer"
-                            :class="activeTab === 3 ? 'bg-[#D1A568] text-black shadow-lg scale-102' : 'bg-[#141414] text-[#A8988D] border border-[#C5A880]/20 hover:border-[#C5A880]'">
-                        <span>Where is the restaurant address located?</span>
-                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                    </button>
-
-                    <button @click="activeTab = 4" 
-                            class="w-full text-left p-4 rounded-xl text-xs font-bold transition-all chamfer-top-right flex items-center justify-between cursor-pointer"
-                            :class="activeTab === 4 ? 'bg-[#D1A568] text-black shadow-lg scale-102' : 'bg-[#141414] text-[#A8988D] border border-[#C5A880]/20 hover:border-[#C5A880]'">
-                        <span>How to cancel an order?</span>
-                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                    </button>
-
-                    <button @click="activeTab = 5" 
-                            class="w-full text-left p-4 rounded-xl text-xs font-bold transition-all chamfer-top-right flex items-center justify-between cursor-pointer"
-                            :class="activeTab === 5 ? 'bg-[#D1A568] text-black shadow-lg scale-102' : 'bg-[#141414] text-[#A8988D] border border-[#C5A880]/20 hover:border-[#C5A880]'">
-                        <span>Where to contact if having problems?</span>
-                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                    </button>
-
+                    @endforeach
                 </div>
 
                 <!-- Right: Answer Panel -->
                 <div class="lg:col-span-8 bg-[#121212] p-8 sm:p-12 rounded-3xl border border-[#C5A880]/20 shadow-2xl space-y-6 luxury-card" data-aos="fade-left">
-                    
-                    <div x-show="activeTab === 1" x-transition>
-                        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-4">What is Lezzatos ?</h2>
+                    @foreach($faqs as $idx => $faq)
+                    <div x-show="activeTab === {{ $idx }}" x-transition>
+                        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-4">{{ $faq['question'] }}</h2>
                         <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed mb-4">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                        </p>
-                        <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed">
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+                            {{ $faq['answer'] }}
                         </p>
                     </div>
-
-                    <div x-show="activeTab === 2" x-transition>
-                        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-4">How to make a food reservation?</h2>
-                        <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed mb-4">
-                            You can easily reserve your table through our online reservation system. Simply select your preferred date, time slot, guest count, and table area. You will receive an instant confirmation on screen.
-                        </p>
-                        <a href="{{ route('reservation') }}" class="inline-block mt-2 px-6 py-2.5 rounded bg-[#D1A568] text-black font-bold text-xs uppercase tracking-wider gold-glow-btn">Book Now</a>
-                    </div>
-
-                    <div x-show="activeTab === 3" x-transition>
-                        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-4">Where is the restaurant address located?</h2>
-                        <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed mb-4">
-                            We are located in the heart of the city at Braga Street 28, Bandung, West Java. We offer complimentary valet parking for all our dining guests.
-                        </p>
-                    </div>
-
-                    <div x-show="activeTab === 4" x-transition>
-                        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-4">How to cancel an order?</h2>
-                        <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed mb-4">
-                            To cancel or reschedule a table reservation, please call our direct hotline at +62 898245124 at least 2 hours before your scheduled dining time.
-                        </p>
-                    </div>
-
-                    <div x-show="activeTab === 5" x-transition>
-                        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-4">Where to contact if having problems?</h2>
-                        <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed mb-4">
-                            Our customer support team is available daily from 08:00 to 23:00 via email at lezzatos@restaurant.com or by submitting the contact form below.
-                        </p>
-                    </div>
-
+                    @endforeach
                 </div>
 
             </div>
@@ -118,7 +58,7 @@
                         Have a Specific Question for Us ?
                     </h2>
                     <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                        Need assistance with catering, private parties, dietary preferences, or custom event hosting? Reach out directly to our guest relations team.
                     </p>
                 </div>
 
@@ -163,7 +103,7 @@
                         <p class="font-script text-2xl text-[#C5A880]">Discover</p>
                         <h2 class="font-serif text-3xl font-bold text-[#111]">Our Crew Ready to Help You</h2>
                         <p class="text-xs sm:text-sm text-[#665D56] leading-relaxed">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae.
+                            Our team is at your disposal 7 days a week to ensure your fine dining reservation is smooth and delightful.
                         </p>
                         <a href="{{ route('contact-us') }}" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#C5A880] hover:text-[#111] transition-colors border-b border-[#C5A880] pb-0.5">
                             <span>Contact Us</span>
@@ -223,33 +163,6 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </section>
-
-    <!-- ════ 5. OUR LATEST POSTS ════ -->
-    <section class="py-24 bg-[#0B0B0B] border-t border-[#C5A880]/15">
-        <div class="max-w-7xl mx-auto px-6 sm:px-10">
-            <div class="text-center space-y-1 mb-16" data-aos="fade-up">
-                <p class="font-script text-3xl text-[#C5A880]">Post</p>
-                <h2 class="font-serif text-3xl font-bold text-white tracking-tight">Our Latest Post</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                @foreach($blogs as $idx => $blog)
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group hover:border-[#C5A880] transition-all luxury-card" data-aos="fade-up" data-aos-delay="{{ ($idx + 1) * 100 }}">
-                    <div class="relative h-52 overflow-hidden luxury-img-zoom">
-                        <img src="{{ $blog['image'] }}" alt="{{ $blog['title'] }}" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-5 chamfer-top-right bg-[#181818] -mt-4 relative z-10 m-2.5 rounded-xl border border-[#C5A880]/15">
-                        <h3 class="font-serif text-sm font-bold text-white mb-2 line-clamp-1 group-hover:text-[#C5A880] transition-colors">{{ $blog['title'] }}</h3>
-                        <p class="text-[11px] text-[#8C7D73] line-clamp-2 mb-4 leading-relaxed">{{ $blog['excerpt'] }}</p>
-                        <div class="flex items-center gap-2 text-[10px] text-[#C5A880]">
-                            <div class="w-5 h-5 rounded-full bg-[#C5A880]/20 flex items-center justify-center font-bold">{{ substr($blog['author'], 0, 1) }}</div>
-                            <span>By {{ $blog['author'] }}</span>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
             </div>
         </div>
     </section>

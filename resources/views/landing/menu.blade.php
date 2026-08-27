@@ -1,6 +1,6 @@
 @extends('landing.layout')
 
-@section('title', 'Our Menu — Lezzatos Luxury Dining')
+@section('title', 'Our Menu — ' . ($branch->restaurant_name ?? 'Lezzatos'))
 
 @section('content')
 
@@ -27,59 +27,19 @@
 
             <!-- 4 Offer Cards with 20% OFF Tag -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- Card 1 -->
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3 luxury-card" data-aos="fade-up" data-aos-delay="100">
+                @foreach($sundayOffers as $idx => $offer)
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3 luxury-card" data-aos="fade-up" data-aos-delay="{{ ($idx + 1) * 100 }}">
                     <div class="relative h-44 overflow-hidden rounded-xl luxury-img-zoom">
-                        <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-[#D1A568] text-black font-black text-[9px] uppercase tracking-wider shadow">20% OFF</span>
-                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80" 
-                             alt="Sauce Spicy Soup" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-[#D1A568] text-black font-black text-[9px] uppercase tracking-wider shadow">{{ $offer['discount'] ?? '20% OFF' }}</span>
+                        <img src="{{ $offer['image'] }}" 
+                             alt="{{ $offer['title'] }}" class="w-full h-full object-cover">
                     </div>
                     <div class="pt-4 pb-2">
-                        <h3 class="font-serif text-sm font-bold text-white mb-1 group-hover:text-[#C5A880] transition-colors">Sauce Spicy Soup</h3>
-                        <p class="font-bold text-xs text-[#C5A880]">$18</p>
+                        <h3 class="font-serif text-sm font-bold text-white mb-1 group-hover:text-[#C5A880] transition-colors">{{ $offer['title'] }}</h3>
+                        <p class="font-bold text-xs text-[#C5A880]">{{ $offer['price'] }}</p>
                     </div>
                 </div>
-
-                <!-- Card 2 -->
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3 luxury-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative h-44 overflow-hidden rounded-xl luxury-img-zoom">
-                        <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-[#D1A568] text-black font-black text-[9px] uppercase tracking-wider shadow">20% OFF</span>
-                        <img src="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=500&q=80" 
-                             alt="Vegetables Soup" class="w-full h-full object-cover">
-                    </div>
-                    <div class="pt-4 pb-2">
-                        <h3 class="font-serif text-sm font-bold text-white mb-1 group-hover:text-[#C5A880] transition-colors">Vegetables Soup</h3>
-                        <p class="font-bold text-xs text-[#C5A880]">$20</p>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3 luxury-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="relative h-44 overflow-hidden rounded-xl luxury-img-zoom">
-                        <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-[#D1A568] text-black font-black text-[9px] uppercase tracking-wider shadow">20% OFF</span>
-                        <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?auto=format&fit=crop&w=500&q=80" 
-                             alt="Salmon Pasta" class="w-full h-full object-cover">
-                    </div>
-                    <div class="pt-4 pb-2">
-                        <h3 class="font-serif text-sm font-bold text-white mb-1 group-hover:text-[#C5A880] transition-colors">Salmon Pasta</h3>
-                        <p class="font-bold text-xs text-[#C5A880]">$22</p>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3 luxury-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="relative h-44 overflow-hidden rounded-xl luxury-img-zoom">
-                        <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-[#D1A568] text-black font-black text-[9px] uppercase tracking-wider shadow">20% OFF</span>
-                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80" 
-                             alt="Salad Box" class="w-full h-full object-cover">
-                    </div>
-                    <div class="pt-4 pb-2">
-                        <h3 class="font-serif text-sm font-bold text-white mb-1 group-hover:text-[#C5A880] transition-colors">Salad Box</h3>
-                        <p class="font-bold text-xs text-[#C5A880]">$15</p>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
     </section>
@@ -93,50 +53,16 @@
                 <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4 luxury-card" data-aos="fade-right">
                     <p class="font-script text-2xl text-[#C5A880] mb-2">Appetizer</p>
 
+                    @foreach($dottedMenus['appetizers'] ?? [] as $item)
                     <div class="border-b border-gray-100 pb-2.5">
                         <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Pastel</span>
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">{{ $item['name'] }}</span>
                             <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$20</span>
+                            <span class="font-bold text-xs text-[#C5A880]">{{ $item['price'] }}</span>
                         </div>
-                        <p class="text-[10px] text-gray-500">Crispy pastry pockets filled with spiced minced chicken</p>
+                        <p class="text-[10px] text-gray-500">{{ $item['desc'] }}</p>
                     </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Croquette</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$22</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Golden potato & cheese croquettes with garlic dip</p>
-                    </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Ravioles</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$18</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Handmade ricotta stuffed pasta in sage butter</p>
-                    </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Canapes</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$15</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Bite-sized toasted baguettes with gourmet toppings</p>
-                    </div>
-
-                    <div>
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Agro Dolce</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$18</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Sweet and sour glazed appetizer meatballs</p>
-                    </div>
+                    @endforeach
                 </div>
 
                 <!-- Right: 3 Food Photos Collage -->
@@ -184,50 +110,16 @@
                 <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4 order-1 lg:order-2 luxury-card" data-aos="fade-left">
                     <p class="font-script text-2xl text-[#C5A880] mb-2">Main Course</p>
 
+                    @foreach($dottedMenus['main_course'] ?? [] as $item)
                     <div class="border-b border-gray-100 pb-2.5">
                         <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Sirloin Steak</span>
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">{{ $item['name'] }}</span>
                             <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$32</span>
+                            <span class="font-bold text-xs text-[#C5A880]">{{ $item['price'] }}</span>
                         </div>
-                        <p class="text-[10px] text-gray-500">Flame-grilled prime sirloin with truffle potato mash</p>
+                        <p class="text-[10px] text-gray-500">{{ $item['desc'] }}</p>
                     </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Parmesan Spicy Soup</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$28</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Rich parmesan broth with tender meat slices & chili oil</p>
-                    </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Salmon Pasta</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$35</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Pan-seared salmon fillet over creamy fettuccine</p>
-                    </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Chicken Curry Special</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$24</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Slow-cooked chicken in fragrant royal Mughlai gravy</p>
-                    </div>
-
-                    <div>
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Dimsum</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$18</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Steamed artisan dumplings with spicy sesame soy dip</p>
-                    </div>
+                    @endforeach
                 </div>
 
             </div>
@@ -243,50 +135,16 @@
                 <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4 luxury-card" data-aos="fade-right">
                     <p class="font-script text-2xl text-[#C5A880] mb-2">Dessert</p>
 
+                    @foreach($dottedMenus['desserts'] ?? [] as $item)
                     <div class="border-b border-gray-100 pb-2.5">
                         <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Pancakes Fresche</span>
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">{{ $item['name'] }}</span>
                             <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$16</span>
+                            <span class="font-bold text-xs text-[#C5A880]">{{ $item['price'] }}</span>
                         </div>
-                        <p class="text-[10px] text-gray-500">Fluffy stack with wild berries & organic maple drizzle</p>
+                        <p class="text-[10px] text-gray-500">{{ $item['desc'] }}</p>
                     </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Ice Cream</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$12</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Artisanal Madagascar vanilla & pistachio gelato</p>
-                    </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Cantucci</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$15</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Crunchy almond biscotti served with espresso cream</p>
-                    </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Arricciate Spian</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$14</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Crisp puff pastry filled with sweetened mascarpone</p>
-                    </div>
-
-                    <div>
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Cornetto</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$12</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Warm Italian butter croissant with hazelnut chocolate</p>
-                    </div>
+                    @endforeach
                 </div>
 
                 <!-- Right: 3 Food Photos Collage -->

@@ -1,6 +1,6 @@
 @extends('landing.layout')
 
-@section('title', 'Shop & Dining Packages — Lezzatos Luxury Dining')
+@section('title', 'Shop & Dining Packages — ' . ($branch->restaurant_name ?? 'Lezzatos'))
 
 @section('content')
 
@@ -40,8 +40,8 @@
                     <div class="flex text-yellow-900 text-xs gap-1">
                         ★★★★★
                     </div>
-                    <h3 class="font-serif text-xl font-bold">Chicken Curry Special</h3>
-                    <p class="text-2xl font-bold">$22</p>
+                    <h3 class="font-serif text-xl font-bold">{{ $sundayOffers[0]['title'] ?? 'Chicken Curry Special' }}</h3>
+                    <p class="text-2xl font-bold">{{ $sundayOffers[0]['price'] ?? '$22' }}</p>
                     <a href="{{ route('reservation') }}" class="px-6 py-2 rounded bg-white text-black font-bold text-xs uppercase tracking-wider hover:bg-gray-100 transition-all shadow gold-glow-btn">
                         Order Now
                     </a>
@@ -93,50 +93,16 @@
                 <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4 luxury-card" data-aos="fade-right">
                     <p class="font-script text-2xl text-[#C5A880] mb-2">Special on this day</p>
 
+                    @foreach($dottedMenus['specials'] ?? [] as $spec)
                     <div class="border-b border-gray-100 pb-2.5">
                         <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Salad</span>
+                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">{{ $spec['name'] }}</span>
                             <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$14</span>
+                            <span class="font-bold text-xs text-[#C5A880]">{{ $spec['price'] }}</span>
                         </div>
-                        <p class="text-[10px] text-gray-500">Crispy mixed garden greens with herb dressing</p>
+                        <p class="text-[10px] text-gray-500">{{ $spec['desc'] }}</p>
                     </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Croquette</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$15</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Golden mashed potato and cheese croquettes</p>
-                    </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Samosa</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$10</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Spiced potato and peas triangular savoury pastry</p>
-                    </div>
-
-                    <div class="border-b border-gray-100 pb-2.5">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Canape</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$12</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Artisan bread bites topped with smoked salmon</p>
-                    </div>
-
-                    <div>
-                        <div class="flex items-baseline justify-between gap-2">
-                            <span class="font-serif font-bold text-xs sm:text-sm text-[#111]">Apple Jelly</span>
-                            <span class="flex-1 border-b border-dotted border-gray-300 mx-2"></span>
-                            <span class="font-bold text-xs text-[#C5A880]">$08</span>
-                        </div>
-                        <p class="text-[10px] text-gray-500">Chilled honey infused sweet apple fruit jelly</p>
-                    </div>
+                    @endforeach
                 </div>
 
                 <!-- Right: 3 Food Photos Collage -->
@@ -167,7 +133,7 @@
                         Some Best Category for You
                     </h2>
                     <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                        Explore our handcrafted cuisine sections and choose from imperial appetizers, hearty entrees, gourmet grills, and dessert masterworks.
                     </p>
                     <div class="pt-2">
                         <a href="{{ route('our-menu') }}" class="inline-block px-8 py-3 rounded bg-[#D1A568] hover:bg-[#C5A880] text-black font-bold text-xs uppercase tracking-wider transition-all gold-glow-btn">
@@ -211,75 +177,30 @@
                     Special Package for Customers
                 </h2>
                 <p class="text-xs text-[#8C7D73] max-w-lg mx-auto">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                    Choose from our specially designed multi-course dining packages tailored for individuals, romantic couples, and family celebrations.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <!-- Package 1: Single -->
-                <div class="bg-[#141414] rounded-3xl p-8 chamfer-top-right border border-[#C5A880]/20 space-y-6 flex flex-col justify-between luxury-card" data-aos="fade-up" data-aos-delay="100">
+                @foreach($packages as $idx => $pkg)
+                <div class="{{ !empty($pkg['is_featured']) ? 'bg-[#D1A568] text-black shadow-2xl' : 'bg-[#141414] text-white border border-[#C5A880]/20' }} rounded-3xl p-8 chamfer-top-right space-y-6 flex flex-col justify-between luxury-card" data-aos="fade-up" data-aos-delay="{{ ($idx + 1) * 100 }}">
                     <div class="space-y-4">
-                        <div class="w-12 h-12 rounded-full border border-[#C5A880]/40 flex items-center justify-center text-[#C5A880]">
-                            <i data-lucide="user" class="w-6 h-6"></i>
+                        <div class="w-12 h-12 rounded-full {{ !empty($pkg['is_featured']) ? 'bg-black/10 text-black' : 'border border-[#C5A880]/40 text-[#C5A880]' }} flex items-center justify-center">
+                            <i data-lucide="{{ $pkg['id'] === 'single' ? 'user' : ($pkg['id'] === 'couple' ? 'heart' : 'users') }}" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="font-serif text-xl font-bold text-white">Single</h3>
-                        <p class="text-3xl font-serif font-bold text-white">$29.99 <span class="text-xs font-sans text-gray-400 font-normal">/ day</span></p>
-                        <ul class="space-y-2 text-xs text-[#8C7D73] pt-4 border-t border-gray-800">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> 1 Signature Main Course</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> 1 Gourmet Appetizer / Soup</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> 1 Choice of Beverage</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> Complimentary Dessert</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> Reserved Priority Seating</li>
+                        <h3 class="font-serif text-xl font-bold">{{ $pkg['name'] }}</h3>
+                        <p class="text-3xl font-serif font-bold">{{ $pkg['price'] }} <span class="text-xs font-sans {{ !empty($pkg['is_featured']) ? 'text-black/70' : 'text-gray-400' }} font-normal">{{ $pkg['billing'] ?? '/ day' }}</span></p>
+                        <ul class="space-y-2 text-xs {{ !empty($pkg['is_featured']) ? 'text-black/80 border-black/10' : 'text-[#8C7D73] border-gray-800' }} pt-4 border-t">
+                            @foreach($pkg['features'] ?? [] as $feat)
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 {{ !empty($pkg['is_featured']) ? 'text-black' : 'text-[#C5A880]' }}"></i> {{ $feat }}</li>
+                            @endforeach
                         </ul>
                     </div>
-                    <a href="{{ route('reservation') }}" class="w-full py-3 rounded border border-[#C5A880] text-[#C5A880] hover:bg-[#C5A880] hover:text-black font-bold text-xs uppercase tracking-wider text-center transition-all block">
+                    <a href="{{ route('reservation') }}" class="w-full py-3 rounded {{ !empty($pkg['is_featured']) ? 'bg-white text-black hover:bg-gray-100 shadow gold-glow-btn' : 'border border-[#C5A880] text-[#C5A880] hover:bg-[#C5A880] hover:text-black' }} font-bold text-xs uppercase tracking-wider text-center transition-all block">
                         ORDER NOW
                     </a>
                 </div>
-
-                <!-- Package 2: Couple (Featured Gold Card) -->
-                <div class="bg-[#D1A568] rounded-3xl p-8 chamfer-top-right text-black space-y-6 flex flex-col justify-between shadow-2xl luxury-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="space-y-4">
-                        <div class="w-12 h-12 rounded-full bg-black/10 flex items-center justify-center text-black">
-                            <i data-lucide="heart" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="font-serif text-xl font-bold text-black">Couple</h3>
-                        <p class="text-3xl font-serif font-bold text-black">$59.99 <span class="text-xs font-sans text-black/70 font-normal">/ day</span></p>
-                        <ul class="space-y-2 text-xs text-black/80 pt-4 border-t border-black/10">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-black"></i> 2 Signature Main Courses</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-black"></i> 2 Gourmet Appetizers</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-black"></i> 2 Special Mocktails</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-black"></i> Deluxe Dessert Platter</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-black"></i> Candle Light Table Decor</li>
-                        </ul>
-                    </div>
-                    <a href="{{ route('reservation') }}" class="w-full py-3 rounded bg-white text-black font-bold text-xs uppercase tracking-wider text-center hover:bg-gray-100 transition-all block shadow gold-glow-btn">
-                        ORDER NOW
-                    </a>
-                </div>
-
-                <!-- Package 3: Family -->
-                <div class="bg-[#141414] rounded-3xl p-8 chamfer-top-right border border-[#C5A880]/20 space-y-6 flex flex-col justify-between luxury-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="space-y-4">
-                        <div class="w-12 h-12 rounded-full border border-[#C5A880]/40 flex items-center justify-center text-[#C5A880]">
-                            <i data-lucide="users" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="font-serif text-xl font-bold text-white">Family</h3>
-                        <p class="text-3xl font-serif font-bold text-white">$99.99 <span class="text-xs font-sans text-gray-400 font-normal">/ day</span></p>
-                        <ul class="space-y-2 text-xs text-[#8C7D73] pt-4 border-t border-gray-800">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> 4 Signature Main Courses</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> Family Sized Appetizer Basket</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> 4 Mocktails / Juices</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> Chef Special Family Cake</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-[#C5A880]"></i> Private Family Booth Reserved</li>
-                        </ul>
-                    </div>
-                    <a href="{{ route('reservation') }}" class="w-full py-3 rounded border border-[#C5A880] text-[#C5A880] hover:bg-[#C5A880] hover:text-black font-bold text-xs uppercase tracking-wider text-center transition-all block">
-                        ORDER NOW
-                    </a>
-                </div>
-
+                @endforeach
             </div>
         </div>
     </section>

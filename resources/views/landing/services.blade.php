@@ -1,6 +1,6 @@
 @extends('landing.layout')
 
-@section('title', 'Our Services — Lezzatos Luxury Dining')
+@section('title', 'Our Services — ' . ($branch->restaurant_name ?? 'Lezzatos'))
 
 @section('content')
 
@@ -89,20 +89,20 @@
         <div class="max-w-7xl mx-auto px-6 sm:px-10">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="fade-up">
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">12</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Restaurants</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['restaurants'] ?? '12' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['restaurants_label'] ?? 'Restaurants' }}</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">8</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Years Experience</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['experience_years'] ?? '8' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['experience_label'] ?? 'Years Experience' }}</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">50+</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Award Winner</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['awards_won'] ?? '50+' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['awards_label'] ?? 'Award Winner' }}</p>
                 </div>
                 <div class="space-y-1">
-                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">200+</p>
-                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">Customers</p>
+                    <p class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $stats['customers'] ?? '200+' }}</p>
+                    <p class="text-[11px] uppercase tracking-widest text-[#8C7D73]">{{ $stats['customers_label'] ?? 'Customers' }}</p>
                 </div>
             </div>
         </div>
@@ -117,45 +117,17 @@
                     <p class="font-script text-3xl text-[#C5A880]">Our Service Facilities</p>
                     
                     <div class="space-y-5 pt-2">
+                        @foreach($servicesList as $svc)
                         <div class="flex items-start gap-4">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center border border-[#C5A880]/30 shrink-0" style="background: rgba(197,168,128,0.08);">
-                                <i data-lucide="soup" class="w-5 h-5 text-[#C5A880]"></i>
+                                <i data-lucide="{{ $svc['icon'] ?? 'soup' }}" class="w-5 h-5 text-[#C5A880]"></i>
                             </div>
                             <div>
-                                <h3 class="font-serif text-base font-bold text-white mb-1">New Weekly Menu</h3>
-                                <p class="text-xs text-[#8C7D73]">Exciting seasonal chef creations introduced every single week.</p>
+                                <h3 class="font-serif text-base font-bold text-white mb-1">{{ $svc['title'] }}</h3>
+                                <p class="text-xs text-[#8C7D73]">{{ $svc['desc'] }}</p>
                             </div>
                         </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center border border-[#C5A880]/30 shrink-0" style="background: rgba(197,168,128,0.08);">
-                                <i data-lucide="chef-hat" class="w-5 h-5 text-[#C5A880]"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-serif text-base font-bold text-white mb-1">Professional Chef</h3>
-                                <p class="text-xs text-[#8C7D73]">Culinary masters with Michelin-level kitchen precision and hygiene.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center border border-[#C5A880]/30 shrink-0" style="background: rgba(197,168,128,0.08);">
-                                <i data-lucide="truck" class="w-5 h-5 text-[#C5A880]"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-serif text-base font-bold text-white mb-1">Free Shipping Delivery</h3>
-                                <p class="text-xs text-[#8C7D73]">Piping hot packaging delivered swiftly across the metropolitan area.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center border border-[#C5A880]/30 shrink-0" style="background: rgba(197,168,128,0.08);">
-                                <i data-lucide="armchair" class="w-5 h-5 text-[#C5A880]"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-serif text-base font-bold text-white mb-1">Comfortable Dining Room</h3>
-                                <p class="text-xs text-[#8C7D73]">Ambient lighting, private acoustic alcoves, and luxurious comfort.</p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -178,7 +150,7 @@
                     The Most Comfortable Restaurant
                 </h2>
                 <p class="text-xs text-[#8C7D73] max-w-lg mx-auto">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                    Experience royal dining ambiance with exquisite table arrangements and dedicated VIP concierge hosts.
                 </p>
             </div>
 

@@ -1,6 +1,6 @@
 @extends('landing.layout')
 
-@section('title', 'Contact Us — Lezzatos Luxury Dining')
+@section('title', 'Contact Us — ' . ($branch->restaurant_name ?? 'Lezzatos'))
 
 @section('content')
 
@@ -26,7 +26,7 @@
                             Get in Touch with Us
                         </h2>
                         <p class="text-xs sm:text-sm text-[#8C7D73] mt-3 leading-relaxed">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                            Have an inquiry about table bookings, private party catering, bespoke chef menus, or event reservations? Connect directly with our team.
                         </p>
                     </div>
 
@@ -36,7 +36,7 @@
                                 <i data-lucide="phone" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <p class="text-xs font-bold text-white">+62 898245124</p>
+                                <p class="text-xs font-bold text-white">{{ $contactData['phone'] ?? '+62 898245124' }}</p>
                                 <p class="text-[10px] text-gray-500">Telephone</p>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                                 <i data-lucide="mail" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <p class="text-xs font-bold text-white">lezzatos@restaurant.com</p>
+                                <p class="text-xs font-bold text-white">{{ $contactData['email'] ?? 'lezzatos@restaurant.com' }}</p>
                                 <p class="text-[10px] text-gray-500">Email</p>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                                 <i data-lucide="map-pin" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <p class="text-xs font-bold text-white">Braga St 28, Bandung, West Java</p>
+                                <p class="text-xs font-bold text-white">{{ $contactData['address'] ?? 'Braga St 28, Bandung, West Java' }}</p>
                                 <p class="text-[10px] text-gray-500">Location</p>
                             </div>
                         </div>
@@ -108,32 +108,16 @@
 
                     <div class="space-y-2.5 text-xs">
                         <div class="flex justify-between py-1 border-b border-gray-100">
-                            <span>Monday</span>
-                            <span class="font-bold text-[#111]">08:00 - 22:00</span>
-                        </div>
-                        <div class="flex justify-between py-1 border-b border-gray-100">
-                            <span>Tuesday</span>
-                            <span class="font-bold text-[#111]">08:00 - 22:00</span>
-                        </div>
-                        <div class="flex justify-between py-1 border-b border-gray-100">
-                            <span>Wednesday</span>
-                            <span class="font-bold text-[#111]">08:00 - 22:00</span>
-                        </div>
-                        <div class="flex justify-between py-1 border-b border-gray-100">
-                            <span>Thursday</span>
-                            <span class="font-bold text-[#111]">08:00 - 22:00</span>
-                        </div>
-                        <div class="flex justify-between py-1 border-b border-gray-100">
-                            <span>Friday</span>
-                            <span class="font-bold text-[#111]">08:00 - 22:00</span>
+                            <span>Monday - Friday</span>
+                            <span class="font-bold text-[#111]">{{ $contactData['opening_hours']['mon_fri'] ?? '08:00 - 22:00' }}</span>
                         </div>
                         <div class="flex justify-between py-1 border-b border-gray-100">
                             <span>Saturday</span>
-                            <span class="font-bold text-[#111]">08:00 - 23:00</span>
+                            <span class="font-bold text-[#111]">{{ $contactData['opening_hours']['sat'] ?? '08:00 - 23:00' }}</span>
                         </div>
                         <div class="flex justify-between py-1 text-red-600 font-bold">
                             <span>Sunday</span>
-                            <span>Closed</span>
+                            <span>{{ $contactData['opening_hours']['sun'] ?? 'Closed' }}</span>
                         </div>
                     </div>
                 </div>
@@ -166,7 +150,7 @@
                         Our Chef will Make You Satisfying
                     </h2>
                     <p class="text-xs sm:text-sm text-[#8C7D73] leading-relaxed">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.
+                        Experience bespoke culinary artistry and hospitality excellence every time you visit.
                     </p>
                     <div class="pt-2">
                         <a href="{{ route('our-menu') }}" class="inline-block px-8 py-3 rounded bg-[#D1A568] hover:bg-[#C5A880] text-black font-bold text-xs uppercase tracking-wider transition-all gold-glow-btn">
@@ -189,11 +173,11 @@
     <!-- ════ 4. SOCIAL MEDIA ICONS BAR ════ -->
     <section class="py-8 bg-[#111111] border-t border-b border-[#C5A880]/15" data-aos="fade-up">
         <div class="max-w-4xl mx-auto px-6 flex items-center justify-center gap-8 text-[#C5A880]">
-            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="facebook" class="w-6 h-6"></i></a>
-            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="twitter" class="w-6 h-6"></i></a>
-            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="instagram" class="w-6 h-6"></i></a>
-            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="youtube" class="w-6 h-6"></i></a>
-            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="message-circle" class="w-6 h-6"></i></a>
+            <a href="{{ $contactData['social']['facebook'] ?? '#' }}" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+            <a href="{{ $contactData['social']['twitter'] ?? '#' }}" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+            <a href="{{ $contactData['social']['instagram'] ?? '#' }}" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+            <a href="{{ $contactData['social']['youtube'] ?? '#' }}" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="youtube" class="w-6 h-6"></i></a>
+            <a href="{{ $contactData['social']['whatsapp'] ?? '#' }}" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="message-circle" class="w-6 h-6"></i></a>
         </div>
     </section>
 
@@ -208,7 +192,7 @@
                         <i data-lucide="map-pin" class="w-6 h-6 fill-current"></i>
                     </div>
                     <span class="mt-2 px-3 py-1 rounded-full bg-black/90 border border-[#C5A880] text-[10px] font-bold text-[#C5A880] tracking-wider">
-                        Lezzatos Restaurant
+                        {{ $branch->restaurant_name ?? 'Lezzatos' }}
                     </span>
                 </div>
             </div>

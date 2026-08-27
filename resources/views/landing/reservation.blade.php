@@ -1,6 +1,6 @@
 @extends('landing.layout')
 
-@section('title', 'Reservation — Book Your Table at Lezzatos')
+@section('title', 'Reservation — ' . ($branch->restaurant_name ?? 'Lezzatos'))
 
 @section('content')
 
@@ -31,7 +31,7 @@
                     <!-- Left: Sand Gold Card -->
                     <div class="lg:col-span-6 bg-[#D1A568] p-8 sm:p-10 chamfer-top-right shadow-2xl flex flex-col justify-between space-y-4 text-black luxury-card" data-aos="fade-right">
                         <div>
-                            <p class="text-xs uppercase font-bold tracking-widest text-black/70 mb-4">Lezzatos Restaurant</p>
+                            <p class="text-xs uppercase font-bold tracking-widest text-black/70 mb-4">{{ $branch->restaurant_name ?? 'Lezzatos' }}</p>
                             
                             <div class="space-y-3">
                                 <div>
@@ -177,7 +177,7 @@
                         <p class="font-script text-2xl text-[#C5A880]">Recommendation</p>
                         <h2 class="font-serif text-3xl font-bold text-[#111]">Private Dining</h2>
                         <p class="text-xs sm:text-sm text-[#665D56] leading-relaxed">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae.
+                            Looking for an exclusive private celebration or a romantic candle light anniversary? Our private booths and dedicated butler services provide the ultimate dining luxury.
                         </p>
                         <a href="#home" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#C5A880] hover:text-[#111] transition-colors border-b border-[#C5A880] pb-0.5">
                             <span>Book Table</span>
@@ -197,19 +197,19 @@
                 
                 <div class="lg:col-span-6 space-y-6" data-aos="fade-right">
                     <p class="font-script text-3xl text-[#C5A880]">About</p>
-                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white">Lezzatos Restaurant</h2>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white">{{ $branch->restaurant_name ?? 'Lezzatos' }}</h2>
                     <div class="space-y-4 pt-2">
                         <div class="flex items-center gap-3 text-xs text-[#A8988D]">
                             <div class="w-10 h-10 rounded-full border border-[#C5A880]/40 flex items-center justify-center text-[#C5A880]">
                                 <i data-lucide="phone" class="w-4 h-4"></i>
                             </div>
-                            <span>+62 898245124</span>
+                            <span>{{ $contactData['phone'] ?? '+62 898245124' }}</span>
                         </div>
                         <div class="flex items-center gap-3 text-xs text-[#A8988D]">
                             <div class="w-10 h-10 rounded-full border border-[#C5A880]/40 flex items-center justify-center text-[#C5A880]">
                                 <i data-lucide="mail" class="w-4 h-4"></i>
                             </div>
-                            <span>lezzatos@restaurant.com</span>
+                            <span>{{ $contactData['email'] ?? 'lezzatos@restaurant.com' }}</span>
                         </div>
                     </div>
                 </div>
@@ -221,15 +221,15 @@
                     <div class="space-y-2 text-xs">
                         <div class="flex justify-between py-1 border-b border-gray-100">
                             <span>Monday - Friday</span>
-                            <span class="font-bold text-[#111]">08:00 - 22:00</span>
+                            <span class="font-bold text-[#111]">{{ $contactData['opening_hours']['mon_fri'] ?? '08:00 - 22:00' }}</span>
                         </div>
                         <div class="flex justify-between py-1 border-b border-gray-100">
                             <span>Saturday</span>
-                            <span class="font-bold text-[#111]">08:00 - 23:00</span>
+                            <span class="font-bold text-[#111]">{{ $contactData['opening_hours']['sat'] ?? '08:00 - 23:00' }}</span>
                         </div>
                         <div class="flex justify-between py-1 text-red-600 font-bold">
                             <span>Sunday</span>
-                            <span>Closed</span>
+                            <span>{{ $contactData['opening_hours']['sun'] ?? 'Closed' }}</span>
                         </div>
                     </div>
                 </div>

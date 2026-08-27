@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\LandingContent;
 use App\Models\Reservation;
 use App\Models\RestaurantTable;
 use Illuminate\Http\JsonResponse;
@@ -42,34 +43,23 @@ class LandingController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        $stats = [
-            'restaurants' => 12,
-            'experience_years' => 8,
-            'awards_won' => '50+',
-            'food_menus' => '200+',
-            'customers' => '200+'
-        ];
+        // Fetch Dynamic CMS Sections from Database
+        $cms = LandingContent::getAllSections();
 
-        $testimonials = [
-            [
-                'quote' => '“The royal taste of their delicacies and aromatic platters is unmatched. The luxury ambience, gold dining aesthetic, and swift table service make every visit unforgettable!”',
-                'name' => 'Jonathan Xander',
-                'role' => 'Food Connoisseur & Guest',
-                'rating' => 5
-            ],
-            [
-                'quote' => '“Remarkable experience! From the instant table reservation to the warm hospitality and gourmet delights, Lezzatos sets the gold standard for luxury dining.”',
-                'name' => 'Farhana Ahmed',
-                'role' => 'Executive Director',
-                'rating' => 5
-            ],
-            [
-                'quote' => '“The presentation of each signature dish is pure art. Perfectly balanced spices, premium cuts of meat, and an intoxicating royal aroma. Truly 5-star experience!”',
-                'name' => 'Ashfaqul Karim',
-                'role' => 'Lifestyle Critic',
-                'rating' => 5
-            ],
-        ];
+        $hero = $cms['hero'] ?? [];
+        $cuisines = $cms['cuisines'] ?? [];
+        $about = $cms['about'] ?? [];
+        $stats = $cms['stats'] ?? [];
+        $sundayOffers = $cms['sunday_offers'] ?? [];
+        $recommendedDishes = $cms['recommended_dishes'] ?? [];
+        $dottedMenus = $cms['dotted_menus'] ?? [];
+        $chefs = $cms['chefs'] ?? [];
+        $packages = $cms['packages'] ?? [];
+        $servicesList = $cms['services'] ?? [];
+        $faqs = $cms['faqs'] ?? [];
+        $newsData = $cms['news'] ?? [];
+        $contactData = $cms['contact'] ?? [];
+        $testimonials = $cms['testimonials'] ?? [];
 
         $blogs = [
             [
@@ -95,7 +85,12 @@ class LandingController extends Controller
             ],
         ];
 
-        return compact('branch', 'categories', 'featuredItems', 'tables', 'stats', 'testimonials', 'blogs');
+        return compact(
+            'branch', 'categories', 'featuredItems', 'tables', 'cms',
+            'hero', 'cuisines', 'about', 'stats', 'sundayOffers',
+            'recommendedDishes', 'dottedMenus', 'chefs', 'packages',
+            'servicesList', 'faqs', 'newsData', 'contactData', 'testimonials', 'blogs'
+        );
     }
 
     public function home(): View { return view('landing.home', $this->getCommonData()); }
@@ -137,8 +132,6 @@ class LandingController extends Controller
             'status' => 'confirmed',
         ]);
 
-        $table = $reservation->table;
-
         return response()->json([
             'success' => true,
             'message' => 'Your reservation has been booked successfully!',
@@ -148,7 +141,8 @@ class LandingController extends Controller
                 'guest_count' => $reservation->guest_count,
                 'date' => $reservation->reservation_date->format('d M, Y'),
                 'time' => $reservation->reservation_time,
-                'table_name' => $table ? $table->name : 'Royal Dining Area',
+                'table_name' => $reservation->table?->name ?? 'Standard Reserved Area',
+                'floor' => $reservation->table?->floor_name ?? 'Main Dining Hall'
             ]
         ]);
     }
@@ -165,7 +159,7 @@ class LandingController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Thank you for reaching out! Our team will contact you shortly.',
+            'message' => 'Thank you ' . $validated['name'] . '! Your message has been sent to our management team.'
         ]);
     }
 }

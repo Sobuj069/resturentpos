@@ -175,7 +175,15 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/user/{user}', [SettingController::class, 'deleteUser'])->name('user.delete');
     });
 
-    // 14. AI Voice & Natural Language Order Parser
+    // 14. Webpage Content CMS (Landing Page Content Management)
+    Route::prefix('webpage-content')->name('webpage-content.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\WebpageContentController::class, 'index'])->name('index');
+        Route::post('/section', [\App\Http\Controllers\WebpageContentController::class, 'updateSection'])->name('section.update');
+        Route::post('/upload', [\App\Http\Controllers\WebpageContentController::class, 'uploadImage'])->name('upload');
+        Route::post('/reset', [\App\Http\Controllers\WebpageContentController::class, 'resetDefaults'])->name('reset');
+    });
+
+    // 15. AI Voice & Natural Language Order Parser
     Route::post('/ai/parse-voice', [AiController::class, 'parseVoiceOrder'])->name('ai.parseVoice');
 
 });

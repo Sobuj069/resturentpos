@@ -136,6 +136,7 @@
                         ['route'=>'delivery.index',    'match'=>'delivery.*',        'icon'=>'bike',            'label'=>'অনলাইন ডেলিভারি'],
                         ['route'=>'transfers.index',   'match'=>'transfers.*',       'icon'=>'truck',           'label'=>'ব্রাঞ্চ স্টক ট্রান্সফার'],
                         ['route'=>'inventory.index',   'match'=>'inventory.*',       'icon'=>'boxes',           'label'=>'ইনভেন্টরি ও BOM'],
+                        ['route'=>'webpage-content.index', 'match'=>'webpage-content.*', 'icon'=>'globe',        'label'=>'ওয়েবপেজ কনটেন্ট (Webpage Content)'],
                     ];
 
                     if (auth()->user()?->isSuperAdmin()) {

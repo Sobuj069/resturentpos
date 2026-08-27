@@ -1,6 +1,6 @@
 @extends('landing.layout')
 
-@section('title', 'Our Chef — Lezzatos Master Culinary Team')
+@section('title', 'Our Chef — ' . ($branch->restaurant_name ?? 'Lezzatos'))
 
 @section('content')
 
@@ -23,64 +23,37 @@
                     Meet Our Innovative Person
                 </h2>
                 <p class="text-xs text-[#8C7D73] max-w-md mx-auto">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                    Our master culinary artists bring decades of international fine dining mastery and culinary passion to your plate.
                 </p>
             </div>
 
             <!-- 6 Chefs Grid (3x2) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                
-                <!-- Chef 1 -->
-                <div class="rounded-2xl overflow-hidden border border-[#C5A880]/20 group shadow-xl luxury-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="luxury-img-zoom h-80">
-                        <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=600&q=80" 
-                             alt="Chef" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
+                @foreach($chefs as $idx => $chef)
+                @if($idx === 1)
                 <!-- Chef 2 (Active/Hover Card) -->
                 <div class="bg-[#D1A568] rounded-2xl p-8 chamfer-top-right flex flex-col items-center justify-center text-center text-black shadow-2xl luxury-card" data-aos="fade-up" data-aos-delay="200">
-                    <h3 class="font-serif text-2xl font-bold mb-1">Dany William</h3>
-                    <p class="text-xs font-semibold mb-6 opacity-80">Executive Head Chef</p>
+                    <h3 class="font-serif text-2xl font-bold mb-1">{{ $chef['name'] }}</h3>
+                    <p class="text-xs font-semibold mb-6 opacity-80">{{ $chef['designation'] }}</p>
                     <div class="flex items-center gap-3">
-                        <a href="#" class="w-8 h-8 rounded-full border border-black/30 flex items-center justify-center hover:bg-black hover:text-white transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
-                        <a href="#" class="w-8 h-8 rounded-full border border-black/30 flex items-center justify-center hover:bg-black hover:text-white transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-                        <a href="#" class="w-8 h-8 rounded-full border border-black/30 flex items-center justify-center hover:bg-black hover:text-white transition-colors"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                        <a href="{{ $chef['facebook'] ?? '#' }}" class="w-8 h-8 rounded-full border border-black/30 flex items-center justify-center hover:bg-black hover:text-white transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                        <a href="{{ $chef['instagram'] ?? '#' }}" class="w-8 h-8 rounded-full border border-black/30 flex items-center justify-center hover:bg-black hover:text-white transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                        <a href="{{ $chef['twitter'] ?? '#' }}" class="w-8 h-8 rounded-full border border-black/30 flex items-center justify-center hover:bg-black hover:text-white transition-colors"><i data-lucide="twitter" class="w-4 h-4"></i></a>
                     </div>
                 </div>
-
-                <!-- Chef 3 -->
-                <div class="rounded-2xl overflow-hidden border border-[#C5A880]/20 group shadow-xl luxury-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="luxury-img-zoom h-80">
-                        <img src="https://images.unsplash.com/photo-1583394293214-28ded15ee548?auto=format&fit=crop&w=600&q=80" 
-                             alt="Chef" class="w-full h-full object-cover">
+                @else
+                <div class="rounded-2xl overflow-hidden border border-[#C5A880]/20 group shadow-xl luxury-card" data-aos="fade-up" data-aos-delay="{{ ($idx + 1) * 100 }}">
+                    <div class="luxury-img-zoom h-80 relative">
+                        <img src="{{ $chef['image'] }}" 
+                             alt="{{ $chef['name'] }}" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-4 text-center">
+                            <h3 class="font-serif text-base font-bold text-white">{{ $chef['name'] }}</h3>
+                            <p class="text-[10px] text-[#C5A880] uppercase tracking-wider">{{ $chef['designation'] }}</p>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Chef 4 -->
-                <div class="rounded-2xl overflow-hidden border border-[#C5A880]/20 group shadow-xl luxury-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="luxury-img-zoom h-80">
-                        <img src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?auto=format&fit=crop&w=600&q=80" 
-                             alt="Pastry Chef" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
-                <!-- Chef 5 -->
-                <div class="rounded-2xl overflow-hidden border border-[#C5A880]/20 group shadow-xl luxury-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="luxury-img-zoom h-80">
-                        <img src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?auto=format&fit=crop&w=600&q=80" 
-                             alt="Grill Chef" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
-                <!-- Chef 6 -->
-                <div class="rounded-2xl overflow-hidden border border-[#C5A880]/20 group shadow-xl luxury-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="luxury-img-zoom h-80">
-                        <img src="https://images.unsplash.com/photo-1607631568010-a87245c0daf8?auto=format&fit=crop&w=600&q=80" 
-                             alt="Master Chef" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
+                @endif
+                @endforeach
             </div>
 
         </div>
@@ -100,20 +73,20 @@
                     
                     <div class="grid grid-cols-2 gap-6 pt-2 border-t border-gray-100">
                         <div>
-                            <p class="font-serif text-3xl font-bold text-[#111]">12</p>
-                            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Branches</p>
+                            <p class="font-serif text-3xl font-bold text-[#111]">{{ $stats['restaurants'] ?? '12' }}</p>
+                            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">{{ $stats['restaurants_label'] ?? 'Branches' }}</p>
                         </div>
                         <div>
-                            <p class="font-serif text-3xl font-bold text-[#111]">10</p>
-                            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Years</p>
+                            <p class="font-serif text-3xl font-bold text-[#111]">{{ $stats['experience_years'] ?? '10' }}</p>
+                            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">{{ $stats['experience_label'] ?? 'Years' }}</p>
                         </div>
                         <div>
-                            <p class="font-serif text-3xl font-bold text-[#111]">50+</p>
-                            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Facilities</p>
+                            <p class="font-serif text-3xl font-bold text-[#111]">{{ $stats['awards_won'] ?? '50+' }}</p>
+                            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">{{ $stats['awards_label'] ?? 'Awards' }}</p>
                         </div>
                         <div>
-                            <p class="font-serif text-3xl font-bold text-[#111]">200+</p>
-                            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Delicacies</p>
+                            <p class="font-serif text-3xl font-bold text-[#111]">{{ $stats['food_menus'] ?? '200+' }}</p>
+                            <p class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">{{ $stats['menus_label'] ?? 'Delicacies' }}</p>
                         </div>
                     </div>
                 </div>
