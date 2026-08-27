@@ -710,18 +710,24 @@
                     </div>
                 </div>
             <!-- ════════════════════════════════════════════════════ -->
-            <!-- TAB 12: PARTNERS & SPONSORS                         -->
+            <!-- TAB 12: PARTNERS & SPONSORS (FULLY DYNAMIC)         -->
             <!-- ════════════════════════════════════════════════════ -->
             <div x-show="activeTab === 'partners'" x-cloak class="space-y-6">
                 <div class="flex items-center justify-between border-b pb-4">
                     <div>
-                        <h2 class="text-base font-bold text-gray-900">🤝 পার্টনার ও স্পন্সর ব্র্যান্ডস (Infinite Marquee)</h2>
-                        <p class="text-xs text-gray-500">হোম পেজের অটো-স্ক্রোলিং পার্টনার ও স্পন্সর ব্র্যান্ডের নাম ও লোগো ট্যাগ</p>
+                        <h2 class="text-base font-bold text-gray-900">🤝 পার্টনার ও স্পন্সর লোগো (Brand Logos)</h2>
+                        <p class="text-xs text-gray-500">হোম পেজের অটো-স্ক্রোলিং পার্টনার ও স্পন্সরদের অরিজিনাল লোগো আপলোড ও ম্যানেজ করুন</p>
                     </div>
-                    <button type="button" @click="saveSection('partners', sections.partners)" :disabled="saving" class="cms-save-btn">
-                        <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button type="button" @click="sections.partners.items = sections.partners.items || []; sections.partners.items.push({ name: '', logo: '', url: '' })" class="px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold flex items-center gap-1.5 transition-all">
+                            <i data-lucide="plus" class="w-4 h-4 text-amber-700"></i>
+                            <span>+ নতুন লোগো যোগ</span>
+                        </button>
+                        <button type="button" @click="saveSection('partners', sections.partners)" :disabled="saving" class="cms-save-btn">
+                            <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
+                            <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -736,18 +742,60 @@
                 </div>
 
                 <div class="space-y-3 pt-2">
-                    <label class="block text-xs font-bold text-gray-800 uppercase tracking-wider">পার্টনার ও স্পন্সর তালিকা (৮টি ব্র্যান্ড লোগো)</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-bold text-gray-800 uppercase tracking-wider">পার্টনার ও স্পন্সর লোগো তালিকা</label>
+                        <span class="text-[11px] text-gray-500 font-semibold" x-text="(sections.partners.items ? sections.partners.items.length : 0) + ' টি লোগো যুক্ত আছে'"></span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <template x-for="(p, pIdx) in sections.partners.items" :key="pIdx">
-                            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+                            <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200 space-y-3 relative group">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs font-black text-gray-700" x-text="'ব্র্যান্ড #' + (pIdx + 1)"></span>
-                                    <input type="text" x-model="p.tag" placeholder="Tag (e.g. Delivery Partner)" class="w-36 px-2 py-1 rounded border text-[11px]">
+                                    <span class="text-xs font-bold text-gray-700" x-text="'লোগো #' + (pIdx + 1)"></span>
+                                    <button type="button" @click="sections.partners.items.splice(pIdx, 1)" class="text-rose-600 hover:text-rose-800 p-1 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer" title="মুছে ফেলুন">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
                                 </div>
-                                <input type="text" x-model="p.symbol" placeholder="Symbol / Logo Text (e.g. ⭐ MICHELIN)" class="w-full px-3 py-1.5 rounded-lg border text-xs font-bold text-[#801424]">
-                                <input type="text" x-model="p.name" placeholder="Full Brand Name" class="w-full px-3 py-1 rounded border text-[11px] text-gray-500">
+
+                                <!-- Logo Image Thumbnail Preview -->
+                                <div class="h-16 bg-black/90 rounded-xl flex items-center justify-center p-2 border border-gray-300 overflow-hidden">
+                                    <template x-if="p.logo">
+                                        <img :src="p.logo" :alt="p.name" class="h-10 w-auto max-w-[120px] object-contain">
+                                    </template>
+                                    <template x-if="!p.logo">
+                                        <span class="text-[11px] text-gray-400 font-bold" x-text="p.name || 'No Logo Selected'"></span>
+                                    </template>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-600 mb-1">ব্র্যান্ডের নাম</label>
+                                    <input type="text" x-model="p.name" placeholder="যেমন: Coca-Cola" class="w-full px-3 py-1.5 rounded-lg border text-xs font-bold">
+                                </div>
+
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-600 mb-1">লোগো ছবি (Image URL বা আপলোড)</label>
+                                    <div class="flex gap-1.5">
+                                        <input type="text" x-model="p.logo" placeholder="Logo Image/SVG URL" class="w-full px-2.5 py-1.5 rounded-lg border text-[11px]">
+                                        <label class="px-2.5 py-1.5 bg-gray-200 hover:bg-gray-300 rounded-lg text-[10px] font-bold cursor-pointer shrink-0 flex items-center">
+                                            <span>আপলোড</span>
+                                            <input type="file" class="hidden" accept="image/*,.svg" @change="uploadFile($event, (url) => p.logo = url)">
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-600 mb-1">ওয়েবসাইট লিংক (URL)</label>
+                                    <input type="url" x-model="p.url" placeholder="https://brand.com" class="w-full px-3 py-1.5 rounded-lg border text-[11px]">
+                                </div>
                             </div>
                         </template>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="button" @click="sections.partners.items = sections.partners.items || []; sections.partners.items.push({ name: '', logo: '', url: '' })" class="w-full py-3 border-2 border-dashed border-gray-300 hover:border-[#801424] hover:bg-rose-50/40 rounded-2xl text-xs font-bold text-gray-600 hover:text-[#801424] flex items-center justify-center gap-2 transition-all">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            <span>+ আরও পার্টনার / স্পন্সর লোগো যোগ করুন</span>
+                        </button>
                     </div>
                 </div>
             </div>

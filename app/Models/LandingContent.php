@@ -385,14 +385,19 @@ class LandingContent extends Model
                 'tagline' => 'Official Collaborations',
                 'title' => 'Our Esteemed Partners & Sponsors',
                 'items' => [
-                    ['name' => 'Michelin Excellence', 'symbol' => '⭐ MICHELIN GUIDE', 'tag' => 'Official Dining Partner'],
-                    ['name' => 'S.Pellegrino Luxury', 'symbol' => '★ S.PELLEGRINO', 'tag' => 'Premium Sparkling Water'],
-                    ['name' => 'Hyatt Hotels', 'symbol' => '🏨 HYATT LUXURY', 'tag' => 'Hospitality Partner'],
-                    ['name' => 'Lavazza Italia', 'symbol' => '☕ LAVAZZA COFFEE', 'tag' => 'Artisan Roaster'],
-                    ['name' => 'Foodpanda Gourmet', 'symbol' => '🐼 FOODPANDA PRIME', 'tag' => 'Delivery Partner'],
-                    ['name' => 'Marriott International', 'symbol' => '👑 MARRIOTT HOTELS', 'tag' => 'Corporate Partner'],
-                    ['name' => 'Uber Eats Prestige', 'symbol' => '🚗 UBER EATS VIP', 'tag' => 'Global Logistics'],
-                    ['name' => 'Nestle Professional', 'symbol' => '✨ NESTLÉ GOURMET', 'tag' => 'Culinary Ingredients'],
+                    ['name' => 'Coca-Cola', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg', 'url' => 'https://www.coca-cola.com'],
+                    ['name' => 'Starbucks', 'logo' => 'https://upload.wikimedia.org/wikipedia/en/d/d3/Starbucks_Corporation_Logo_2011.svg', 'url' => 'https://www.starbucks.com'],
+                    ['name' => 'Foodpanda', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Foodpanda_logo.svg', 'url' => 'https://www.foodpanda.com'],
+                    ['name' => 'Uber Eats', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_Eats_2020_logo.svg', 'url' => 'https://www.ubereats.com'],
+                    ['name' => 'Pepsi', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/6/68/Pepsi_logo_2014.svg', 'url' => 'https://www.pepsi.com'],
+                    ['name' => 'Nestlé', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Nestle_textlogo.svg', 'url' => 'https://www.nestle.com'],
+                    ['name' => 'McDonald\'s', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg', 'url' => 'https://www.mcdonalds.com'],
+                    ['name' => 'Heineken', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/2/23/Heineken_Logo.svg', 'url' => 'https://www.heineken.com'],
+                    ['name' => 'Red Bull', 'logo' => 'https://upload.wikimedia.org/wikipedia/en/f/f5/RedBullEnergyDrink.svg', 'url' => 'https://www.redbull.com'],
+                    ['name' => 'Lavazza', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/0/07/Lavazza_logo.svg', 'url' => 'https://www.lavazza.com'],
+                    ['name' => 'Mastercard', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg', 'url' => 'https://www.mastercard.com'],
+                    ['name' => 'Michelin Guide', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/1/10/Michelin_Logo.svg', 'url' => 'https://guide.michelin.com'],
+                    ['name' => 'S.Pellegrino', 'logo' => 'https://upload.wikimedia.org/wikipedia/en/9/91/San_Pellegrino_logo.svg', 'url' => 'https://www.sanpellegrino.com']
                 ]
             ]
         ];
