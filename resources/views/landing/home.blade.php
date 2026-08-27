@@ -6,6 +6,17 @@
 
     <!-- ════ HERO SECTION ════ -->
     <section id="home" class="relative min-h-[92vh] pt-36 pb-20 flex items-center bg-[#0B0B0B] overflow-hidden">
+        
+        <!-- Luxury Food Atmospheric Background Image with Gradient Overlay -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <img src="{{ $hero['bg_image'] ?? 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1920&q=80' }}" 
+                 alt="Culinary Food Background" 
+                 class="w-full h-full object-cover object-center opacity-30 transform scale-105 transition-transform duration-1000 ease-out filter contrast-125">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#0B0B0B] via-[#0B0B0B]/85 to-[#0B0B0B]/70"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0B0B0B] via-transparent to-[#0B0B0B]"></div>
+            <div class="absolute inset-0 bg-radial from-transparent via-transparent to-black/80"></div>
+        </div>
+
         <div class="max-w-7xl mx-auto px-6 sm:px-10 w-full relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 

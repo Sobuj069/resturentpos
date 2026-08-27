@@ -202,6 +202,26 @@
                     </div>
                 </div>
 
+                <!-- Hero Section Background Food Image -->
+                <div class="p-4 bg-amber-50/60 rounded-xl border border-amber-200 space-y-3">
+                    <h3 class="text-xs font-bold text-amber-900 uppercase tracking-wider">হিরো সেকশনের ফুড ব্যাকগ্রাউন্ড ছবি (Hero Food Background Image)</h3>
+                    <div class="flex flex-col sm:flex-row gap-4 items-center">
+                        <div class="w-24 h-16 rounded-lg overflow-hidden border bg-gray-200 shrink-0">
+                            <img :src="sections.hero.bg_image || 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1920&q=80'" alt="Bg Preview" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 w-full space-y-1.5">
+                            <div class="flex gap-2">
+                                <input type="text" x-model="sections.hero.bg_image" placeholder="Background Image URL" class="w-full px-3 py-2 rounded-lg border text-xs font-semibold bg-white">
+                                <label class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-xs font-bold cursor-pointer shrink-0 flex items-center gap-1">
+                                    <span>ছবি আপলোড</span>
+                                    <input type="file" class="hidden" accept="image/*" @change="uploadFile($event, (url) => sections.hero.bg_image = url)">
+                                </label>
+                            </div>
+                            <p class="text-[11px] text-gray-500">হোম পেজের প্রধান হিরো সেকশনের ব্যাকগ্রাউন্ডে প্রদর্শিত হবে।</p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 4 Hero Images Grid -->
                 <div class="pt-4 border-t space-y-3">
                     <h3 class="text-xs font-bold text-gray-900 uppercase tracking-wider">হিরো ফুড কোলাজ ৪টি ছবি (Image URLs or Upload)</h3>
