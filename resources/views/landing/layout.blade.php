@@ -9,7 +9,7 @@
     <!-- Google Fonts for Luxury Typography (Exact match) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -32,9 +32,10 @@
                         }
                     },
                     fontFamily: {
-                        serif: ['"Playfair Display"', 'Cinzel', 'serif'],
+                        serif: ['"Playfair Display"', 'Cinzel', '"Times New Roman"', 'serif'],
                         script: ['"Great Vibes"', '"Alex Brush"', 'cursive'],
                         sans: ['Inter', 'sans-serif'],
+                        classic: ['"Times New Roman"', 'Times', '"Cormorant Garamond"', '"Playfair Display"', 'serif'],
                     }
                 }
             }
@@ -63,6 +64,10 @@
 
         .font-serif {
             font-family: 'Playfair Display', serif;
+        }
+
+        .font-classic {
+            font-family: "Times New Roman", Times, "Cormorant Garamond", "Playfair Display", serif;
         }
 
         /* Diagonal Luxury Gold Corner Lines (matching design screenshots) */
@@ -138,19 +143,19 @@
                 </span>
             </a>
 
-            <!-- Right: Navigation Menu Links -->
-            <nav class="hidden lg:flex items-center gap-6 text-[10px] uppercase tracking-[0.2em] font-semibold text-[#A8988D]">
-                <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">HOME</a>
-                <a href="{{ route('our-menu') }}" class="{{ request()->routeIs('our-menu') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">OUR MENU</a>
-                <a href="{{ route('shop') }}" class="{{ request()->routeIs('shop') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">SHOP</a>
-                <a href="{{ route('about-us') }}" class="{{ request()->routeIs('about-us') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">ABOUT US</a>
-                <a href="{{ route('our-chef') }}" class="{{ request()->routeIs('our-chef') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">CHEF</a>
-                <a href="{{ route('our-service') }}" class="{{ request()->routeIs('our-service') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">SERVICES</a>
-                <a href="{{ route('news') }}" class="{{ request()->routeIs('news') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">NEWS</a>
-                <a href="{{ route('faq') }}" class="{{ request()->routeIs('faq') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">FAQ</a>
-                <a href="{{ route('reservation') }}" class="{{ request()->routeIs('reservation') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">RESERVATION</a>
-                <a href="{{ route('contact-us') }}" class="{{ request()->routeIs('contact-us') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">CONTACT</a>
-                <a href="{{ route('pos.index') }}" class="px-3 py-1 rounded-full border border-[#C5A880]/50 text-[#C5A880] hover:bg-[#C5A880] hover:text-black transition-all">
+            <!-- Right: Navigation Menu Links with Classic Bold Times New Roman Font -->
+            <nav class="hidden lg:flex items-center gap-4 xl:gap-6 font-classic text-[13px] uppercase tracking-[0.16em] font-bold text-[#B0A298]">
+                <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">HOME</a>
+                <a href="{{ route('our-menu') }}" class="{{ request()->routeIs('our-menu') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">OUR MENU</a>
+                <a href="{{ route('shop') }}" class="{{ request()->routeIs('shop') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">SHOP</a>
+                <a href="{{ route('about-us') }}" class="{{ request()->routeIs('about-us') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">ABOUT US</a>
+                <a href="{{ route('our-chef') }}" class="{{ request()->routeIs('our-chef') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">CHEF</a>
+                <a href="{{ route('our-service') }}" class="{{ request()->routeIs('our-service') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">SERVICES</a>
+                <a href="{{ route('news') }}" class="{{ request()->routeIs('news') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">NEWS</a>
+                <a href="{{ route('faq') }}" class="{{ request()->routeIs('faq') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">FAQ</a>
+                <a href="{{ route('reservation') }}" class="{{ request()->routeIs('reservation') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">RESERVATION</a>
+                <a href="{{ route('contact-us') }}" class="{{ request()->routeIs('contact-us') ? 'text-[#C5A880] border-b-2 border-[#C5A880] pb-1 font-black shadow-sm' : 'hover:text-[#C5A880] transition-colors' }}">CONTACT</a>
+                <a href="{{ route('pos.index') }}" class="px-3.5 py-1 rounded-full border-2 border-[#C5A880] text-[#C5A880] hover:bg-[#C5A880] hover:text-black font-black tracking-widest transition-all shadow-md">
                     POS
                 </a>
             </nav>
@@ -163,18 +168,18 @@
 
         <!-- Mobile Drawer -->
         <div x-show="mobileMenuOpen" x-cloak x-transition
-             class="lg:hidden bg-[#111] border-b border-[#C5A880]/20 px-6 py-6 space-y-3">
-            <a @click="mobileMenuOpen=false" href="{{ route('home') }}" class="block text-xs font-semibold tracking-widest text-[#C5A880]">HOME</a>
-            <a @click="mobileMenuOpen=false" href="{{ route('our-menu') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">OUR MENU</a>
-            <a @click="mobileMenuOpen=false" href="{{ route('shop') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">SHOP</a>
-            <a @click="mobileMenuOpen=false" href="{{ route('about-us') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">ABOUT US</a>
-            <a @click="mobileMenuOpen=false" href="{{ route('our-chef') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">OUR CHEF</a>
-            <a @click="mobileMenuOpen=false" href="{{ route('our-service') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">OUR SERVICE</a>
-            <a @click="mobileMenuOpen=false" href="{{ route('news') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">NEWS</a>
-            <a @click="mobileMenuOpen=false" href="{{ route('faq') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">FAQ</a>
-            <a @click="mobileMenuOpen=false" href="{{ route('reservation') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">RESERVATION</a>
-            <a @click="mobileMenuOpen=false" href="{{ route('contact-us') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">CONTACT</a>
-            <a href="{{ route('pos.index') }}" class="block text-xs font-bold text-[#C5A880]">POS TERMINAL</a>
+             class="lg:hidden bg-[#111] border-b border-[#C5A880]/20 px-6 py-6 space-y-3 font-classic">
+            <a @click="mobileMenuOpen=false" href="{{ route('home') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('home') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">HOME</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('our-menu') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('our-menu') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">OUR MENU</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('shop') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('shop') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">SHOP</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('about-us') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('about-us') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">ABOUT US</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('our-chef') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('our-chef') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">OUR CHEF</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('our-service') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('our-service') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">OUR SERVICE</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('news') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('news') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">NEWS</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('faq') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('faq') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">FAQ</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('reservation') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('reservation') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">RESERVATION</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('contact-us') }}" class="block text-sm font-bold tracking-widest {{ request()->routeIs('contact-us') ? 'text-[#C5A880]' : 'text-gray-300 hover:text-[#C5A880]' }}">CONTACT</a>
+            <a href="{{ route('pos.index') }}" class="block text-sm font-black text-[#C5A880]">POS TERMINAL</a>
         </div>
     </header>
 
