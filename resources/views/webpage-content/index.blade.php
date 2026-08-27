@@ -690,7 +690,7 @@
                 <!-- Social Links -->
                 <div class="p-4 bg-gray-50 rounded-xl border space-y-3">
                     <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wider">সোশ্যাল মিডিয়া প্রোফাইল লিংকসমূহ</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         <div>
                             <label class="block text-[11px] font-bold text-gray-600 mb-1">Facebook URL</label>
                             <input type="text" x-model="sections.contact.social.facebook" class="w-full px-3 py-1.5 rounded-lg border text-xs bg-white">
@@ -700,16 +700,28 @@
                             <input type="text" x-model="sections.contact.social.instagram" class="w-full px-3 py-1.5 rounded-lg border text-xs bg-white">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-gray-600 mb-1">Twitter URL</label>
+                            <label class="block text-[11px] font-bold text-gray-600 mb-1">TikTok URL</label>
+                            <input type="text" x-model="sections.contact.social.tiktok" class="w-full px-3 py-1.5 rounded-lg border text-xs bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-600 mb-1">LinkedIn URL</label>
+                            <input type="text" x-model="sections.contact.social.linkedin" class="w-full px-3 py-1.5 rounded-lg border text-xs bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-600 mb-1">X (Twitter) URL</label>
                             <input type="text" x-model="sections.contact.social.twitter" class="w-full px-3 py-1.5 rounded-lg border text-xs bg-white">
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-gray-600 mb-1">YouTube URL</label>
                             <input type="text" x-model="sections.contact.social.youtube" class="w-full px-3 py-1.5 rounded-lg border text-xs bg-white">
                         </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-600 mb-1">WhatsApp Hotline / Link</label>
+                            <input type="text" x-model="sections.contact.social.whatsapp" class="w-full px-3 py-1.5 rounded-lg border text-xs bg-white">
+                        </div>
                     </div>
                 </div>
-            <!-- ════════════════════════════════════════════════════ -->
+            </div>
             <!-- TAB 12: PARTNERS & SPONSORS (FULLY DYNAMIC)         -->
             <!-- ════════════════════════════════════════════════════ -->
             <div x-show="activeTab === 'partners'" x-cloak class="space-y-6">

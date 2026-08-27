@@ -344,6 +344,8 @@ class LandingContent extends Model
                 'social' => [
                     'facebook' => 'https://facebook.com',
                     'instagram' => 'https://instagram.com',
+                    'tiktok' => 'https://tiktok.com',
+                    'linkedin' => 'https://linkedin.com',
                     'twitter' => 'https://twitter.com',
                     'youtube' => 'https://youtube.com',
                     'whatsapp' => 'https://wa.me/62898245124'
