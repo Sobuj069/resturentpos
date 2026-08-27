@@ -558,9 +558,9 @@
                         <p class="text-xs text-gray-500">হটলাইন নম্বর, ইমেইল, রেস্তোরাঁর ঠিকানা এবং সোশ্যাল লিংক</p>
                     </div>
                     <button type="button" @click="saveSection('contact', sections.contact)" :disabled="saving"
-                            class="px-5 py-2 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-all">
+                            class="px-5 py-2.5 rounded-xl bg-[#801424] hover:bg-[#68101D] text-white text-xs font-bold flex items-center gap-2 shadow-sm transition-all">
                         <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
-                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন'"></span>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : '💾 সেভ পরিবর্তন (Save Changes)'"></span>
                     </button>
                 </div>
 
@@ -622,6 +622,21 @@
                 </div>
             </div>
 
+            <!-- ════ STICKY BOTTOM SAVE ACTION BAR ════ -->
+            <div class="sticky bottom-4 z-40 bg-white/95 backdrop-blur-md p-4 rounded-2xl border-2 border-[#D4AC50] shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-8">
+                <div class="flex items-center gap-2 text-xs font-bold text-gray-700">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>বর্তমান নির্বাচিত সেকশন: <strong class="text-[#801424]" x-text="getCurrentTabName()"></strong></span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button type="button" @click="saveCurrentTab()" :disabled="saving"
+                            class="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-[#801424] to-[#9C182C] hover:from-[#66101D] hover:to-[#801424] text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-md hover:shadow-xl transition-all cursor-pointer active:scale-98">
+                        <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : '💾 সেভ পরিবর্তন (Save Changes)'"></span>
+                    </button>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -649,6 +664,21 @@ function webpageCmsApp() {
             { id: 'faqs', label: 'সচরাচর প্রশ্ন (FAQs)', icon: 'help-circle' },
             { id: 'contact', label: 'যোগাযোগ ও খোলার সময়', icon: 'clock' },
         ],
+
+        getCurrentTabName() {
+            const found = this.tabList.find(t => t.id === this.activeTab);
+            return found ? found.label : 'সেকশন';
+        },
+
+        saveCurrentTab() {
+            let sectionKey = this.activeTab;
+            if (sectionKey === 'offers') sectionKey = 'sunday_offers';
+            
+            const payload = this.sections[sectionKey];
+            if (payload !== undefined) {
+                this.saveSection(sectionKey, payload);
+            }
+        },
 
         init() {
             this.$nextTick(() => {
