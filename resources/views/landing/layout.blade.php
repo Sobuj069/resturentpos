@@ -139,11 +139,15 @@
             </a>
 
             <!-- Right: Navigation Menu Links -->
-            <nav class="hidden md:flex items-center gap-7 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#A8988D]">
+            <nav class="hidden lg:flex items-center gap-6 text-[10px] uppercase tracking-[0.2em] font-semibold text-[#A8988D]">
                 <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">HOME</a>
                 <a href="{{ route('our-menu') }}" class="{{ request()->routeIs('our-menu') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">OUR MENU</a>
+                <a href="{{ route('shop') }}" class="{{ request()->routeIs('shop') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">SHOP</a>
                 <a href="{{ route('about-us') }}" class="{{ request()->routeIs('about-us') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">ABOUT US</a>
-                <a href="{{ route('our-chef') }}" class="{{ request()->routeIs('our-chef') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">OUR CHEF</a>
+                <a href="{{ route('our-chef') }}" class="{{ request()->routeIs('our-chef') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">CHEF</a>
+                <a href="{{ route('our-service') }}" class="{{ request()->routeIs('our-service') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">SERVICES</a>
+                <a href="{{ route('news') }}" class="{{ request()->routeIs('news') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">NEWS</a>
+                <a href="{{ route('faq') }}" class="{{ request()->routeIs('faq') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">FAQ</a>
                 <a href="{{ route('reservation') }}" class="{{ request()->routeIs('reservation') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">RESERVATION</a>
                 <a href="{{ route('contact-us') }}" class="{{ request()->routeIs('contact-us') ? 'text-[#C5A880] border-b border-[#C5A880] pb-1' : 'hover:text-[#C5A880] transition-colors' }}">CONTACT</a>
                 <a href="{{ route('pos.index') }}" class="px-3 py-1 rounded-full border border-[#C5A880]/50 text-[#C5A880] hover:bg-[#C5A880] hover:text-black transition-all">
@@ -152,22 +156,25 @@
             </nav>
 
             <!-- Mobile Hamburger -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 text-[#C5A880]">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 text-[#C5A880]">
                 <i :data-lucide="mobileMenuOpen ? 'x' : 'menu'" class="w-6 h-6"></i>
             </button>
         </div>
 
         <!-- Mobile Drawer -->
         <div x-show="mobileMenuOpen" x-cloak x-transition
-             class="md:hidden bg-[#111] border-b border-[#C5A880]/20 px-6 py-6 space-y-4">
+             class="lg:hidden bg-[#111] border-b border-[#C5A880]/20 px-6 py-6 space-y-3">
             <a @click="mobileMenuOpen=false" href="{{ route('home') }}" class="block text-xs font-semibold tracking-widest text-[#C5A880]">HOME</a>
             <a @click="mobileMenuOpen=false" href="{{ route('our-menu') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">OUR MENU</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('shop') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">SHOP</a>
             <a @click="mobileMenuOpen=false" href="{{ route('about-us') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">ABOUT US</a>
             <a @click="mobileMenuOpen=false" href="{{ route('our-chef') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">OUR CHEF</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('our-service') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">OUR SERVICE</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('news') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">NEWS</a>
+            <a @click="mobileMenuOpen=false" href="{{ route('faq') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">FAQ</a>
             <a @click="mobileMenuOpen=false" href="{{ route('reservation') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">RESERVATION</a>
             <a @click="mobileMenuOpen=false" href="{{ route('contact-us') }}" class="block text-xs font-semibold tracking-widest text-gray-300 hover:text-[#C5A880]">CONTACT</a>
             <a href="{{ route('pos.index') }}" class="block text-xs font-bold text-[#C5A880]">POS TERMINAL</a>
-            <a href="{{ route('login') }}" class="block text-xs font-bold text-gray-300">STAFF LOGIN</a>
         </div>
     </header>
 

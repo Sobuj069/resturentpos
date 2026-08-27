@@ -73,7 +73,7 @@ class LandingController extends Controller
 
         $blogs = [
             [
-                'title' => 'Salad Fresh with Master Dressing Secrets',
+                'title' => 'Kebab Rice with tomatoes & egg',
                 'excerpt' => 'Discover the secret olive glaze and aromatic herb blend used by our master chefs.',
                 'image' => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
                 'author' => 'Chef Dany',
@@ -98,63 +98,17 @@ class LandingController extends Controller
         return compact('branch', 'categories', 'featuredItems', 'tables', 'stats', 'testimonials', 'blogs');
     }
 
-    /**
-     * 1. Home Page
-     */
-    public function home(): View
-    {
-        $data = $this->getCommonData();
-        return view('landing.home', $data);
-    }
+    public function home(): View { return view('landing.home', $this->getCommonData()); }
+    public function menu(): View { return view('landing.menu', $this->getCommonData()); }
+    public function about(): View { return view('landing.about', $this->getCommonData()); }
+    public function chefs(): View { return view('landing.chefs', $this->getCommonData()); }
+    public function reservation(): View { return view('landing.reservation', $this->getCommonData()); }
+    public function contact(): View { return view('landing.contact', $this->getCommonData()); }
+    public function faq(): View { return view('landing.faq', $this->getCommonData()); }
+    public function news(): View { return view('landing.news', $this->getCommonData()); }
+    public function services(): View { return view('landing.services', $this->getCommonData()); }
+    public function shop(): View { return view('landing.shop', $this->getCommonData()); }
 
-    /**
-     * 2. Our Menu Page
-     */
-    public function menu(): View
-    {
-        $data = $this->getCommonData();
-        return view('landing.menu', $data);
-    }
-
-    /**
-     * 3. About Us Page
-     */
-    public function about(): View
-    {
-        $data = $this->getCommonData();
-        return view('landing.about', $data);
-    }
-
-    /**
-     * 4. Our Chef Page
-     */
-    public function chefs(): View
-    {
-        $data = $this->getCommonData();
-        return view('landing.chefs', $data);
-    }
-
-    /**
-     * 5. Reservation Page
-     */
-    public function reservation(): View
-    {
-        $data = $this->getCommonData();
-        return view('landing.reservation', $data);
-    }
-
-    /**
-     * 6. Contact Us Page
-     */
-    public function contact(): View
-    {
-        $data = $this->getCommonData();
-        return view('landing.contact', $data);
-    }
-
-    /**
-     * Handle Customer Table Reservation Booking
-     */
     public function storeReservation(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -199,9 +153,6 @@ class LandingController extends Controller
         ]);
     }
 
-    /**
-     * Handle Contact Us Form Submission
-     */
     public function storeContact(Request $request): JsonResponse
     {
         $validated = $request->validate([
