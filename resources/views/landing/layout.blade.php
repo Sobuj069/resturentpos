@@ -174,6 +174,44 @@
             background-position: center;
         }
 
+        /* ════ INFINITE MARQUEE SCROLL (60FPS) ════ */
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            display: flex;
+            user-select: none;
+            position: relative;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .marquee-track {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            gap: 3rem;
+            animation: marqueeScroll 24s linear infinite;
+            will-change: transform;
+        }
+
+        .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        .partner-logo-item {
+            transition: all 0.3s ease;
+            filter: grayscale(1) opacity(0.65);
+        }
+
+        .partner-logo-item:hover {
+            filter: grayscale(0) opacity(1);
+            transform: scale(1.08);
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;

@@ -150,6 +150,37 @@
         </div>
     </section>
 
+    <!-- ════ 4.5. BRAND PARTNERS & SPONSORS (INFINITE MARQUEE SCROLLER) ════ -->
+    <section class="py-12 bg-[#090909] border-b border-[#C5A880]/15 relative overflow-hidden" data-aos="fade-up">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 mb-6 text-center space-y-1">
+            <p class="font-script text-2xl text-[#C5A880]">{{ $partners['tagline'] ?? 'Official Collaborations' }}</p>
+            <h3 class="font-serif text-lg sm:text-xl font-bold text-white/90 tracking-wide uppercase">
+                {{ $partners['title'] ?? 'Our Esteemed Partners & Sponsors' }}
+            </h3>
+        </div>
+
+        <!-- Marquee Infinite Track (Hardware-Accelerated 60FPS) -->
+        <div class="marquee-container py-3">
+            <div class="marquee-track">
+                <!-- Group 1 -->
+                @foreach($partners['items'] ?? [] as $partner)
+                <div class="partner-logo-item flex items-center gap-3 px-6 py-3 rounded-2xl bg-[#141414]/90 border border-[#C5A880]/20 backdrop-blur-xs whitespace-nowrap shadow-lg cursor-pointer hover:border-[#C5A880]">
+                    <span class="font-serif font-extrabold text-sm sm:text-base text-white tracking-widest">{{ $partner['symbol'] ?? $partner['name'] }}</span>
+                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#C5A880]/15 text-[#C5A880] font-bold uppercase tracking-wider">{{ $partner['tag'] ?? 'Partner' }}</span>
+                </div>
+                @endforeach
+
+                <!-- Group 2 (Duplicate for Seamless Infinite Loop) -->
+                @foreach($partners['items'] ?? [] as $partner)
+                <div class="partner-logo-item flex items-center gap-3 px-6 py-3 rounded-2xl bg-[#141414]/90 border border-[#C5A880]/20 backdrop-blur-xs whitespace-nowrap shadow-lg cursor-pointer hover:border-[#C5A880]">
+                    <span class="font-serif font-extrabold text-sm sm:text-base text-white tracking-widest">{{ $partner['symbol'] ?? $partner['name'] }}</span>
+                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#C5A880]/15 text-[#C5A880] font-bold uppercase tracking-wider">{{ $partner['tag'] ?? 'Partner' }}</span>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
     <!-- ════ 5. SPECIAL DISH & BEST RECOMMENDATION ════ -->
     <section class="py-24 bg-[#0B0B0B] relative">
         <div class="max-w-7xl mx-auto px-6 sm:px-10">

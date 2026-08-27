@@ -380,6 +380,20 @@ class LandingContent extends Model
                     'role' => 'Tech Entrepreneur',
                     'rating' => 5
                 ]
+            ],
+            'partners' => [
+                'tagline' => 'Official Collaborations',
+                'title' => 'Our Esteemed Partners & Sponsors',
+                'items' => [
+                    ['name' => 'Michelin Excellence', 'symbol' => '⭐ MICHELIN GUIDE', 'tag' => 'Official Dining Partner'],
+                    ['name' => 'S.Pellegrino Luxury', 'symbol' => '★ S.PELLEGRINO', 'tag' => 'Premium Sparkling Water'],
+                    ['name' => 'Hyatt Hotels', 'symbol' => '🏨 HYATT LUXURY', 'tag' => 'Hospitality Partner'],
+                    ['name' => 'Lavazza Italia', 'symbol' => '☕ LAVAZZA COFFEE', 'tag' => 'Artisan Roaster'],
+                    ['name' => 'Foodpanda Gourmet', 'symbol' => '🐼 FOODPANDA PRIME', 'tag' => 'Delivery Partner'],
+                    ['name' => 'Marriott International', 'symbol' => '👑 MARRIOTT HOTELS', 'tag' => 'Corporate Partner'],
+                    ['name' => 'Uber Eats Prestige', 'symbol' => '🚗 UBER EATS VIP', 'tag' => 'Global Logistics'],
+                    ['name' => 'Nestle Professional', 'symbol' => '✨ NESTLÉ GOURMET', 'tag' => 'Culinary Ingredients'],
+                ]
             ]
         ];
     }

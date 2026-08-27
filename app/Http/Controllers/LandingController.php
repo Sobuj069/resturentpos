@@ -60,6 +60,7 @@ class LandingController extends Controller
         $newsData = $cms['news'] ?? [];
         $contactData = $cms['contact'] ?? [];
         $testimonials = $cms['testimonials'] ?? [];
+        $partners = $cms['partners'] ?? [];
 
         $blogs = [
             [
@@ -89,7 +90,7 @@ class LandingController extends Controller
             'branch', 'categories', 'featuredItems', 'tables', 'cms',
             'hero', 'cuisines', 'about', 'stats', 'sundayOffers',
             'recommendedDishes', 'dottedMenus', 'chefs', 'packages',
-            'servicesList', 'faqs', 'newsData', 'contactData', 'testimonials', 'blogs'
+            'servicesList', 'faqs', 'newsData', 'contactData', 'testimonials', 'partners', 'blogs'
         );
     }
 

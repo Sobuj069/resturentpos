@@ -709,6 +709,47 @@
                         </div>
                     </div>
                 </div>
+            <!-- ════════════════════════════════════════════════════ -->
+            <!-- TAB 12: PARTNERS & SPONSORS                         -->
+            <!-- ════════════════════════════════════════════════════ -->
+            <div x-show="activeTab === 'partners'" x-cloak class="space-y-6">
+                <div class="flex items-center justify-between border-b pb-4">
+                    <div>
+                        <h2 class="text-base font-bold text-gray-900">🤝 পার্টনার ও স্পন্সর ব্র্যান্ডস (Infinite Marquee)</h2>
+                        <p class="text-xs text-gray-500">হোম পেজের অটো-স্ক্রোলিং পার্টনার ও স্পন্সর ব্র্যান্ডের নাম ও লোগো ট্যাগ</p>
+                    </div>
+                    <button type="button" @click="saveSection('partners', sections.partners)" :disabled="saving" class="cms-save-btn">
+                        <i data-lucide="save" class="w-4 h-4 text-[#D4AC50]"></i>
+                        <span x-text="saving ? 'সংরক্ষণ হচ্ছে...' : 'সেভ পরিবর্তন (Save Changes)'"></span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">ট্যাগলাইন</label>
+                        <input type="text" x-model="sections.partners.tagline" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">প্রধান শিরোনাম</label>
+                        <input type="text" x-model="sections.partners.title" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <label class="block text-xs font-bold text-gray-800 uppercase tracking-wider">পার্টনার ও স্পন্সর তালিকা (৮টি ব্র্যান্ড লোগো)</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <template x-for="(p, pIdx) in sections.partners.items" :key="pIdx">
+                            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-black text-gray-700" x-text="'ব্র্যান্ড #' + (pIdx + 1)"></span>
+                                    <input type="text" x-model="p.tag" placeholder="Tag (e.g. Delivery Partner)" class="w-36 px-2 py-1 rounded border text-[11px]">
+                                </div>
+                                <input type="text" x-model="p.symbol" placeholder="Symbol / Logo Text (e.g. ⭐ MICHELIN)" class="w-full px-3 py-1.5 rounded-lg border text-xs font-bold text-[#801424]">
+                                <input type="text" x-model="p.name" placeholder="Full Brand Name" class="w-full px-3 py-1 rounded border text-[11px] text-gray-500">
+                            </div>
+                        </template>
+                    </div>
+                </div>
             </div>
 
             <!-- ════ STICKY BOTTOM SAVE ACTION BAR ════ -->
@@ -749,6 +790,7 @@ function webpageCmsApp() {
             { id: 'chefs', label: 'মাস্টার শেফ টিম', icon: 'chef-hat' },
             { id: 'packages', label: 'ডাইনিং প্যাকেজ ও রেট', icon: 'gift' },
             { id: 'testimonials', label: 'কাস্টমার রিভিউ', icon: 'message-square' },
+            { id: 'partners', label: 'পার্টনার ও স্পন্সর লোগো', icon: 'shield-check' },
             { id: 'faqs', label: 'সচরাচর প্রশ্ন (FAQs)', icon: 'help-circle' },
             { id: 'contact', label: 'যোগাযোগ ও খোলার সময়', icon: 'clock' },
         ],
