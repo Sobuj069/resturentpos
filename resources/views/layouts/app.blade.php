@@ -136,9 +136,13 @@
                         ['route'=>'delivery.index',    'match'=>'delivery.*',        'icon'=>'bike',            'label'=>'অনলাইন ডেলিভারি'],
                         ['route'=>'transfers.index',   'match'=>'transfers.*',       'icon'=>'truck',           'label'=>'ব্রাঞ্চ স্টক ট্রান্সফার'],
                         ['route'=>'inventory.index',   'match'=>'inventory.*',       'icon'=>'boxes',           'label'=>'ইনভেন্টরি ও BOM'],
-                        ['route'=>'webpage-content.index', 'match'=>'webpage-content.*', 'icon'=>'globe',        'label'=>'ওয়েবপেজ কনটেন্ট (Webpage Content)'],
-                        ['route'=>'settings.index',    'match'=>'settings.*',        'icon'=>'settings',        'label'=>'সিস্টেম সেটিংস'],
                     ];
+
+                    if (auth()->user()?->isSuperAdmin()) {
+                        $navLinks[] = ['route'=>'webpage-content.index', 'match'=>'webpage-content.*', 'icon'=>'globe', 'label'=>'ওয়েবপেজ কনটেন্ট (Webpage Content)'];
+                    }
+
+                    $navLinks[] = ['route'=>'settings.index', 'match'=>'settings.*', 'icon'=>'settings', 'label'=>'সিস্টেম সেটিংস'];
                 @endphp
 
                 @foreach($navLinks as $link)

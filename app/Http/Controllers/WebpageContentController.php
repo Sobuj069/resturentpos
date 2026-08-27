@@ -10,10 +10,21 @@ use Illuminate\View\View;
 class WebpageContentController extends Controller
 {
     /**
+     * Ensure only SuperAdmin can access and modify Webpage Content
+     */
+    private function authorizeSuperAdmin(): void
+    {
+        if (!auth()->check() || !auth()->user()->isSuperAdmin()) {
+            abort(403, 'অননুমোদিত অ্যাক্সেস! শুধুমাত্র সুপার-অ্যাডমিন এই পেজটি অ্যাক্সেস ও এডিট করতে পারেন।');
+        }
+    }
+
+    /**
      * Display the Webpage Content CMS Dashboard
      */
     public function index(Request $request): View
     {
+        $this->authorizeSuperAdmin();
         $sections = LandingContent::getAllSections();
         return view('webpage-content.index', compact('sections'));
     }
@@ -23,6 +34,8 @@ class WebpageContentController extends Controller
      */
     public function updateSection(Request $request): JsonResponse
     {
+        $this->authorizeSuperAdmin();
+
         $validated = $request->validate([
             'section_key' => 'required|string',
             'content' => 'required|array',
@@ -45,53 +58,42 @@ class WebpageContentController extends Controller
      */
     public function uploadImage(Request $request): JsonResponse
     {
+        $this->authorizeSuperAdmin();
+
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
         ]);
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $uploadDir = public_path('uploads/landing');
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
-            }
-            $filename = 'landing_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move($uploadDir, $filename);
-            $url = asset('uploads/landing/' . $filename);
+        $file = $request->file('image');
+        $fileName = 'landing_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $destinationPath = public_path('uploads/landing');
 
-            return response()->json([
-                'success' => true,
-                'url' => $url,
-                'message' => 'Image uploaded successfully!'
-            ]);
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
         }
 
+        $file->move($destinationPath, $fileName);
+        $url = asset('uploads/landing/' . $fileName);
+
         return response()->json([
-            'success' => false,
-            'message' => 'No image file received.'
-        ], 400);
+            'success' => true,
+            'url' => $url,
+            'message' => 'ছবি সফলভাবে আপলোড হয়েছে!'
+        ]);
     }
 
     /**
-     * Reset a section or all sections to default demo content
+     * Reset all sections to factory default template
      */
-    public function resetDefaults(Request $request): JsonResponse
+    public function resetToDefault(Request $request): JsonResponse
     {
-        $sectionKey = $request->input('section_key');
-        
-        if ($sectionKey) {
-            LandingContent::where('section_key', $sectionKey)->delete();
-            return response()->json([
-                'success' => true,
-                'message' => 'Section reset to default successfully!',
-                'data' => LandingContent::getSection($sectionKey)
-            ]);
-        }
+        $this->authorizeSuperAdmin();
 
         LandingContent::truncate();
+
         return response()->json([
             'success' => true,
-            'message' => 'All webpage sections reset to defaults successfully!'
+            'message' => 'সকল ওয়েবপেজ সেকশন সফলভাবে ফ্যাক্টরি ডিফল্ট মানে রিসেট করা হয়েছে!'
         ]);
     }
 }
