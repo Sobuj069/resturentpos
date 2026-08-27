@@ -7,14 +7,14 @@
     <!-- ════ HERO SECTION ════ -->
     <section id="home" class="relative min-h-[92vh] pt-36 pb-20 flex items-center bg-[#0B0B0B] overflow-hidden">
         
-        <!-- Luxury Food Atmospheric Background Image with Gradient Overlay -->
+        <!-- High-Visibility Appetizing Food Background Image with Soft Gradient Overlay -->
         <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-            <img src="{{ $hero['bg_image'] ?? 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1920&q=80' }}" 
+            <img src="{{ $hero['bg_image'] ?? 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1920&q=80' }}" 
                  alt="Culinary Food Background" 
-                 class="w-full h-full object-cover object-center opacity-30 transform scale-105 transition-transform duration-1000 ease-out filter contrast-125">
-            <div class="absolute inset-0 bg-gradient-to-r from-[#0B0B0B] via-[#0B0B0B]/85 to-[#0B0B0B]/70"></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-[#0B0B0B] via-transparent to-[#0B0B0B]"></div>
-            <div class="absolute inset-0 bg-radial from-transparent via-transparent to-black/80"></div>
+                 class="w-full h-full object-cover object-center opacity-70 transform scale-105 transition-transform duration-1000 ease-out filter brightness-95 contrast-110">
+            <!-- Left-side soft dark gradient ensuring ultra readability -->
+            <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/30"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-[#0B0B0B]"></div>
         </div>
 
         <div class="max-w-7xl mx-auto px-6 sm:px-10 w-full relative z-10">
@@ -22,21 +22,21 @@
                 
                 <!-- Left 50% Text Column -->
                 <div class="lg:col-span-6 space-y-6 text-left" data-aos="fade-right" data-aos-duration="900">
-                    <p class="font-script text-3xl sm:text-4xl text-[#C5A880] tracking-wide" data-aos="fade-down" data-aos-delay="100">
+                    <p class="font-script text-3xl sm:text-4xl text-[#C5A880] tracking-wide drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]" data-aos="fade-down" data-aos-delay="100">
                         {{ $hero['tagline'] ?? 'Welcome to Lezzatos' }}
                     </p>
                     
-                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.18] tracking-tight" data-aos="fade-up" data-aos-delay="200">
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.18] tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]" data-aos="fade-up" data-aos-delay="200">
                         {{ $hero['title_line1'] ?? 'The Authentic' }} <br>
                         {{ $hero['title_line2'] ?? 'Restaurant & Cafe' }}
                     </h1>
 
-                    <p class="text-xs sm:text-sm text-[#8C7D73] max-w-md font-light leading-relaxed" data-aos="fade-up" data-aos-delay="300">
+                    <p class="text-xs sm:text-sm text-gray-200 max-w-md font-normal leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]" data-aos="fade-up" data-aos-delay="300">
                         {{ $hero['description'] ?? 'Experience royal culinary craftsmanship with our timeless gourmet delicacies, signature dum biryanis, sizzling kebabs, and enchanting fine dining ambiance.' }}
                     </p>
 
                     <div class="pt-4" data-aos="fade-up" data-aos-delay="400">
-                        <a href="{{ $hero['btn_url'] ?? route('our-menu') }}" class="gold-underline-btn text-xs uppercase tracking-[0.25em] font-bold text-white hover:text-[#C5A880] transition-all inline-block">
+                        <a href="{{ $hero['btn_url'] ?? route('our-menu') }}" class="gold-underline-btn text-xs uppercase tracking-[0.25em] font-bold text-white hover:text-[#C5A880] transition-all inline-block shadow-lg">
                             {{ $hero['btn_text'] ?? 'EXPLORE MENU' }}
                         </a>
                     </div>
