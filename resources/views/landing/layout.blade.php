@@ -42,7 +42,9 @@
         }
     </script>
     
-    <!-- Alpine.js & Lucide Icons -->
+    <!-- AOS (Animate On Scroll) & Lucide Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -92,6 +94,7 @@
             position: relative;
             display: inline-block;
             padding-bottom: 6px;
+            transition: all 0.3s ease;
         }
 
         .gold-underline-btn::after {
@@ -102,6 +105,66 @@
             width: 100%;
             height: 2px;
             background-color: #C5A880;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .gold-underline-btn:hover::after {
+            width: 100%;
+            background-color: #E5C07B;
+            box-shadow: 0 0 10px rgba(229,192,123,0.8);
+        }
+
+        /* ════ LUXURY SMOOTH ANIMATIONS & MICRO-INTERACTIONS ════ */
+        @keyframes floatSmooth {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
+        }
+
+        @keyframes goldPulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(197, 168, 128, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(209, 165, 104, 0.5); }
+        }
+
+        .floating-element {
+            animation: floatSmooth 6s ease-in-out infinite;
+        }
+
+        /* Luxury Card Hover Lift */
+        .luxury-card {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+        }
+
+        .luxury-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(197, 168, 128, 0.3);
+            border-color: rgba(197, 168, 128, 0.7);
+        }
+
+        /* Luxury Image Zoom Container */
+        .luxury-img-zoom {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .luxury-img-zoom img {
+            transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), filter 0.7s ease;
+        }
+
+        .luxury-img-zoom:hover img {
+            transform: scale(1.07);
+            filter: brightness(1.06);
+        }
+
+        /* Shimmer Button Effect */
+        .gold-glow-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gold-glow-btn:hover {
+            box-shadow: 0 0 25px rgba(209, 165, 104, 0.5);
+            transform: translateY(-2px);
         }
 
         /* Page Banner Header */
@@ -340,6 +403,15 @@
                 });
                 this.$nextTick(() => {
                     if (window.lucide) window.lucide.createIcons();
+                    if (typeof AOS !== 'undefined') {
+                        AOS.init({
+                            duration: 700,
+                            easing: 'ease-out-cubic',
+                            once: true,
+                            offset: 40,
+                            delay: 30
+                        });
+                    }
                 });
             },
 

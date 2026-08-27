@@ -5,7 +5,7 @@
 @section('content')
 
     <!-- ════ PAGE HEADER BANNER ════ -->
-    <section class="page-header-banner pt-40 pb-20 text-center relative border-b border-[#C5A880]/20">
+    <section class="page-header-banner pt-40 pb-20 text-center relative border-b border-[#C5A880]/20" data-aos="fade-down">
         <div class="max-w-4xl mx-auto px-6 relative z-10">
             <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white tracking-wide">
                 Contact Us
@@ -19,7 +19,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                 
                 <!-- Left: Contact Details -->
-                <div class="lg:col-span-5 space-y-6">
+                <div class="lg:col-span-5 space-y-6" data-aos="fade-right">
                     <div>
                         <p class="font-script text-3xl text-[#C5A880]">Reach Us</p>
                         <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white leading-tight">
@@ -64,28 +64,28 @@
                 </div>
 
                 <!-- Right: Sand Gold Contact Form -->
-                <div class="lg:col-span-7">
-                    <div class="bg-[#D1A568] p-8 sm:p-10 chamfer-top-right shadow-2xl text-black">
+                <div class="lg:col-span-7" data-aos="fade-left">
+                    <div class="bg-[#D1A568] p-8 sm:p-10 chamfer-top-right shadow-2xl text-black luxury-card">
                         <div class="text-center mb-6">
                             <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white">Contact Form</h3>
                         </div>
 
                         <form @submit.prevent="alert('Thank you! Your message has been sent successfully.');" class="space-y-3.5">
                             <div>
-                                <input type="text" required placeholder="Name" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none">
+                                <input type="text" required placeholder="Name" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none shadow-sm">
                             </div>
                             <div>
-                                <input type="email" required placeholder="Email" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none">
+                                <input type="email" required placeholder="Email" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none shadow-sm">
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <input type="text" placeholder="Phone Number" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none">
-                                <input type="text" placeholder="Subject" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none">
+                                <input type="text" placeholder="Phone Number" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none shadow-sm">
+                                <input type="text" placeholder="Subject" class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none shadow-sm">
                             </div>
                             <div>
-                                <textarea rows="4" required placeholder="Message..." class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none resize-none"></textarea>
+                                <textarea rows="4" required placeholder="Message..." class="w-full px-3.5 py-2.5 rounded bg-white text-xs font-semibold text-[#1A1A1A] placeholder-gray-500 focus:outline-none resize-none shadow-sm"></textarea>
                             </div>
                             <div class="pt-2">
-                                <button type="submit" class="w-full py-3.5 rounded bg-white hover:bg-gray-100 text-[#111] font-bold text-xs uppercase tracking-widest transition-all shadow-xl active:scale-98">
+                                <button type="submit" class="w-full py-3.5 rounded bg-white hover:bg-gray-100 text-[#111] font-bold text-xs uppercase tracking-widest transition-all shadow-xl active:scale-98 gold-glow-btn cursor-pointer">
                                     SUBMIT
                                 </button>
                             </div>
@@ -103,7 +103,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 
                 <!-- Left: White Opening Hours Card -->
-                <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4">
+                <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4 luxury-card" data-aos="fade-right">
                     <p class="font-script text-2xl text-[#C5A880] mb-2">Opening Hours</p>
 
                     <div class="space-y-2.5 text-xs">
@@ -139,14 +139,14 @@
                 </div>
 
                 <!-- Right: Interior Photos Collage -->
-                <div class="lg:col-span-7 grid grid-cols-2 gap-4">
-                    <div class="rounded-2xl overflow-hidden shadow-xl border border-[#C5A880]/20">
+                <div class="lg:col-span-7 grid grid-cols-2 gap-4" data-aos="fade-left">
+                    <div class="rounded-2xl overflow-hidden shadow-xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Interior" class="w-full h-48 object-cover">
                     </div>
-                    <div class="row-span-2 rounded-2xl overflow-hidden shadow-xl border border-[#C5A880]/20">
+                    <div class="row-span-2 rounded-2xl overflow-hidden shadow-xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=600&q=80" alt="Dining Table" class="w-full h-full object-cover">
                     </div>
-                    <div class="rounded-2xl overflow-hidden shadow-xl border border-[#C5A880]/20">
+                    <div class="rounded-2xl overflow-hidden shadow-xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Lounge" class="w-full h-48 object-cover">
                     </div>
                 </div>
@@ -160,7 +160,7 @@
         <div class="max-w-7xl mx-auto px-6 sm:px-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 
-                <div class="lg:col-span-5 space-y-4">
+                <div class="lg:col-span-5 space-y-4" data-aos="fade-right">
                     <p class="font-script text-3xl text-[#C5A880]">Discover</p>
                     <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white leading-tight">
                         Our Chef will Make You Satisfying
@@ -169,14 +169,14 @@
                         Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.
                     </p>
                     <div class="pt-2">
-                        <a href="{{ route('our-menu') }}" class="inline-block px-8 py-3 rounded bg-[#D1A568] hover:bg-[#C5A880] text-black font-bold text-xs uppercase tracking-wider transition-all">
+                        <a href="{{ route('our-menu') }}" class="inline-block px-8 py-3 rounded bg-[#D1A568] hover:bg-[#C5A880] text-black font-bold text-xs uppercase tracking-wider transition-all gold-glow-btn">
                             ORDER NOW
                         </a>
                     </div>
                 </div>
 
-                <div class="lg:col-span-7">
-                    <div class="rounded-2xl overflow-hidden border border-[#C5A880]/30 shadow-2xl">
+                <div class="lg:col-span-7" data-aos="fade-left">
+                    <div class="rounded-2xl overflow-hidden border border-[#C5A880]/30 shadow-2xl luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=800&q=80" 
                              alt="Chefs Team" class="w-full h-80 sm:h-96 object-cover">
                     </div>
@@ -187,24 +187,22 @@
     </section>
 
     <!-- ════ 4. SOCIAL MEDIA ICONS BAR ════ -->
-    <section class="py-8 bg-[#111111] border-t border-b border-[#C5A880]/15">
+    <section class="py-8 bg-[#111111] border-t border-b border-[#C5A880]/15" data-aos="fade-up">
         <div class="max-w-4xl mx-auto px-6 flex items-center justify-center gap-8 text-[#C5A880]">
-            <a href="#" class="hover:text-white transition-colors"><i data-lucide="facebook" class="w-6 h-6"></i></a>
-            <a href="#" class="hover:text-white transition-colors"><i data-lucide="twitter" class="w-6 h-6"></i></a>
-            <a href="#" class="hover:text-white transition-colors"><i data-lucide="instagram" class="w-6 h-6"></i></a>
-            <a href="#" class="hover:text-white transition-colors"><i data-lucide="youtube" class="w-6 h-6"></i></a>
-            <a href="#" class="hover:text-white transition-colors"><i data-lucide="message-circle" class="w-6 h-6"></i></a>
+            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="youtube" class="w-6 h-6"></i></a>
+            <a href="#" class="hover:text-white transition-colors hover:scale-125 transform"><i data-lucide="message-circle" class="w-6 h-6"></i></a>
         </div>
     </section>
 
     <!-- ════ 5. LUXURY LOCATION MAP SECTION ════ -->
-    <section class="py-16 bg-[#080808] border-b border-[#C5A880]/15 text-center">
+    <section class="py-16 bg-[#080808] border-b border-[#C5A880]/15 text-center" data-aos="fade-up">
         <div class="max-w-7xl mx-auto px-6 sm:px-10">
             <div class="relative h-96 rounded-3xl overflow-hidden border border-[#C5A880]/30 shadow-2xl flex items-center justify-center bg-[#121212]">
-                <!-- Dark styled Map Graphic -->
                 <div class="absolute inset-0 bg-cover bg-center opacity-60" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1600&q=80');"></div>
                 
-                <!-- Gold Pin Marker -->
                 <div class="relative z-10 flex flex-col items-center animate-bounce">
                     <div class="w-12 h-12 rounded-full bg-[#D1A568] flex items-center justify-center text-black shadow-2xl border-2 border-white">
                         <i data-lucide="map-pin" class="w-6 h-6 fill-current"></i>

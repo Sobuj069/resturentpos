@@ -5,7 +5,7 @@
 @section('content')
 
     <!-- ════ PAGE HEADER BANNER (MATCHING SCREENSHOT) ════ -->
-    <section class="page-header-banner pt-40 pb-20 text-center relative border-b border-[#C5A880]/20">
+    <section class="page-header-banner pt-40 pb-20 text-center relative border-b border-[#C5A880]/20" data-aos="fade-down">
         <div class="max-w-4xl mx-auto px-6 relative z-10">
             <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white tracking-wide">
                 Our Menu
@@ -15,11 +15,10 @@
 
     <!-- ════ 1. SPECIAL OFFER ON SUNDAY (HOT MENU) ════ -->
     <section class="py-24 bg-[#0B0B0B] relative">
-        <!-- Top Right Diagonal Pattern -->
         <div class="absolute top-4 right-4 w-28 h-28 gold-diagonal-lines opacity-30 pointer-events-none hidden md:block"></div>
 
         <div class="max-w-7xl mx-auto px-6 sm:px-10">
-            <div class="text-center space-y-1 mb-16">
+            <div class="text-center space-y-1 mb-16" data-aos="fade-up">
                 <p class="font-script text-3xl text-[#C5A880]">Hot Menu</p>
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
                     Special Offer on Sunday
@@ -30,53 +29,53 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 
                 <!-- Card 1 -->
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3">
-                    <div class="relative h-44 overflow-hidden rounded-xl">
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3 luxury-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="relative h-44 overflow-hidden rounded-xl luxury-img-zoom">
                         <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-[#D1A568] text-black font-black text-[9px] uppercase tracking-wider shadow">20% OFF</span>
                         <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80" 
-                             alt="Sauce Spicy Soup" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                             alt="Sauce Spicy Soup" class="w-full h-full object-cover">
                     </div>
                     <div class="pt-4 pb-2">
-                        <h3 class="font-serif text-sm font-bold text-white mb-1">Sauce Spicy Soup</h3>
+                        <h3 class="font-serif text-sm font-bold text-white mb-1 group-hover:text-[#C5A880] transition-colors">Sauce Spicy Soup</h3>
                         <p class="font-bold text-xs text-[#C5A880]">$18</p>
                     </div>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3">
-                    <div class="relative h-44 overflow-hidden rounded-xl">
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3 luxury-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="relative h-44 overflow-hidden rounded-xl luxury-img-zoom">
                         <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-[#D1A568] text-black font-black text-[9px] uppercase tracking-wider shadow">20% OFF</span>
                         <img src="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=500&q=80" 
-                             alt="Vegetables Soup" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                             alt="Vegetables Soup" class="w-full h-full object-cover">
                     </div>
                     <div class="pt-4 pb-2">
-                        <h3 class="font-serif text-sm font-bold text-white mb-1">Vegetables Soup</h3>
+                        <h3 class="font-serif text-sm font-bold text-white mb-1 group-hover:text-[#C5A880] transition-colors">Vegetables Soup</h3>
                         <p class="font-bold text-xs text-[#C5A880]">$20</p>
                     </div>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3">
-                    <div class="relative h-44 overflow-hidden rounded-xl">
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3 luxury-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="relative h-44 overflow-hidden rounded-xl luxury-img-zoom">
                         <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-[#D1A568] text-black font-black text-[9px] uppercase tracking-wider shadow">20% OFF</span>
                         <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?auto=format&fit=crop&w=500&q=80" 
-                             alt="Salmon Pasta" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                             alt="Salmon Pasta" class="w-full h-full object-cover">
                     </div>
                     <div class="pt-4 pb-2">
-                        <h3 class="font-serif text-sm font-bold text-white mb-1">Salmon Pasta</h3>
+                        <h3 class="font-serif text-sm font-bold text-white mb-1 group-hover:text-[#C5A880] transition-colors">Salmon Pasta</h3>
                         <p class="font-bold text-xs text-[#C5A880]">$22</p>
                     </div>
                 </div>
 
                 <!-- Card 4 -->
-                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3">
-                    <div class="relative h-44 overflow-hidden rounded-xl">
+                <div class="bg-[#141414] rounded-2xl border border-[#C5A880]/20 overflow-hidden group text-center p-3 luxury-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="relative h-44 overflow-hidden rounded-xl luxury-img-zoom">
                         <span class="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-[#D1A568] text-black font-black text-[9px] uppercase tracking-wider shadow">20% OFF</span>
                         <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80" 
-                             alt="Salad Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                             alt="Salad Box" class="w-full h-full object-cover">
                     </div>
                     <div class="pt-4 pb-2">
-                        <h3 class="font-serif text-sm font-bold text-white mb-1">Salad Box</h3>
+                        <h3 class="font-serif text-sm font-bold text-white mb-1 group-hover:text-[#C5A880] transition-colors">Salad Box</h3>
                         <p class="font-bold text-xs text-[#C5A880]">$15</p>
                     </div>
                 </div>
@@ -90,8 +89,8 @@
         <div class="max-w-7xl mx-auto px-6 sm:px-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 
-                <!-- Left: White Card with Dotted Prices (Appetizer) -->
-                <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4">
+                <!-- Left: White Card with Dotted Prices -->
+                <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4 luxury-card" data-aos="fade-right">
                     <p class="font-script text-2xl text-[#C5A880] mb-2">Appetizer</p>
 
                     <div class="border-b border-gray-100 pb-2.5">
@@ -141,16 +140,16 @@
                 </div>
 
                 <!-- Right: 3 Food Photos Collage -->
-                <div class="lg:col-span-7 grid grid-cols-2 gap-3">
-                    <div class="col-span-2 rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20">
+                <div class="lg:col-span-7 grid grid-cols-2 gap-3" data-aos="fade-left">
+                    <div class="col-span-2 rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=800&q=80" 
                              alt="Dumplings" class="w-full h-48 object-cover">
                     </div>
-                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?auto=format&fit=crop&w=600&q=80" 
                              alt="Pasta" class="w-full h-48 object-cover">
                     </div>
-                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80" 
                              alt="Salad" class="w-full h-48 object-cover">
                     </div>
@@ -166,23 +165,23 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 
                 <!-- Left: 3 Food Photos Collage -->
-                <div class="lg:col-span-7 grid grid-cols-2 gap-3 order-2 lg:order-1">
-                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20">
+                <div class="lg:col-span-7 grid grid-cols-2 gap-3 order-2 lg:order-1" data-aos="fade-right">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" 
                              alt="Roast Chicken" class="w-full h-48 object-cover">
                     </div>
-                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80" 
                              alt="Prime Steak" class="w-full h-48 object-cover">
                     </div>
-                    <div class="col-span-2 rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20">
+                    <div class="col-span-2 rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=800&q=80" 
                              alt="Butter Chicken Feast" class="w-full h-48 object-cover">
                     </div>
                 </div>
 
-                <!-- Right: White Card with Dotted Prices (Main Course) -->
-                <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4 order-1 lg:order-2">
+                <!-- Right: White Card with Dotted Prices -->
+                <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4 order-1 lg:order-2 luxury-card" data-aos="fade-left">
                     <p class="font-script text-2xl text-[#C5A880] mb-2">Main Course</p>
 
                     <div class="border-b border-gray-100 pb-2.5">
@@ -240,8 +239,8 @@
         <div class="max-w-7xl mx-auto px-6 sm:px-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 
-                <!-- Left: White Card with Dotted Prices (Dessert) -->
-                <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4">
+                <!-- Left: White Card with Dotted Prices -->
+                <div class="lg:col-span-5 bg-white text-[#1A1A1A] p-8 sm:p-10 chamfer-top-right shadow-2xl space-y-4 luxury-card" data-aos="fade-right">
                     <p class="font-script text-2xl text-[#C5A880] mb-2">Dessert</p>
 
                     <div class="border-b border-gray-100 pb-2.5">
@@ -291,16 +290,16 @@
                 </div>
 
                 <!-- Right: 3 Food Photos Collage -->
-                <div class="lg:col-span-7 grid grid-cols-2 gap-3">
-                    <div class="col-span-2 rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20">
+                <div class="lg:col-span-7 grid grid-cols-2 gap-3" data-aos="fade-left">
+                    <div class="col-span-2 rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80" 
                              alt="Cream Puffs" class="w-full h-48 object-cover">
                     </div>
-                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" 
                              alt="Pancakes" class="w-full h-48 object-cover">
                     </div>
-                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 luxury-img-zoom">
                         <img src="https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=600&q=80" 
                              alt="Steamed Sweets" class="w-full h-48 object-cover">
                     </div>
@@ -311,7 +310,7 @@
     </section>
 
     <!-- ════ 5. THE BEST INGREDIENTS VIDEO BANNER ════ -->
-    <section class="py-20 bg-[#0B0B0B] border-t border-[#C5A880]/15 text-center">
+    <section class="py-20 bg-[#0B0B0B] border-t border-[#C5A880]/15 text-center" data-aos="fade-up">
         <div class="max-w-7xl mx-auto px-6 sm:px-10 space-y-8">
             <div>
                 <p class="font-script text-3xl text-[#C5A880]">Discover</p>
@@ -322,7 +321,7 @@
                 <img src="https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=1600&q=80" 
                      alt="Dry Ingredients" class="absolute inset-0 w-full h-full object-cover brightness-50">
                 <button @click="videoModalOpen = true" 
-                        class="relative z-10 w-20 h-20 rounded-full border-2 border-[#C5A880] flex items-center justify-center text-[#C5A880] hover:scale-110 hover:bg-[#C5A880] hover:text-black transition-all shadow-2xl">
+                        class="relative z-10 w-20 h-20 rounded-full border-2 border-[#C5A880] flex items-center justify-center text-[#C5A880] hover:scale-110 hover:bg-[#C5A880] hover:text-black transition-all shadow-2xl cursor-pointer">
                     <i data-lucide="play" class="w-8 h-8 fill-current ml-1"></i>
                 </button>
             </div>
