@@ -150,76 +150,76 @@
         </div>
     </section>
 
-    <!-- ════ 4.5. BRAND PARTNERS & SPONSORS (INFINITE MARQUEE SCROLLER WITH SVG LOGOS) ════ -->
+    <!-- ════ 4.5. BRAND PARTNERS & SPONSORS (INFINITE MARQUEE SCROLLER WITH COLORFUL SVG LOGOS) ════ -->
     <section class="py-10 bg-[#090909] border-b border-[#C5A880]/15 relative overflow-hidden" data-aos="fade-up">
         <!-- Marquee Infinite Track (Hardware-Accelerated 60FPS) -->
         <div class="marquee-container py-2">
             <div class="marquee-track">
-                <!-- Group 1: Original Brand SVG Logos -->
+                <!-- Group 1: Original Colorful Brand SVG Logos -->
                 <div class="flex items-center gap-12 sm:gap-16 shrink-0">
-                    <!-- 1. Coca-Cola -->
+                    <!-- 1. Coca-Cola (Official Red) -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto text-white fill-current" viewBox="0 0 1000 327" xmlns="http://www.w3.org/2000/svg"><path d="M790.6 84.1c-30.8 0-48.4 17.6-58.8 33.7-1.3-17.6-14-33.7-44.5-33.7-31.9 0-51.5 21.7-57.9 37.3-3.8-21.7-22.1-37.3-46.7-37.3-31.4 0-52 23.3-56.7 39.8-1.5-1.9-3.3-3.8-5.3-5.5-23.7-20.5-57.4-23.8-83.8-7.7-18.7-29.3-50.6-47.5-87.3-47.5-62.9 0-109.9 53.6-109.9 125.1 0 71.9 47 125.6 109.9 125.6 34.6 0 65-16.3 83.2-42.6 12 10.7 26.6 17.5 43.1 19.3-12.7 18.2-19.7 40.5-19.7 64.1 0 7.8.8 15.4 2.3 22.8 3.5 17.4 12.8 28.5 25.9 31.4 2.8.6 5.7 1 8.7 1 18.8 0 35.8-13.8 40.8-33.4 5.9-23.2 2.7-56-8.5-84.3 11.2-11.4 25.8-18.5 42-18.5 15.6 0 29.6 6.6 40.6 17.3-14.7 21-23.4 46.5-23.4 74 0 45.4 29.4 78 70.8 78 39.7 0 69.1-30.8 69.1-72.7 0-44.8-31.7-77.9-74.1-77.9-7.3 0-14.3 1-20.9 3 2.1-13.5 7.6-26.1 15.7-36.6 7.6 8.5 18.6 13.9 30.8 13.9 22.9 0 39.6-18.9 39.6-44.8 0-3.3-.3-6.5-.9-9.6 10.5 10.8 24.8 17.5 40.7 17.5 32.8 0 54.3-24.6 54.3-58.4 0-33.3-21.1-57.3-53.9-57.3zm-441 143.1c-38.3 0-66.5-35.3-66.5-81.8 0-46.1 28.2-81.4 66.5-81.4 38.8 0 67 35.3 67 81.4 0 46.5-28.2 81.8-67 81.8z"/></svg>
+                        <svg class="h-8 sm:h-9 w-auto fill-[#F40009]" viewBox="0 0 1000 327" xmlns="http://www.w3.org/2000/svg"><path d="M790.6 84.1c-30.8 0-48.4 17.6-58.8 33.7-1.3-17.6-14-33.7-44.5-33.7-31.9 0-51.5 21.7-57.9 37.3-3.8-21.7-22.1-37.3-46.7-37.3-31.4 0-52 23.3-56.7 39.8-1.5-1.9-3.3-3.8-5.3-5.5-23.7-20.5-57.4-23.8-83.8-7.7-18.7-29.3-50.6-47.5-87.3-47.5-62.9 0-109.9 53.6-109.9 125.1 0 71.9 47 125.6 109.9 125.6 34.6 0 65-16.3 83.2-42.6 12 10.7 26.6 17.5 43.1 19.3-12.7 18.2-19.7 40.5-19.7 64.1 0 7.8.8 15.4 2.3 22.8 3.5 17.4 12.8 28.5 25.9 31.4 2.8.6 5.7 1 8.7 1 18.8 0 35.8-13.8 40.8-33.4 5.9-23.2 2.7-56-8.5-84.3 11.2-11.4 25.8-18.5 42-18.5 15.6 0 29.6 6.6 40.6 17.3-14.7 21-23.4 46.5-23.4 74 0 45.4 29.4 78 70.8 78 39.7 0 69.1-30.8 69.1-72.7 0-44.8-31.7-77.9-74.1-77.9-7.3 0-14.3 1-20.9 3 2.1-13.5 7.6-26.1 15.7-36.6 7.6 8.5 18.6 13.9 30.8 13.9 22.9 0 39.6-18.9 39.6-44.8 0-3.3-.3-6.5-.9-9.6 10.5 10.8 24.8 17.5 40.7 17.5 32.8 0 54.3-24.6 54.3-58.4 0-33.3-21.1-57.3-53.9-57.3zm-441 143.1c-38.3 0-66.5-35.3-66.5-81.8 0-46.1 28.2-81.4 66.5-81.4 38.8 0 67 35.3 67 81.4 0 46.5-28.2 81.8-67 81.8z"/></svg>
                     </div>
 
-                    <!-- 2. Starbucks -->
+                    <!-- 2. Starbucks (Official Siren Green & White) -->
                     <div class="partner-logo-item">
-                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" stroke="#00704A" stroke-width="2" fill="#00704A"/><circle cx="20" cy="20" r="16" stroke="white" stroke-width="1.2"/><path d="M20 7L21.2 10.7H25.1L21.9 13L23.1 16.7L20 14.4L16.9 16.7L18.1 13L14.9 10.7H18.8L20 7Z" fill="white"/><path d="M14 26C14 22 17 19 20 19C23 19 26 22 26 26" stroke="white" stroke-width="1.8" stroke-linecap="round"/><circle cx="20" cy="22" r="2" fill="white"/></svg>
+                        <svg class="h-10 sm:h-11 w-auto" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="21" fill="#00704A"/><circle cx="22" cy="22" r="17.5" stroke="#FFFFFF" stroke-width="1.5"/><path d="M22 8L23.4 12.3H27.9L24.3 15L25.6 19.3L22 16.6L18.4 19.3L19.7 15L16.1 12.3H20.6L22 8Z" fill="#FFFFFF"/><path d="M15 28C15 23 18.5 19.5 22 19.5C25.5 19.5 29 23 29 28" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="22.5" r="2" fill="#FFFFFF"/></svg>
                     </div>
 
-                    <!-- 3. Foodpanda -->
+                    <!-- 3. Foodpanda (Official Pink) -->
                     <div class="partner-logo-item">
-                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="10" fill="#D70F64"/><path d="M12 14C12 11.8 13.8 10 16 10C17.5 10 18.8 10.8 19.5 12C20.2 10.8 21.5 10 23 10C25.2 10 27 11.8 27 14C27 15.2 26.5 16.2 25.6 17C26.5 18 27 19.4 27 21C27 24.3 24.3 27 21 27C17.7 27 15 24.3 15 21C15 19.4 15.5 18 16.4 17C15.5 16.2 15 15.2 15 14H12Z" fill="white"/><circle cx="16" cy="18" r="1.5" fill="#D70F64"/><circle cx="23" cy="18" r="1.5" fill="#D70F64"/><text x="44" y="25" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="18" fill="#D70F64" letter-spacing="-0.5">foodpanda</text></svg>
+                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="10" fill="#D70F64"/><path d="M12 14C12 11.8 13.8 10 16 10C17.5 10 18.8 10.8 19.5 12C20.2 10.8 21.5 10 23 10C25.2 10 27 11.8 27 14C27 15.2 26.5 16.2 25.6 17C26.5 18 27 19.4 27 21C27 24.3 24.3 27 21 27C17.7 27 15 24.3 15 21C15 19.4 15.5 18 16.4 17C15.5 16.2 15 15.2 15 14H12Z" fill="#FFFFFF"/><circle cx="16" cy="18" r="1.5" fill="#D70F64"/><circle cx="23" cy="18" r="1.5" fill="#D70F64"/><text x="44" y="25" font-family="'Inter', sans-serif" font-weight="900" font-size="19" fill="#D70F64" letter-spacing="-0.5">foodpanda</text></svg>
                     </div>
 
-                    <!-- 4. Uber Eats -->
+                    <!-- 4. Uber Eats (Official Green & White) -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 150 36" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="27" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="24" fill="#FFFFFF">Uber</text><text x="64" y="27" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="24" fill="#06C167">Eats</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 150 36" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="27" font-family="'Inter', sans-serif" font-weight="900" font-size="24" fill="#FFFFFF">Uber</text><text x="64" y="27" font-family="'Inter', sans-serif" font-weight="900" font-size="24" fill="#06C167">Eats</text></svg>
                     </div>
 
-                    <!-- 5. Pepsi -->
+                    <!-- 5. Pepsi (Official Red, Blue & White Globe) -->
                     <div class="partner-logo-item">
-                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 130 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" fill="#004B93"/><path d="M4 14C8 10 18 10 32 14C32 9 27 4 18 4C9 4 4 9 4 14Z" fill="#E32934"/><path d="M4 22C8 26 18 26 32 22C32 27 27 32 18 32C9 32 4 27 4 22Z" fill="#004B93"/><path d="M4 14C12 12 24 16 32 14C32 18 24 22 4 14Z" fill="white"/><text x="42" y="26" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="20" fill="#FFFFFF" letter-spacing="1.5">PEPSI</text></svg>
+                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 135 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" fill="#004B93"/><path d="M4 14C8 10 18 10 32 14C32 9 27 4 18 4C9 4 4 9 4 14Z" fill="#E32934"/><path d="M4 22C8 26 18 26 32 22C32 27 27 32 18 32C9 32 4 27 4 22Z" fill="#004B93"/><path d="M4 14C12 12 24 16 32 14C32 18 24 22 4 14Z" fill="#FFFFFF"/><text x="42" y="26" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="#FFFFFF" letter-spacing="1.5">PEPSI</text></svg>
                     </div>
 
-                    <!-- 6. Nestlé -->
+                    <!-- 6. Nestlé (Official Blue) -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto text-white fill-current" viewBox="0 0 130 34" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="'Georgia', serif" font-weight="bold" font-size="26" fill="#C5A880" letter-spacing="1.5">Nestlé</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 130 34" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="'Georgia', serif" font-weight="bold" font-size="27" fill="#005CA9" letter-spacing="1.5">Nestlé</text></svg>
                     </div>
 
-                    <!-- 7. McDonald's -->
+                    <!-- 7. McDonald's (Golden Arches on Red) -->
                     <div class="partner-logo-item">
-                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 38 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 7C5 7 2.5 14.5 2.5 23.5C2.5 25.8 2.8 28 3.5 29.8H7.5C7.2 28.2 7 26 7 23.5C7 16.5 8.5 11 10.5 11C12.5 11 14 16.5 14 23.5C14 26 13.8 28.2 13.5 29.8H17.8C17.5 28.2 17.3 26 17.3 23.5C17.3 16.5 18.8 11 20.8 11C22.8 11 24.3 16.5 24.3 23.5C24.3 26 24.1 28.2 23.8 29.8H34.5C35.2 28 35.5 25.8 35.5 23.5C35.5 14.5 33 7 30 7C26.5 7 23.6 16.5 22.8 23.8C22 17 19.2 7 15.8 7C12.4 7 9.6 17 8.8 23.8C8 16.5 10.5 7 8 7Z" fill="#FFBC0D"/></svg>
+                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 44 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="44" height="36" rx="8" fill="#DA291C"/><path d="M12 9C9 9 6.5 15.5 6.5 24C6.5 26.2 6.8 28.2 7.4 29.8H10.8C10.5 28.2 10.3 26 10.3 23.5C10.3 17 11.6 12 13.5 12C15.4 12 16.7 17 16.7 23.5C16.7 26 16.5 28.2 16.2 29.8H20.2C19.9 28.2 19.7 26 19.7 23.5C19.7 17 21 12 22.9 12C24.8 12 26.1 17 26.1 23.5C26.1 26 25.9 28.2 25.6 29.8H35.5C36.2 28 36.5 26 36.5 24C36.5 15.5 34.2 9 31.5 9C28.2 9 25.5 17.5 24.8 24.5C24 18 21.4 9 18.2 9C15 9 12.4 18 11.6 24.5C10.8 17.5 8.2 9 12 9Z" fill="#FFBC0D"/></svg>
                     </div>
 
-                    <!-- 8. Lavazza -->
+                    <!-- 8. Lavazza (Italian Red) -->
                     <div class="partner-logo-item">
-                        <svg class="h-6 sm:h-7 w-auto" viewBox="0 0 135 32" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="24" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="22" fill="#FFFFFF" letter-spacing="2.5">LAVAZZA</text></svg>
+                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#E31B23" letter-spacing="2.5">LAVAZZA</text></svg>
                     </div>
 
-                    <!-- 9. Heineken -->
+                    <!-- 9. Heineken (Green & Red Star) -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 145 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L14.5 9.5L20.5 10.4L16.2 14.6L17.2 20.6L12 17.9L6.8 20.6L7.8 14.6L3.5 10.4L9.5 9.5L12 4Z" fill="#E31837"/><text x="28" y="23" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="20" fill="#008200" letter-spacing="1">Heineken</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 145 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L14.5 9.5L20.5 10.4L16.2 14.6L17.2 20.6L12 17.9L6.8 20.6L7.8 14.6L3.5 10.4L9.5 9.5L12 4Z" fill="#E31837"/><text x="28" y="23" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="#008200" letter-spacing="1">Heineken</text></svg>
                     </div>
 
-                    <!-- 10. Red Bull -->
+                    <!-- 10. Red Bull (Yellow Sun & Blue/Red) -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 145 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="13" fill="#FFCC00"/><path d="M6 20C8 16 14 14 19 16C21 17 23 19 25 21C21 20 17 20 13 22C10 23 8 22 6 20Z" fill="#CC0000"/><text x="36" y="23" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="18" fill="#FFFFFF" letter-spacing="0.5">RedBull</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 150 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="17" r="14" fill="#FFCC00"/><path d="M6 21C8 17 14 15 20 17C22 18 24 20 26 22C22 21 18 21 14 23C11 24 9 23 6 21Z" fill="#CC0000"/><text x="38" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="19" fill="#00205B" stroke="#FFFFFF" stroke-width="0.3" letter-spacing="0.5">Red Bull</text></svg>
                     </div>
 
-                    <!-- 11. San Pellegrino -->
+                    <!-- 11. San Pellegrino (Red Star & Blue) -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 180 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 5L12.5 10L18 10.8L14 14.7L15 20.2L10 17.5L5 20.2L6 14.7L2 10.8L7.5 10L10 5Z" fill="#C5A880"/><text x="26" y="22" font-family="'Georgia', serif" font-weight="bold" font-size="16" fill="#FFFFFF" letter-spacing="2">S.PELLEGRINO</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 190 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 5L12.5 10L18 10.8L14 14.7L15 20.2L10 17.5L5 20.2L6 14.7L2 10.8L7.5 10L10 5Z" fill="#E21A22"/><text x="26" y="22" font-family="'Georgia', serif" font-weight="bold" font-size="17" fill="#5897FB" letter-spacing="2">S.PELLEGRINO</text></svg>
                     </div>
 
-                    <!-- 12. Mastercard -->
+                    <!-- 12. Mastercard (Official Red & Orange) -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 54 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" fill="#EB001B"/><circle cx="36" cy="18" r="16" fill="#F79E1B" fill-opacity="0.88"/></svg>
+                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 54 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" fill="#EB001B"/><circle cx="36" cy="18" r="16" fill="#F79E1B" fill-opacity="0.92"/></svg>
                     </div>
 
-                    <!-- 13. Michelin -->
+                    <!-- 13. Michelin (Yellow on Royal Blue) -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="23" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="20" fill="#2B72D7" letter-spacing="1.5">MICHELIN</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="160" height="36" rx="6" fill="#003580"/><text x="14" y="25" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="#FFE500" letter-spacing="2">MICHELIN</text></svg>
                     </div>
                 </div>
 
@@ -227,67 +227,67 @@
                 <div class="flex items-center gap-12 sm:gap-16 shrink-0" aria-hidden="true">
                     <!-- 1. Coca-Cola -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto text-white fill-current" viewBox="0 0 1000 327" xmlns="http://www.w3.org/2000/svg"><path d="M790.6 84.1c-30.8 0-48.4 17.6-58.8 33.7-1.3-17.6-14-33.7-44.5-33.7-31.9 0-51.5 21.7-57.9 37.3-3.8-21.7-22.1-37.3-46.7-37.3-31.4 0-52 23.3-56.7 39.8-1.5-1.9-3.3-3.8-5.3-5.5-23.7-20.5-57.4-23.8-83.8-7.7-18.7-29.3-50.6-47.5-87.3-47.5-62.9 0-109.9 53.6-109.9 125.1 0 71.9 47 125.6 109.9 125.6 34.6 0 65-16.3 83.2-42.6 12 10.7 26.6 17.5 43.1 19.3-12.7 18.2-19.7 40.5-19.7 64.1 0 7.8.8 15.4 2.3 22.8 3.5 17.4 12.8 28.5 25.9 31.4 2.8.6 5.7 1 8.7 1 18.8 0 35.8-13.8 40.8-33.4 5.9-23.2 2.7-56-8.5-84.3 11.2-11.4 25.8-18.5 42-18.5 15.6 0 29.6 6.6 40.6 17.3-14.7 21-23.4 46.5-23.4 74 0 45.4 29.4 78 70.8 78 39.7 0 69.1-30.8 69.1-72.7 0-44.8-31.7-77.9-74.1-77.9-7.3 0-14.3 1-20.9 3 2.1-13.5 7.6-26.1 15.7-36.6 7.6 8.5 18.6 13.9 30.8 13.9 22.9 0 39.6-18.9 39.6-44.8 0-3.3-.3-6.5-.9-9.6 10.5 10.8 24.8 17.5 40.7 17.5 32.8 0 54.3-24.6 54.3-58.4 0-33.3-21.1-57.3-53.9-57.3zm-441 143.1c-38.3 0-66.5-35.3-66.5-81.8 0-46.1 28.2-81.4 66.5-81.4 38.8 0 67 35.3 67 81.4 0 46.5-28.2 81.8-67 81.8z"/></svg>
+                        <svg class="h-8 sm:h-9 w-auto fill-[#F40009]" viewBox="0 0 1000 327" xmlns="http://www.w3.org/2000/svg"><path d="M790.6 84.1c-30.8 0-48.4 17.6-58.8 33.7-1.3-17.6-14-33.7-44.5-33.7-31.9 0-51.5 21.7-57.9 37.3-3.8-21.7-22.1-37.3-46.7-37.3-31.4 0-52 23.3-56.7 39.8-1.5-1.9-3.3-3.8-5.3-5.5-23.7-20.5-57.4-23.8-83.8-7.7-18.7-29.3-50.6-47.5-87.3-47.5-62.9 0-109.9 53.6-109.9 125.1 0 71.9 47 125.6 109.9 125.6 34.6 0 65-16.3 83.2-42.6 12 10.7 26.6 17.5 43.1 19.3-12.7 18.2-19.7 40.5-19.7 64.1 0 7.8.8 15.4 2.3 22.8 3.5 17.4 12.8 28.5 25.9 31.4 2.8.6 5.7 1 8.7 1 18.8 0 35.8-13.8 40.8-33.4 5.9-23.2 2.7-56-8.5-84.3 11.2-11.4 25.8-18.5 42-18.5 15.6 0 29.6 6.6 40.6 17.3-14.7 21-23.4 46.5-23.4 74 0 45.4 29.4 78 70.8 78 39.7 0 69.1-30.8 69.1-72.7 0-44.8-31.7-77.9-74.1-77.9-7.3 0-14.3 1-20.9 3 2.1-13.5 7.6-26.1 15.7-36.6 7.6 8.5 18.6 13.9 30.8 13.9 22.9 0 39.6-18.9 39.6-44.8 0-3.3-.3-6.5-.9-9.6 10.5 10.8 24.8 17.5 40.7 17.5 32.8 0 54.3-24.6 54.3-58.4 0-33.3-21.1-57.3-53.9-57.3zm-441 143.1c-38.3 0-66.5-35.3-66.5-81.8 0-46.1 28.2-81.4 66.5-81.4 38.8 0 67 35.3 67 81.4 0 46.5-28.2 81.8-67 81.8z"/></svg>
                     </div>
 
                     <!-- 2. Starbucks -->
                     <div class="partner-logo-item">
-                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" stroke="#00704A" stroke-width="2" fill="#00704A"/><circle cx="20" cy="20" r="16" stroke="white" stroke-width="1.2"/><path d="M20 7L21.2 10.7H25.1L21.9 13L23.1 16.7L20 14.4L16.9 16.7L18.1 13L14.9 10.7H18.8L20 7Z" fill="white"/><path d="M14 26C14 22 17 19 20 19C23 19 26 22 26 26" stroke="white" stroke-width="1.8" stroke-linecap="round"/><circle cx="20" cy="22" r="2" fill="white"/></svg>
+                        <svg class="h-10 sm:h-11 w-auto" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="21" fill="#00704A"/><circle cx="22" cy="22" r="17.5" stroke="#FFFFFF" stroke-width="1.5"/><path d="M22 8L23.4 12.3H27.9L24.3 15L25.6 19.3L22 16.6L18.4 19.3L19.7 15L16.1 12.3H20.6L22 8Z" fill="#FFFFFF"/><path d="M15 28C15 23 18.5 19.5 22 19.5C25.5 19.5 29 23 29 28" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="22.5" r="2" fill="#FFFFFF"/></svg>
                     </div>
 
                     <!-- 3. Foodpanda -->
                     <div class="partner-logo-item">
-                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="10" fill="#D70F64"/><path d="M12 14C12 11.8 13.8 10 16 10C17.5 10 18.8 10.8 19.5 12C20.2 10.8 21.5 10 23 10C25.2 10 27 11.8 27 14C27 15.2 26.5 16.2 25.6 17C26.5 18 27 19.4 27 21C27 24.3 24.3 27 21 27C17.7 27 15 24.3 15 21C15 19.4 15.5 18 16.4 17C15.5 16.2 15 15.2 15 14H12Z" fill="white"/><circle cx="16" cy="18" r="1.5" fill="#D70F64"/><circle cx="23" cy="18" r="1.5" fill="#D70F64"/><text x="44" y="25" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="18" fill="#D70F64" letter-spacing="-0.5">foodpanda</text></svg>
+                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="10" fill="#D70F64"/><path d="M12 14C12 11.8 13.8 10 16 10C17.5 10 18.8 10.8 19.5 12C20.2 10.8 21.5 10 23 10C25.2 10 27 11.8 27 14C27 15.2 26.5 16.2 25.6 17C26.5 18 27 19.4 27 21C27 24.3 24.3 27 21 27C17.7 27 15 24.3 15 21C15 19.4 15.5 18 16.4 17C15.5 16.2 15 15.2 15 14H12Z" fill="#FFFFFF"/><circle cx="16" cy="18" r="1.5" fill="#D70F64"/><circle cx="23" cy="18" r="1.5" fill="#D70F64"/><text x="44" y="25" font-family="'Inter', sans-serif" font-weight="900" font-size="19" fill="#D70F64" letter-spacing="-0.5">foodpanda</text></svg>
                     </div>
 
                     <!-- 4. Uber Eats -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 150 36" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="27" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="24" fill="#FFFFFF">Uber</text><text x="64" y="27" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="24" fill="#06C167">Eats</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 150 36" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="27" font-family="'Inter', sans-serif" font-weight="900" font-size="24" fill="#FFFFFF">Uber</text><text x="64" y="27" font-family="'Inter', sans-serif" font-weight="900" font-size="24" fill="#06C167">Eats</text></svg>
                     </div>
 
                     <!-- 5. Pepsi -->
                     <div class="partner-logo-item">
-                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 130 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" fill="#004B93"/><path d="M4 14C8 10 18 10 32 14C32 9 27 4 18 4C9 4 4 9 4 14Z" fill="#E32934"/><path d="M4 22C8 26 18 26 32 22C32 27 27 32 18 32C9 32 4 27 4 22Z" fill="#004B93"/><path d="M4 14C12 12 24 16 32 14C32 18 24 22 4 14Z" fill="white"/><text x="42" y="26" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="20" fill="#FFFFFF" letter-spacing="1.5">PEPSI</text></svg>
+                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 135 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" fill="#004B93"/><path d="M4 14C8 10 18 10 32 14C32 9 27 4 18 4C9 4 4 9 4 14Z" fill="#E32934"/><path d="M4 22C8 26 18 26 32 22C32 27 27 32 18 32C9 32 4 27 4 22Z" fill="#004B93"/><path d="M4 14C12 12 24 16 32 14C32 18 24 22 4 14Z" fill="#FFFFFF"/><text x="42" y="26" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="#FFFFFF" letter-spacing="1.5">PEPSI</text></svg>
                     </div>
 
                     <!-- 6. Nestlé -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto text-white fill-current" viewBox="0 0 130 34" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="'Georgia', serif" font-weight="bold" font-size="26" fill="#C5A880" letter-spacing="1.5">Nestlé</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 130 34" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-family="'Georgia', serif" font-weight="bold" font-size="27" fill="#005CA9" letter-spacing="1.5">Nestlé</text></svg>
                     </div>
 
                     <!-- 7. McDonald's -->
                     <div class="partner-logo-item">
-                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 38 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 7C5 7 2.5 14.5 2.5 23.5C2.5 25.8 2.8 28 3.5 29.8H7.5C7.2 28.2 7 26 7 23.5C7 16.5 8.5 11 10.5 11C12.5 11 14 16.5 14 23.5C14 26 13.8 28.2 13.5 29.8H17.8C17.5 28.2 17.3 26 17.3 23.5C17.3 16.5 18.8 11 20.8 11C22.8 11 24.3 16.5 24.3 23.5C24.3 26 24.1 28.2 23.8 29.8H34.5C35.2 28 35.5 25.8 35.5 23.5C35.5 14.5 33 7 30 7C26.5 7 23.6 16.5 22.8 23.8C22 17 19.2 7 15.8 7C12.4 7 9.6 17 8.8 23.8C8 16.5 10.5 7 8 7Z" fill="#FFBC0D"/></svg>
+                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 44 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="44" height="36" rx="8" fill="#DA291C"/><path d="M12 9C9 9 6.5 15.5 6.5 24C6.5 26.2 6.8 28.2 7.4 29.8H10.8C10.5 28.2 10.3 26 10.3 23.5C10.3 17 11.6 12 13.5 12C15.4 12 16.7 17 16.7 23.5C16.7 26 16.5 28.2 16.2 29.8H20.2C19.9 28.2 19.7 26 19.7 23.5C19.7 17 21 12 22.9 12C24.8 12 26.1 17 26.1 23.5C26.1 26 25.9 28.2 25.6 29.8H35.5C36.2 28 36.5 26 36.5 24C36.5 15.5 34.2 9 31.5 9C28.2 9 25.5 17.5 24.8 24.5C24 18 21.4 9 18.2 9C15 9 12.4 18 11.6 24.5C10.8 17.5 8.2 9 12 9Z" fill="#FFBC0D"/></svg>
                     </div>
 
                     <!-- 8. Lavazza -->
                     <div class="partner-logo-item">
-                        <svg class="h-6 sm:h-7 w-auto" viewBox="0 0 135 32" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="24" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="22" fill="#FFFFFF" letter-spacing="2.5">LAVAZZA</text></svg>
+                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#E31B23" letter-spacing="2.5">LAVAZZA</text></svg>
                     </div>
 
                     <!-- 9. Heineken -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 145 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L14.5 9.5L20.5 10.4L16.2 14.6L17.2 20.6L12 17.9L6.8 20.6L7.8 14.6L3.5 10.4L9.5 9.5L12 4Z" fill="#E31837"/><text x="28" y="23" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="20" fill="#008200" letter-spacing="1">Heineken</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 145 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4L14.5 9.5L20.5 10.4L16.2 14.6L17.2 20.6L12 17.9L6.8 20.6L7.8 14.6L3.5 10.4L9.5 9.5L12 4Z" fill="#E31837"/><text x="28" y="23" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="#008200" letter-spacing="1">Heineken</text></svg>
                     </div>
 
                     <!-- 10. Red Bull -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 145 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="13" fill="#FFCC00"/><path d="M6 20C8 16 14 14 19 16C21 17 23 19 25 21C21 20 17 20 13 22C10 23 8 22 6 20Z" fill="#CC0000"/><text x="36" y="23" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="18" fill="#FFFFFF" letter-spacing="0.5">RedBull</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 150 34" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="17" r="14" fill="#FFCC00"/><path d="M6 21C8 17 14 15 20 17C22 18 24 20 26 22C22 21 18 21 14 23C11 24 9 23 6 21Z" fill="#CC0000"/><text x="38" y="24" font-family="'Inter', sans-serif" font-weight="900" font-size="19" fill="#00205B" stroke="#FFFFFF" stroke-width="0.3" letter-spacing="0.5">Red Bull</text></svg>
                     </div>
 
                     <!-- 11. San Pellegrino -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 180 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 5L12.5 10L18 10.8L14 14.7L15 20.2L10 17.5L5 20.2L6 14.7L2 10.8L7.5 10L10 5Z" fill="#C5A880"/><text x="26" y="22" font-family="'Georgia', serif" font-weight="bold" font-size="16" fill="#FFFFFF" letter-spacing="2">S.PELLEGRINO</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 190 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 5L12.5 10L18 10.8L14 14.7L15 20.2L10 17.5L5 20.2L6 14.7L2 10.8L7.5 10L10 5Z" fill="#E21A22"/><text x="26" y="22" font-family="'Georgia', serif" font-weight="bold" font-size="17" fill="#5897FB" letter-spacing="2">S.PELLEGRINO</text></svg>
                     </div>
 
                     <!-- 12. Mastercard -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 54 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" fill="#EB001B"/><circle cx="36" cy="18" r="16" fill="#F79E1B" fill-opacity="0.88"/></svg>
+                        <svg class="h-9 sm:h-10 w-auto" viewBox="0 0 54 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" fill="#EB001B"/><circle cx="36" cy="18" r="16" fill="#F79E1B" fill-opacity="0.92"/></svg>
                     </div>
 
                     <!-- 13. Michelin -->
                     <div class="partner-logo-item">
-                        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="0" y="23" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="20" fill="#2B72D7" letter-spacing="1.5">MICHELIN</text></svg>
+                        <svg class="h-8 sm:h-9 w-auto" viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="160" height="36" rx="6" fill="#003580"/><text x="14" y="25" font-family="'Inter', sans-serif" font-weight="900" font-size="20" fill="#FFE500" letter-spacing="2">MICHELIN</text></svg>
                     </div>
                 </div>
             </div>

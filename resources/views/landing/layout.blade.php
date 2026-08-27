@@ -204,19 +204,19 @@
 
         .partner-logo-item {
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0.65;
-            filter: grayscale(100%) brightness(1.2);
+            opacity: 0.92;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1.25rem;
+            padding: 0.6rem 1.5rem;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
         }
 
         .partner-logo-item:hover {
             opacity: 1;
-            filter: grayscale(0%) brightness(1);
-            transform: scale(1.18);
+            transform: scale(1.15);
+            filter: drop-shadow(0 6px 16px rgba(255,255,255,0.15));
         }
 
         /* Custom Scrollbar */
