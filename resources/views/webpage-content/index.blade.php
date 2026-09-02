@@ -202,42 +202,43 @@
                     </div>
                 </div>
 
-                <!-- Hero Section Background Food Image -->
-                <div class="p-4 bg-amber-50/60 rounded-xl border border-amber-200 space-y-3">
-                    <h3 class="text-xs font-bold text-amber-900 uppercase tracking-wider">হিরো সেকশনের ফুড ব্যাকগ্রাউন্ড ছবি (Hero Food Background Image)</h3>
+                <!-- Hero Main Gourmet Dish Showcase Image -->
+                <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200 space-y-3">
+                    <h3 class="text-xs font-bold text-gray-900 uppercase tracking-wider">🌟 প্রধান হিরো সিগনেচার ফুড শোকেস ছবি (Main Gourmet Showcase Image)</h3>
                     <div class="flex flex-col sm:flex-row gap-4 items-center">
-                        <div class="w-24 h-16 rounded-lg overflow-hidden border bg-gray-200 shrink-0">
-                            <img :src="sections.hero.bg_image || 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1920&q=80'" alt="Bg Preview" class="w-full h-full object-cover">
+                        <div class="w-32 h-24 rounded-xl overflow-hidden border border-[#D4AC50] bg-black shrink-0 shadow-md">
+                            <img :src="sections.hero.main_image || sections.hero.image1 || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=85'" alt="Showcase Preview" class="w-full h-full object-cover">
                         </div>
-                        <div class="flex-1 w-full space-y-1.5">
+                        <div class="flex-1 w-full space-y-2">
                             <div class="flex gap-2">
-                                <input type="text" x-model="sections.hero.bg_image" placeholder="Background Image URL" class="w-full px-3 py-2 rounded-lg border text-xs font-semibold bg-white">
-                                <label class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-xs font-bold cursor-pointer shrink-0 flex items-center gap-1">
+                                <input type="text" x-model="sections.hero.main_image" placeholder="Showcase Dish Image URL" class="w-full px-3 py-2 rounded-xl border text-xs font-semibold bg-white">
+                                <label class="px-4 py-2 rounded-xl bg-[#801424] text-white text-xs font-bold cursor-pointer shrink-0 flex items-center gap-1 hover:bg-[#630C19] transition-colors shadow-sm">
                                     <span>ছবি আপলোড</span>
-                                    <input type="file" class="hidden" accept="image/*" @change="uploadFile($event, (url) => sections.hero.bg_image = url)">
+                                    <input type="file" class="hidden" accept="image/*" @change="uploadFile($event, (url) => { sections.hero.main_image = url; sections.hero.image1 = url; })">
                                 </label>
                             </div>
-                            <p class="text-[11px] text-gray-500">হোম পেজের প্রধান হিরো সেকশনের ব্যাকগ্রাউন্ডে প্রদর্শিত হবে।</p>
+                            <p class="text-[11px] text-gray-500">হোম পেজের ডানপাশে প্রধান আকর্ষণীয় লাক্সারি ডিসপ্লে ফ্রেমে প্রদর্শিত হবে।</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 4 Hero Images Grid -->
-                <div class="pt-4 border-t space-y-3">
-                    <h3 class="text-xs font-bold text-gray-900 uppercase tracking-wider">হিরো ফুড কোলাজ ৪টি ছবি (Image URLs or Upload)</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <template x-for="idx in [1, 2, 3, 4]" :key="idx">
-                            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
-                                <div class="h-28 rounded-lg overflow-hidden border bg-gray-200 relative">
-                                    <img :src="sections.hero['image' + idx]" alt="Preview" class="w-full h-full object-cover">
-                                </div>
-                                <input type="text" x-model="sections.hero['image' + idx]" placeholder="Image URL" class="w-full px-2.5 py-1.5 rounded-lg border text-[11px]">
-                                <label class="block text-center py-1 px-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-[10px] font-bold cursor-pointer transition-all">
-                                    <span>ছবি আপলোড করুন</span>
-                                    <input type="file" class="hidden" accept="image/*" @change="uploadFile($event, (url) => sections.hero['image' + idx] = url)">
+                <!-- Hero Section Background Food Image -->
+                <div class="p-4 bg-amber-50/60 rounded-2xl border border-amber-200 space-y-3">
+                    <h3 class="text-xs font-bold text-amber-900 uppercase tracking-wider">🖼️ হিরো সেকশনের ফুড ব্যাকগ্রাউন্ড ছবি (Hero Background Image)</h3>
+                    <div class="flex flex-col sm:flex-row gap-4 items-center">
+                        <div class="w-32 h-20 rounded-xl overflow-hidden border bg-gray-200 shrink-0 shadow-sm">
+                            <img :src="sections.hero.bg_image || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1920&q=80'" alt="Bg Preview" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 w-full space-y-2">
+                            <div class="flex gap-2">
+                                <input type="text" x-model="sections.hero.bg_image" placeholder="Background Image URL" class="w-full px-3 py-2 rounded-xl border text-xs font-semibold bg-white">
+                                <label class="px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 text-xs font-bold cursor-pointer shrink-0 flex items-center gap-1">
+                                    <span>ছবি আপলোড</span>
+                                    <input type="file" class="hidden" accept="image/*" @change="uploadFile($event, (url) => sections.hero.bg_image = url)">
                                 </label>
                             </div>
-                        </template>
+                            <p class="text-[11px] text-gray-500">হোম পেজের প্রধান হিরো সেকশনের ব্যাকগ্রাউন্ডে নরম গ্রেডিয়েন্টসহ প্রদর্শিত হবে।</p>
+                        </div>
                     </div>
                 </div>
             </div>

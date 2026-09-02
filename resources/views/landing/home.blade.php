@@ -42,27 +42,50 @@
                     </div>
                 </div>
 
-                <!-- Right 50% Food Feast Visual Collage -->
-                <div class="lg:col-span-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
-                    <div class="relative w-full max-w-lg mx-auto bg-[#090909] rounded-3xl p-3 border border-[#C5A880]/30 shadow-2xl overflow-hidden floating-element">
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20 luxury-img-zoom">
-                                <img src="{{ $hero['image1'] ?? 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=600&q=80' }}" 
-                                     alt="Food 1" class="w-full h-44 sm:h-52 object-cover">
-                            </div>
-                            <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20 luxury-img-zoom">
-                                <img src="{{ $hero['image2'] ?? 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80' }}" 
-                                     alt="Food 2" class="w-full h-44 sm:h-52 object-cover">
-                            </div>
-                            <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20 luxury-img-zoom">
-                                <img src="{{ $hero['image3'] ?? 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80' }}" 
-                                     alt="Food 3" class="w-full h-44 sm:h-52 object-cover">
-                            </div>
-                            <div class="rounded-2xl overflow-hidden shadow-lg border border-[#C5A880]/20 luxury-img-zoom">
-                                <img src="{{ $hero['image4'] ?? 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80' }}" 
-                                     alt="Food 4" class="w-full h-44 sm:h-52 object-cover">
+                <!-- Right 50% Gourmet Food Showcase Card with Floating Luxury Badges -->
+                <div class="lg:col-span-6 flex justify-center" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="relative w-full max-w-md sm:max-w-lg group">
+                        
+                        <!-- Ambient Gold Glow Behind Card -->
+                        <div class="absolute -inset-1.5 bg-gradient-to-tr from-[#801424] via-[#D4AC50]/30 to-[#801424] rounded-[2.5rem] blur-xl opacity-60 group-hover:opacity-85 transition-opacity duration-700"></div>
+
+                        <!-- Main Gourmet Showcase Frame -->
+                        <div class="relative rounded-[2.2rem] overflow-hidden border-2 border-[#C5A880]/40 shadow-2xl bg-[#0D0D0D]">
+                            
+                            <!-- Master Food Showcase Image -->
+                            <div class="aspect-[4/3] sm:aspect-[16/12] w-full overflow-hidden luxury-img-zoom relative">
+                                <img src="{{ $hero['main_image'] ?? $hero['image1'] ?? 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=85' }}" 
+                                     alt="Signature Gourmet Dish" 
+                                     class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out filter brightness-105 contrast-105">
+                                
+                                <!-- Soft Bottom Dark Gradient for Text Contrast -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
+
+                                <!-- Floating Top Right Rating Badge -->
+                                <div class="absolute top-4 right-4 z-10 backdrop-blur-md bg-black/65 border border-[#C5A880]/50 rounded-2xl px-3.5 py-1.5 shadow-xl flex items-center gap-2">
+                                    <span class="text-amber-400 text-xs">⭐</span>
+                                    <span class="text-white text-xs font-bold">4.9</span>
+                                    <span class="text-gray-300 text-[10px] font-medium">(2.8k+ Reviews)</span>
+                                </div>
+
+                                <!-- Floating Bottom Dish Info Overlay -->
+                                <div class="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between gap-3">
+                                    <div class="backdrop-blur-md bg-black/75 border border-[#C5A880]/40 rounded-2xl px-4 py-2 shadow-xl flex items-center gap-3">
+                                        <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></div>
+                                        <div>
+                                            <p class="text-[10px] font-bold text-[#D4AC50] uppercase tracking-wider">Chef's Signature Platter</p>
+                                            <p class="text-xs font-extrabold text-white">100% Fresh Gourmet Delight</p>
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('reservation') }}" class="shrink-0 w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#B8922A] to-[#D4AC50] text-black font-bold flex items-center justify-center shadow-lg hover:scale-110 transition-transform" title="Book Table">
+                                        <i data-lucide="utensils" class="w-4 h-4"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Decorative Gold Corner Accent -->
+                        <div class="absolute -bottom-3 -right-3 w-16 h-16 gold-diagonal-lines opacity-40 pointer-events-none hidden sm:block"></div>
                     </div>
                 </div>
 
