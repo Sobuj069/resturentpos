@@ -7,12 +7,21 @@
     <title>@yield('title', 'SmartPOS') — {{ $currentBranch->restaurant_name ?? "Sultan's Dine" }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        body, button, input, select, textarea {
+            font-family: 'Google Sans', 'Product Sans', 'Hind Siliguri', 'Inter', sans-serif !important;
+        }
+        .pos-nums {
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+    </style>
     @stack('styles')
 </head>
-<body x-data="globalLayout()" class="h-screen w-screen flex flex-col md:flex-row overflow-hidden" style="background:#F5F0EC;">
+<body x-data="globalLayout()" class="h-screen w-screen flex flex-col md:flex-row overflow-hidden font-sans" style="background:#F5F0EC; font-family: 'Google Sans', 'Product Sans', 'Hind Siliguri', 'Inter', sans-serif;">
 
     <!-- ═══════════════════════════════════════════════════ -->
     <!--  MOBILE TOP HEADER BAR (Mobile Only: < md)         -->

@@ -6,11 +6,12 @@
     <title>রেস্টুরেন্ট রেজিস্ট্রেশন — SaaS ক্লাউড POS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body { font-family: 'Hind Siliguri', 'Inter', sans-serif; }
-        .pos-nums { font-family: 'JetBrains Mono', monospace; }
+        body, button, input, select, textarea, label { font-family: 'Google Sans', 'Product Sans', 'Hind Siliguri', 'Inter', sans-serif !important; }
+        .pos-nums { font-family: 'JetBrains Mono', monospace !important; }
         .glass-card {
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(12px);

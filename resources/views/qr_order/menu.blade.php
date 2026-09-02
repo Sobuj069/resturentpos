@@ -7,10 +7,19 @@
     <title>{{ $table->name }} — ডিজিটাল মেনু ও অর্ডার · {{ $branch->restaurant_name ?? "Sultan's Dine" }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        body, button, input, select, textarea, label {
+            font-family: 'Google Sans', 'Product Sans', 'Hind Siliguri', 'Inter', sans-serif !important;
+        }
+        .pos-nums {
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+    </style>
 </head>
-<body x-data="guestOrderApp()" x-init="init()" class="h-full min-h-screen flex flex-col antialiased" style="background:#F5F0EC;">
+<body x-data="guestOrderApp()" x-init="init()" class="h-full min-h-screen flex flex-col antialiased" style="background:#F5F0EC; font-family: 'Google Sans', 'Product Sans', 'Hind Siliguri', 'Inter', sans-serif;">
 
     <!-- Guest Top Brand Bar -->
     <header class="sticky top-0 z-30 shadow-md px-4 py-3 text-white flex items-center justify-between"

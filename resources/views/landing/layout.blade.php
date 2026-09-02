@@ -9,7 +9,8 @@
     <!-- Google Fonts for Luxury Typography (Exact match) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,7 +35,7 @@
                     fontFamily: {
                         serif: ['"Playfair Display"', 'Cinzel', '"Times New Roman"', 'serif'],
                         script: ['"Great Vibes"', '"Alex Brush"', 'cursive'],
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['"Google Sans"', '"Product Sans"', 'Inter', 'sans-serif'],
                         classic: ['"Times New Roman"', 'Times', '"Cormorant Garamond"', '"Playfair Display"', 'serif'],
                     }
                 }
@@ -56,16 +57,20 @@
         body {
             background-color: #0B0B0B;
             color: #C2B5A8;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Google Sans', 'Product Sans', 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
+        body, p, a, button, input, select, textarea, li, label {
+            font-family: 'Google Sans', 'Product Sans', 'Inter', sans-serif;
+        }
+
         .font-script {
-            font-family: 'Great Vibes', 'Alex Brush', cursive;
+            font-family: 'Great Vibes', 'Alex Brush', cursive !important;
         }
 
         .font-serif {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Playfair Display', serif !important;
         }
 
         .font-classic {
